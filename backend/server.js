@@ -85,13 +85,13 @@ app.get("/playgrounds", async (req, res) => {
   // Extracting query params 
   const { name, location } = req.query;
 
-  let apiUrl = `${process.env.GOOGLE_PLACES_URL}?&key=${process.env.GOOGLE_API_KEY}`; // Initial URL, using let instead of contst to be able to reassign the value of the url using query params 
+  let apiUrl = `${process.env.GOOGLE_PLACES_URL}?&key=${process.env.GOOGLE_API_KEY}`; // Initial URL, using let instead of contst to be able to modify/reassign the value of the url using query params 
 
   // Query param for name - the playground name or the neighborhood name (ex. vasaparken or vasaparken playground)
   if (name) {
     apiUrl = `${process.env.GOOGLE_PLACES_URL}?query=playground+in+${name}&key=${process.env.GOOGLE_API_KEY}`;
   }
-  // changed to postal code?
+  // change to postal code?
   if (location) {
     const [lat, lng] = location.split(',').map(coord => coord.trim());
     const radius = 100;
@@ -134,8 +134,7 @@ app.get("/playgrounds/id/:place_id", async (req, res) => {
   }
 });
 
-//ROUTES TO REGISTER, LOGIN AND POST
-
+// route to register as a user 
 app.post("/register", async (req, res) => {
   try {
     const { name, email, password } = req.body;
