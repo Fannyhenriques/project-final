@@ -1,14 +1,56 @@
 const mongoose = require("mongoose");
 
-const playgroundSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  description: String,
-  location: {
-    type: { type: String, default: "Point" },
-    coordinates: { type: [Number], required: true }, // [longitude, latitude]
+const playgroundSchema = new mongoose.Schema(
+  {
+    name: { type: String, required: true },
+    address: { type: String },
+    source: {
+      type: String,
+      enum: ["Stockholm", "Google"],
+      required: true,
+    },
+    facilities: [
+      {
+        type: String,
+        enum: [
+          "Swings",
+          "Slides",
+          "Climbing Frames",
+          "Sandpit",
+          "Benches",
+          "Toilets",
+        ], // Add your facilities here
+      },
+    ],
+    images: [String], // Array of image URLs
+    ratings: { type: Number, min: 1, max: 5 }, // Rating between 1 and 5
+    googlePlaceId: { type: String },
+    postedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    location: {
+      type: {
+        type: String,
+        enum: ["Point"],
+        required: true,
+      },
+      coordinates: {
+        type: [Number],
+        required: true,
+      },
+    },
   },
-});
+  {
+    // This option creates a 2dsphere index for geospatial queries
+    timestamps: true,
+  }
+);
 
-playgroundSchema.index({ location: "2dsphere" }); // Geospatialt index
+// Create a 2dsphere index to enable geospatial queries
+playgroundSchema.index({ location: "2dsphere" });
 
-module.exports = mongoose.model("Playground", playgroundSchema);
+const Playground = mongoose.model("Playground", playgroundSchema);
+
+module.exports = Playground;
