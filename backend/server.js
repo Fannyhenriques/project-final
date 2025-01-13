@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import axios from "axios";
 import crypto from "crypto";
 import bcrypt from "bcrypt-nodejs";
-import playgroundRoutes from "./routes/playground-routes.js";
+import playgroundRoutes from "./routes/playground-routes";
 
 dotenv.config();
 
@@ -20,32 +20,35 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Middleware
-app.use(cors()); // Enable CORS for all requests
-app.use(express.json()); // Parse incoming JSON requests
+//middleware for authentication
+const authenticateUser = async (req, res, next) => {
+  try {
+    const user = await User.findOne({
+      accessToken: req.header("Authorization"),
+    });
+    if (user) {
+      req.user = user;
+      next();
+    } else {
+      res
+        .status(401)
+        .json({ loggedOut: true, message: "Invalid access token" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
 
-// MongoDB Connection
-mongoose
-  .connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    console.log("Connected to MongoDB");
-  })
-  .catch((err) => {
-    console.error("Error connecting to MongoDB", err);
-  });
+// Use the playground routes
+app.use("/api/playgrounds", playgroundRoutes); // Routes for playgrounds
 
-// Routes
-app.use(playgroundRoutes); // Use the playground routes directly
-
-// Root route
-app.get("/", (req, res) => {
-  res.send("Welcome to the Playground API");
-});
-
-// Start server
+// Start the server
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
 });
+
+//Query openstreetAPI
+
+// [out:json][timeout:25];
+// node["leisure"="playground"](59.0,17.5,60.2,19.0);
+// out body;
