@@ -1,5 +1,6 @@
-const express = require("express");
-const Playground = require("../models/playground");
+import express from "express";
+import Playground from "./models/playground.js";
+
 const app = express();
 
 // Get all playgrounds
