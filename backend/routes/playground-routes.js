@@ -5,11 +5,6 @@ import { Playground } from "../models/playground.js"
 
 const router = express.Router();
 
-// Default route for the playground app
-router.get("/", (req, res) => {
-  res.send("This is the playground app!");
-});
-
 // Get all playgrounds -> this is using mongoDB logic and not the google places api so i will comment this out for now :) /Fanny
 
 // app.get("/api/playgrounds", async (req, res) => {
@@ -22,7 +17,7 @@ router.get("/", (req, res) => {
 //   }
 // });
 
-router.get("/api/playgrounds", async (req, res) => { // Extracting query params
+router.get("/", async (req, res) => { // Extracting query params
   const { name, location } = req.query;
   let apiUrl = `${process.env.GOOGLE_PLACES_URL}?&key=${process.env.GOOGLE_API_KEY}`; // Initial URL, using let instead of contst to be able to modify/reassign the value of the url using query params
   // Query param for name - the playground name or the neighborhood name (ex. vasaparken or vasaparken playground)
@@ -52,7 +47,7 @@ router.get("/api/playgrounds", async (req, res) => { // Extracting query params
 });
 
 // Get playgrounds near a given location 
-router.get("/api/playgrounds/near", async (req, res) => {
+router.get("/near", async (req, res) => {
   try {
     const { lat, lon, maxDistance = 5000 } = req.query; // Default to 5 km radius
     const coordinates = [lon, lat]; // Ensure that coordinates are in [longitude, latitude] order
@@ -87,7 +82,7 @@ router.get("/api/playgrounds/near", async (req, res) => {
 // });
 
 // Route to fetch playground details by ID from Google Places API
-router.get("/api/playgrounds/:place_id", async (req, res) => {
+router.get("/id/:place_id", async (req, res) => {
   const { place_id } = req.params; // Extracting place_id from URL params
   const apiUrl = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${place_id}&key=${process.env.GOOGLE_API_KEY}`;
   try {
@@ -105,7 +100,7 @@ router.get("/api/playgrounds/:place_id", async (req, res) => {
 });
 
 //route to post a playground
-router.post("/api/playgrounds", authenticateUser, async (req, res) => {
+router.post("/", authenticateUser, async (req, res) => {
   const { name, description, address, facilities, images } = req.body;
   try {
     const newPlayground = new Playground({
