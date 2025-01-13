@@ -1,7 +1,7 @@
 import User from "../models/user";
 
 //middleware for authentication
-const authenticateUser = async (req, res, next) => {
+export const authenticateUser = async (req, res, next) => {
   try {
     const user = await User.findOne({
       accessToken: req.header("Authorization"),

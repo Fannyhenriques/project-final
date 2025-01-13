@@ -1,4 +1,5 @@
 import express from "express";
+import authenticateUser from "../middleware/auth"; // Import the middleware
 import Playground from "./models/playground.js";
 
 const app = express();
