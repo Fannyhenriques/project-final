@@ -64,13 +64,11 @@ app.post("/playgrounds", authenticateUser, async (req, res) => {
       postedBy: req.user._id,
     });
     await newPlayground.save();
-    res
-      .status(201)
-      .json({
-        success: true,
-        message: "Playground created successfully",
-        playground: newPlayground,
-      });
+    res.status(201).json({
+      success: true,
+      message: "Playground created successfully",
+      playground: newPlayground,
+    });
   } catch (error) {
     res
       .status(500)

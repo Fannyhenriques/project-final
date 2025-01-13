@@ -7,7 +7,6 @@ const playgroundSchema = new mongoose.Schema(
     source: {
       type: String,
       enum: ["Stockholm", "Google"],
-      required: true,
     },
     facilities: [
       {
@@ -28,17 +27,14 @@ const playgroundSchema = new mongoose.Schema(
     postedBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true,
     },
     location: {
       type: {
         type: String,
         enum: ["Point"],
-        required: true,
       },
       coordinates: {
         type: [Number],
-        required: true,
       },
     },
   },
@@ -48,7 +44,7 @@ const playgroundSchema = new mongoose.Schema(
   }
 );
 
-// Create a 2dsphere index to enable geospatial queries
+// Create a 2dsphere index to enable geospatial queries  (to be able to find places nearby)
 playgroundSchema.index({ location: "2dsphere" });
 
 const Playground = mongoose.model("Playground", playgroundSchema);
