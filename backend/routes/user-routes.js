@@ -1,7 +1,11 @@
-import bcrypt from "bcrypt-nodejs"
+import bcrypt from "bcrypt-nodejs";
+import express from "express";
+import jwt from 'jsonwebtoken';
+import { User } from "../models/user";
+import { authenticateUser } from "../middleware/auth.js";
 
 // route to register as a user
-app.post("/register", async (req, res) => {
+router.post("/register", async (req, res) => {
   try {
     const { name, email, password } = req.body;
     const user = new User({ name, email, password: bcrypt.hashSync(password) });
@@ -21,7 +25,7 @@ app.post("/register", async (req, res) => {
 });
 
 //route for login
-app.post("/login", async (req, res) => {
+router.post("/login", async (req, res) => {
   const { name, email, password } = req.body;
 
   try {
@@ -50,3 +54,5 @@ app.post("/login", async (req, res) => {
     });
   }
 });
+
+export default router;
