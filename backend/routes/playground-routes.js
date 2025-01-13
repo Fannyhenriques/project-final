@@ -50,6 +50,34 @@ app.get("/api/playgrounds/:id", async (req, res) => {
   }
 });
 
+//route to post a playground
+app.post("/playgrounds", authenticateUser, async (req, res) => {
+  const { name, description, address, facilities, images } = req.body;
+
+  try {
+    const newPlayground = new Playground({
+      name,
+      description,
+      address,
+      facilities,
+      images,
+      postedBy: req.user._id,
+    });
+    await newPlayground.save();
+    res
+      .status(201)
+      .json({
+        success: true,
+        message: "Playground created successfully",
+        playground: newPlayground,
+      });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ success: false, message: "Internal server error", error });
+  }
+});
+
 // route to register as a user
 app.post("/register", async (req, res) => {
   try {
