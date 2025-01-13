@@ -76,3 +76,7 @@ const authenticateUser = async (req, res, next) => {
 app.get("/", (req, res) => {
   res.send("This is the playground app!");
 });
+
+//[out:json][timeout:25];
+// node["leisure"="playground"](59.0,17.5,60.2,19.0);
+// out body;
