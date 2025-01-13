@@ -2,9 +2,6 @@ import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import axios from "axios";
-import crypto from "crypto";
-import bcrypt from "bcrypt-nodejs";
 import playgroundRoutes from "./routes/playground-routes";
 
 dotenv.config();
@@ -20,8 +17,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Use the playground routes
-app.use("/api/playgrounds", playgroundRoutes); // Routes for playgrounds
+// This will prefix all the routes in playgroundRoutes with /api/playgrounds
+app.use("/api/playgrounds", playgroundRoutes);
 
 // Start the server
 app.listen(port, () => {
