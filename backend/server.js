@@ -2,8 +2,7 @@ import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import { router as playgroundRoutes } from "./routes/playground-routes";
-
+import { router } from "./routes/playground-routes";
 
 dotenv.config();
 
@@ -15,11 +14,12 @@ const apiKey = process.env.API_KEY;
 
 const mongoUrl =
   process.env.MONGO_URL || "mongodb://localhost/project-playground";
-mongoose.connect(process.env.MONGO_URL)
-  .then(() => console.log('Connected to MongoDB Atlas'))
-  .catch(err => console.log('Error connecting to MongoDB Atlas:', err));
+mongoose
+  .connect(process.env.MONGO_URL)
+  .then(() => console.log("Connected to MongoDB Atlas"))
+  .catch((err) => console.log("Error connecting to MongoDB Atlas:", err));
 if (!mongoUrl) {
-  throw new Error('MONGO_URL is not defined'); // This will crash the app
+  throw new Error("MONGO_URL is not defined"); // This will crash the app
 }
 
 // Connect to MongoDB
@@ -34,7 +34,7 @@ app.use(cors());
 app.use(express.json());
 
 // This will prefix all the routes in playgroundRoutes with /api/playgrounds
-app.use("/api/playgrounds", playgroundRoutes);
+app.use("/api/playgrounds", router);
 
 // Start the server
 app.listen(port, () => {
