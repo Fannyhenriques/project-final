@@ -2,14 +2,30 @@ import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import playgroundRoutes from "./routes/playground-routes";
+import { router as playgroundRoutes } from "./routes/playground-routes";
+
 
 dotenv.config();
 
+// const mongoUrl = process.env.{MONGO_URL}{API_URL} || "mongodb://localhost/thoughts";
+
+// Google Places API URL (with placeholders)
+const googlePlacesBaseUrl = process.env.GOOGLE_PLACES_URL;
+const apiKey = process.env.API_KEY;
+
 const mongoUrl =
   process.env.MONGO_URL || "mongodb://localhost/project-playground";
-mongoose.connect(mongoUrl);
-mongoose.Promise = Promise;
+mongoose.connect(process.env.MONGO_URL)
+  .then(() => console.log('Connected to MongoDB Atlas'))
+  .catch(err => console.log('Error connecting to MongoDB Atlas:', err));
+if (!mongoUrl) {
+  throw new Error('MONGO_URL is not defined'); // This will crash the app
+}
+
+// Connect to MongoDB
+// mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true })
+//   .then(() => console.log('Connected to MongoDB Atlas'))
+//   .catch(err => console.log('Error connecting to MongoDB Atlas:', err));
 
 const port = process.env.PORT || 9000;
 const app = express();

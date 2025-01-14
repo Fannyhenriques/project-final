@@ -37,36 +37,74 @@ async function fetchGooglePlacesPlaygrounds(
 module.exports = { fetchGooglePlacesPlaygrounds };
 
 router.get("/", async (req, res) => {
-  const { lat, lng, radius = 500 } = req.query;
+  // Destructure coordinates and radius from query params
+  let { lat, lng, radius = 5000 } = req.query;
 
+  // Log received coordinates for debugging
+  console.log("Received Coordinates:", lat, lng);
+
+  // If lat or lng are missing, use fallback coordinates (Stockholm) instead
   if (!lat || !lng) {
-    return res
-      .status(400)
-      .json({ error: "Latitude and longitude are required" });
+    console.log("Latitude or longitude missing, using fallback coordinates.");
+    lat = process.env.STOCKHOLM_COORDINATES.split(",")[0];
+    lng = process.env.STOCKHOLM_COORDINATES.split(",")[1];
   }
 
   try {
+    // Fetch playground data based on coordinates (either provided or fallback)
     const playgrounds = await fetchGooglePlacesPlaygrounds(lat, lng, radius);
 
+    // If no playgrounds found, return the fetched data
     if (playgrounds.length === 0) {
       console.log(
         "No playgrounds found for provided coordinates, using fallback."
       );
+      // Use fallback coordinates again if no playgrounds found for the initial coordinates
       const fallbackPlaygrounds = await fetchGooglePlacesPlaygrounds(
         process.env.STOCKHOLM_COORDINATES.split(",")[0],
         process.env.STOCKHOLM_COORDINATES.split(",")[1],
         radius
       );
-      res.json(fallbackPlaygrounds);
+      return res.json(fallbackPlaygrounds);
     } else {
-      res.json(playgrounds);
+      return res.json(playgrounds);
     }
   } catch (error) {
+    console.error("Error fetching playground data:", error);
     res.status(500).json({ error: "Failed to fetch playground data" });
   }
 });
 
-module.exports = router;
+// router.get("/", async (req, res) => {
+//   const { lat, lng, radius = 5000 } = req.query;
+
+//   console.log("Received Coordinates:", lat, lng);
+
+//   if (!lat || !lng) {
+//     return res
+//       .status(400)
+//       .json({ error: "Latitude and longitude are required" });
+//   }
+//   try {
+//     const playgrounds = await fetchGooglePlacesPlaygrounds(lat, lng, radius);
+
+//     if (playgrounds.length === 0) {
+//       console.log(
+//         "No playgrounds found for provided coordinates, using fallback."
+//       );
+//       const fallbackPlaygrounds = await fetchGooglePlacesPlaygrounds(
+//         process.env.STOCKHOLM_COORDINATES.split(",")[0],
+//         process.env.STOCKHOLM_COORDINATES.split(",")[1],
+//         radius
+//       );
+//       res.json(fallbackPlaygrounds);
+//     } else {
+//       res.json(playgrounds);
+//     }
+//   } catch (error) {
+//     res.status(500).json({ error: "Failed to fetch playground data" });
+//   }
+// });
 
 // Additional routes (e.g., by ID or POST) remain unchanged
 router.get("/id/:place_id", async (req, res) => {
@@ -258,6 +296,67 @@ router.get("/id/:place_id", async (req, res) => {
 //   }
 // }
 
+// Helper function to query Google Places API
+async function fetchGooglePlacesPlaygrounds(
+  lat,
+  lng,
+  radius = process.env.DEFAULT_RADIUS
+) {
+  // Use default coordinates if lat/lng is not provided
+  const coordinates =
+    lat && lng ? `${lat},${lng}` : process.env.STOCKHOLM_COORDINATES;
+
+  // Replace placeholders in the URL
+  const apiUrl = process.env.GOOGLE_PLACES_URL.replace(
+    "{LAT}",
+    coordinates.split(",")[0]
+  )
+    .replace("{LNG}", coordinates.split(",")[1])
+    .replace("{RADIUS}", radius);
+
+  try {
+    const response = await axios.get(apiUrl, {
+      params: { key: process.env.GOOGLE_API_KEY },
+    });
+    return response.data.results;
+  } catch (error) {
+    console.error("Error fetching from Google Places API:", error.message);
+    throw new Error("Google Places API error");
+  }
+}
+
+module.exports = { fetchGooglePlacesPlaygrounds };
+
+router.get("/", async (req, res) => {
+  const { lat, lng, radius = 500 } = req.query;
+
+  if (!lat || !lng) {
+    return res
+      .status(400)
+      .json({ error: "Latitude and longitude are required" });
+  }
+
+  try {
+    const playgrounds = await fetchGooglePlacesPlaygrounds(lat, lng, radius);
+
+    if (playgrounds.length === 0) {
+      console.log(
+        "No playgrounds found for provided coordinates, using fallback."
+      );
+      const fallbackPlaygrounds = await fetchGooglePlacesPlaygrounds(
+        process.env.STOCKHOLM_COORDINATES.split(",")[0],
+        process.env.STOCKHOLM_COORDINATES.split(",")[1],
+        radius
+      );
+      res.json(fallbackPlaygrounds);
+    } else {
+      res.json(playgrounds);
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch playground data" });
+  }
+});
+
 // // Helper function to query Overpass Turbo API
 // async function fetchOverpassPlaygrounds(bbox) {
 //   const query = `
@@ -321,3 +420,21 @@ router.get("/id/:place_id", async (req, res) => {
 //     res.status(500).json({ error: "Failed to fetch playground data" });
 //   }
 // });
+
+// Additional routes (e.g., by ID or POST) remain unchanged
+router.get("/id/:place_id", async (req, res) => {
+  const { place_id } = req.params;
+  const apiUrl = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${place_id}&key=${process.env.GOOGLE_API_KEY}`;
+  try {
+    const response = await axios.get(apiUrl);
+    const playgroundDetails = response.data.result;
+    if (!playgroundDetails) {
+      res.status(404).json({ message: "Playground not found" });
+    } else {
+      res.json(playgroundDetails);
+    }
+  } catch (error) {
+    console.error("Error fetching from Google Places API:", error.message);
+    res.status(500).send("Error fetching from Google Places API");
+  }
+});
