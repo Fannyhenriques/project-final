@@ -107,7 +107,6 @@ router.get("/", async (req, res) => {
 //   }
 // });
 
-module.exports = router
 
 // Additional routes (e.g., by ID or POST) remain unchanged
 router.get("/id/:place_id", async (req, res) => {
