@@ -9,8 +9,8 @@ dotenv.config();
 // const mongoUrl = process.env.{MONGO_URL}{API_URL} || "mongodb://localhost/thoughts";
 
 // Google Places API URL (with placeholders)
-const googlePlacesBaseUrl = process.env.GOOGLE_PLACES_URL;
-const apiKey = process.env.API_KEY;
+// const googlePlacesBaseUrl = process.env.GOOGLE_PLACES_URL;
+// const apiKey = process.env.GOOGLE_API_KEY;
 
 const mongoUrl =
   process.env.MONGO_URL || "mongodb://localhost/project-playground";

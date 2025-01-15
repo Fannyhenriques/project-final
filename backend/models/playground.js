@@ -7,7 +7,15 @@ const playgroundSchema = new mongoose.Schema(
     address: { type: String },
     source: { type: String, enum: ["Stockholm", "Google"] },
     facilities: [String], // ex. "Swings", "Slides"
-    images: [String], //URL
+    images: [
+      {
+        // Define the images field as an array of objects
+        height: { type: Number },
+        html_attributions: { type: [String] },
+        photo_reference: { type: String },
+        width: { type: Number },
+      },
+    ],
     ratings: { type: Number, min: 1, max: 5, default: 1 },
     googlePlaceId: { type: String },
     location: {

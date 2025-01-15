@@ -34,7 +34,7 @@ export async function fetchGooglePlacesPlaygrounds(
 
 // Define routes
 router.get("/", async (req, res) => {
-  let { lat, lng, radius = 5000 } = req.query;
+  let { lat, lng, radius = 2000 } = req.query;
 
   console.log("Received Coordinates:", lat, lng);
 
@@ -58,8 +58,30 @@ router.get("/", async (req, res) => {
       );
       return res.json(fallbackPlaygrounds);
     } else {
-      // Example of saving playground data to database
-      const savedPlaygrounds = await Playground.insertMany(playgrounds);
+      // Process playground data to match MongoDB schema
+      const processedPlaygrounds = playgrounds.map((place) => {
+        const { geometry } = place;
+        const location = {
+          type: "Point",
+          coordinates: [geometry.location.lng, geometry.location.lat], // Ensure correct order: [longitude, latitude]
+        };
+
+        return {
+          name: place.name,
+          description: place.description || "",
+          address: place.vicinity || "", // Add other fields if available
+          source: "Google", // assuming source is Google
+          facilities: place.types || [], // Or any other information to be stored
+          ratings: place.rating || 1,
+          googlePlaceId: place.place_id,
+          location, // Formatted location field
+        };
+      });
+
+      // Insert the processed data
+      const savedPlaygrounds = await Playground.insertMany(
+        processedPlaygrounds
+      );
       return res.json(savedPlaygrounds);
     }
   } catch (error) {
