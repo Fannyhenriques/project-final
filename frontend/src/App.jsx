@@ -1,8 +1,14 @@
+import { Header } from "./components/Header"
+import { Homepage } from "./components/Homepage";
+import { GlobalStyles } from "./styles/GlobalStyles";
+
 export const App = () => {
 
   return (
     <>
-      {/* <h1>Welcome to Final Project!</h1> */}
+      <GlobalStyles />
+      <Header />
+      <Homepage />
     </>
   );
 };
