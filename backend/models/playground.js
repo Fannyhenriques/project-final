@@ -9,7 +9,6 @@ const playgroundSchema = new mongoose.Schema(
     facilities: [String], // ex. "Swings", "Slides"
     images: [
       {
-        // Define the images field as an array of objects
         height: { type: Number },
         html_attributions: { type: [String] },
         photo_reference: { type: String },
@@ -33,7 +32,7 @@ const playgroundSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// Create a 2dsphere index to enable geospatial queries  (to be able to find places nearby)
+// enable geospatial queries (to be able to find places nearby)
 playgroundSchema.index({ location: "2dsphere" });
 
 export const Playground = mongoose.model("Playground", playgroundSchema);
