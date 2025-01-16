@@ -1,8 +1,9 @@
 import bcrypt from "bcrypt-nodejs";
 import express from "express";
-import jwt from 'jsonwebtoken';
 import { User } from "../models/user";
 import { authenticateUser } from "../middleware/auth.js";
+
+export const router = express.Router();
 
 // route to register as a user
 router.post("/register", async (req, res) => {
@@ -15,12 +16,19 @@ router.post("/register", async (req, res) => {
       accessToken: user.accessToken,
       message: "User registered successfully",
     });
-  } catch (error) {
-    res.status(400).json({
-      success: false,
-      message: "Failed to register user",
-      error: error.message,
-    });
+  } catch (error) { //added 11000 error for when the user or email already is registrerd. 
+    if (error.code === 11000) {
+      res.status(400).json({
+        success: false,
+        message: "Name or email already exists",
+      });
+    } else {
+      res.status(400).json({
+        success: false,
+        message: "Failed to register user",
+        error: error.message,
+      });
+    }
   }
 });
 
@@ -30,7 +38,7 @@ router.post("/login", async (req, res) => {
 
   try {
     const user = await User.findOne({
-      $or: [{ name }, { email }], // $or - make it possible to use both name or email
+      $or: [{ name }, { email: email.toLowerCase().trim() }], // $or - make it possible to use both name or email
     });
     if (user && bcrypt.compareSync(password, user.password)) {
       res.status(200).json({
@@ -55,4 +63,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
-export default router;
+// a possible route for profilepage
+router.get("/profile", authenticateUser, async (req, res) => {
+  res.status(200).json({ success: true, user: req.user });
+});
