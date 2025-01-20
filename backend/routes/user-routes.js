@@ -65,5 +65,23 @@ router.post("/login", async (req, res) => {
 
 // a possible route for profilepage
 router.get("/profile", authenticateUser, async (req, res) => {
-  res.status(200).json({ success: true, user: req.user });
+  try {
+    // Fetch the user by ID, populating saved playgrounds
+    const user = await User.findById(req.user.id).populate("savedPlaygrounds");
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+    res.status(200).json({
+      success: true,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        savedPlaygrounds: user.savedPlaygrounds,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Error fetching profile", error });
+  }
 });
