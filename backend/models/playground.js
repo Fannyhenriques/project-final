@@ -9,14 +9,13 @@ const playgroundSchema = new mongoose.Schema(
     facilities: [String], // ex. "Swings", "Slides"
     images: [
       {
-        // Define the images field as an array of objects
         height: { type: Number },
         html_attributions: { type: [String] },
         photo_reference: { type: String },
         width: { type: Number },
       },
     ],
-    ratings: { type: Number, min: 1, max: 5, default: 1 },
+    ratings: { type: [Number], min: 1, max: 5, default: [] },
     googlePlaceId: { type: String },
     location: {
       type: {
@@ -33,7 +32,27 @@ const playgroundSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// Create a 2dsphere index to enable geospatial queries  (to be able to find places nearby)
+
+// Method to add a rating and update the average (called by the controller)
+playgroundSchema.methods.addRating = function (newRating) {
+  if (newRating >= 1 && newRating <= 5) {
+    this.ratings.push(newRating);
+    return this.save();
+  } else {
+    throw new Error('Rating must be between 1 and 5');
+  }
+};
+
+// Helper method to calculate average rating
+playgroundSchema.methods.calculateAverageRating = function () {
+  if (this.ratings.length === 0) {
+    return null; // No ratings yet
+  }
+  const total = this.ratings.reduce((sum, rating) => sum + rating, 0);
+  return total / this.ratings.length;
+};
+
+// enable geospatial queries (to be able to find places nearby)
 playgroundSchema.index({ location: "2dsphere" });
 
 export const Playground = mongoose.model("Playground", playgroundSchema);
