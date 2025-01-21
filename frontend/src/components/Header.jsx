@@ -10,14 +10,10 @@ const HeaderContainer = styled.header`
 `;
 
 const HeaderImg = styled.img`
-  width: 10rem; /* Set the width of the logo */
+  width: 15rem; /* Set the width of the logo */
   height: auto;
   margin-right: 20px; /* Add space between the logo and the text */
 `;
-
-const searchPlaygroundsByAddress = () => {
-  console.log('Searching playgrounds...');
-};
 
 export const Header = () => {
   return (
