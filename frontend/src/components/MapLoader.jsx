@@ -23,7 +23,15 @@ export const MapLoader = ({ userLocation, playgrounds }) => {
       const map = mapRef.current;
 
       // Disable the default markers (like the user's location or other markers)
-      map.setOptions({ disableDefaultUI: true });
+      map.setOptions({
+        disableDefaultUI: true,
+        gestureHandling: "greedy", // Optional: To prevent zoom handling on mobile
+      });
+
+      // Clear default Google markers for places
+      map.data.setStyle(() => ({
+        visible: false, // Hide any default Google Places markers
+      }));
 
       // Advanced Markers for each playground
       playgrounds.forEach((playground) => {
