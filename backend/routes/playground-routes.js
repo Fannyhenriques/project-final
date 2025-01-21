@@ -111,63 +111,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-
-// router.get("/", async (req, res) => {
-//   let { lat, lng, radius = 5000 } = req.query;
-
-//   console.log("Received Coordinates:", lat, lng);
-
-//   if (!lat || !lng) {
-//     console.log("Latitude or longitude missing, using fallback coordinates.");
-//     lat = process.env.STOCKHOLM_COORDINATES.split(",")[0];
-//     lng = process.env.STOCKHOLM_COORDINATES.split(",")[1];
-//   }
-
-//   try {
-//     const playgrounds = await fetchGooglePlacesPlaygrounds(lat, lng, radius);
-
-//     if (playgrounds.length === 0) {
-//       console.log(
-//         "No playgrounds found for provided coordinates, using fallback."
-//       );
-//       const fallbackPlaygrounds = await fetchGooglePlacesPlaygrounds(
-//         process.env.STOCKHOLM_COORDINATES.split(",")[0],
-//         process.env.STOCKHOLM_COORDINATES.split(",")[1],
-//         radius
-//       );
-//       return res.json(fallbackPlaygrounds);
-//     } else {
-//       // Process playground data to match MongoDB schema
-//       const processedPlaygrounds = playgrounds.map((place) => {
-//         const { geometry } = place;
-//         const location = {
-//           type: "Point",
-//           coordinates: [geometry.location.lng, geometry.location.lat],
-//         };
-
-//         return {
-//           name: place.name,
-//           description: place.description || "",
-//           address: place.vicinity || "",
-//           source: "Google",
-//           facilities: place.types || [],
-//           ratings: place.rating || 1,
-//           googlePlaceId: place.place_id,
-//           location,
-//         };
-//       });
-
-//       const savedPlaygrounds = await Playground.insertMany(
-//         processedPlaygrounds
-//       );
-//       return res.json(savedPlaygrounds);
-//     }
-//   } catch (error) {
-//     console.error("Error fetching playground data:", error);
-//     res.status(500).json({ error: "Failed to fetch playground data" });
-//   }
-// });
-
 router.get("/id/:place_id", async (req, res) => {
   const { place_id } = req.params;
   const apiUrl = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${place_id}&key=${process.env.GOOGLE_API_KEY}`;
@@ -219,13 +162,13 @@ router.patch('/rate', async (req, res) => {
   try {
     const { googlePlaceId, playgroundId, rating } = req.body;  // Rating and playgroundId or googlePlaceId
     if (rating < 1 || rating > 5) {
-      return res.status(400).json({ error: 'Rating must be between 1 and 5' });
+      return res.status(400).json({ error: "Rating must be between 1 and 5" });
     }
     const playground = await Playground.findOne({
       $or: [{ googlePlaceId }, { _id: playgroundId }],
     });
     if (!playground) {
-      return res.status(404).json({ error: 'Playground not found' });
+      return res.status(404).json({ error: "Playground not found" });
     }
 
     playground.ratings.push(rating);
@@ -237,7 +180,7 @@ router.patch('/rate', async (req, res) => {
     res.status(200).json(playground);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error updating playground rating' });
+    res.status(500).json({ error: "Error updating playground rating" });
   }
 });
 
