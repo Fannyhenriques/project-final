@@ -27,7 +27,6 @@ app.use(express.json());
 app.use("/api/playgrounds", router);
 app.use("/user", userRouter);
 
-
 // Start the server
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
