@@ -35,7 +35,7 @@ export const Homepage = () => {
 
         // Fetch playgrounds based on user location
         const response = await fetch(
-          `https://project-playground-api.onrender.com/api/playgrounds?lat=${location.lat}&lng=${location.lng}`
+          `http://localhost:9000/api/playgrounds?lat=${location.lat}&lng=${location.lng}`
         );
 
         // Check if the fetch request was successful
