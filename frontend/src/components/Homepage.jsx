@@ -61,16 +61,48 @@ export const Homepage = () => {
     };
 
 
+
     fetchLocationAndPlaygrounds();
   }, []); // Runs once on component mount
 
   const handleSearch = async () => {
-    // Example: Placeholder for searching by address
-    const results = await searchPlaygroundsByAddress(address); // Replace with actual function
-    setPlaygrounds(results);
-  };
+    if (!address.trim()) {
+      alert("Please enter a valid search term")
+      return;
+    }
 
-  if (isLoading) return <p>Loading...</p>;
+    try {
+      const radius = 2000; // 2km radius
+      const url = `http://localhost:9000/api/playgrounds?name=${encodeURIComponent(address)}&radius=${radius}`
+      console.log("Request URL:", url);
+      const response = await fetch(url)
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch playgrounds.");
+      }
+
+      const data = await response.json();
+      console.log("Fetched playgrounds:", data);
+
+      setPlaygrounds(data || []);
+      if (data.length > 0) {
+        const { coordinates } = data[0].location; // Use the first search result
+        if (coordinates && coordinates.length === 2) {
+          setPlaygrounds(prevPlaygrounds => [
+            ...prevPlaygrounds,
+            { coordinates: { lat: coordinates[1], lng: coordinates[0] } } // Center the map
+          ])
+        } else {
+          alert("Invalid coordinates in response.");
+        }
+      } else {
+        alert("No playgrounds found")
+      }
+    } catch (error) {
+      console.error("Search Error:", error.message);
+      alert("Failed to fetch playground data.");
+    }
+  };
 
   return (
     <>
@@ -92,7 +124,8 @@ export const Homepage = () => {
   );
 }
 
+//Att göra
+//Svensk/engelsk toogle
+//fixa sökfält namn samt design search bar
+//Fixa UI/design för kartan och markers
 
-
-//Att ändra i .env filen:
-// GOOGLE_PLACES_URL=https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={LAT},{LNG}&radius={RADIUS}&keyword=playground
