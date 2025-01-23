@@ -19,6 +19,7 @@ export const Homepage = () => {
   const [playgrounds, setPlaygrounds] = useState([]);
   const [address, setAddress] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("")
 
   useEffect(() => {
     const fetchLocationAndPlaygrounds = async () => {
@@ -71,6 +72,8 @@ export const Homepage = () => {
       return;
     }
 
+    setSearchQuery(address); // Pass the search query to MapLoader
+
     try {
       const radius = 2000; // 2km radius
       const url = `http://localhost:9000/api/playgrounds?name=${encodeURIComponent(address)}&radius=${radius}`
@@ -104,6 +107,8 @@ export const Homepage = () => {
     }
   };
 
+  if (isLoading) return <p>Loading...</p>;
+
   return (
     <>
       <StyledTitle>Find a playground</StyledTitle>
@@ -111,14 +116,14 @@ export const Homepage = () => {
         <input
           type="text"
           id="searchAddress"
-          placeholder="Enter an address"
+          placeholder="Enter a name or address"
           value={address}
           onChange={(event) => setAddress(event.target.value)}
         />
         <button onClick={handleSearch}>Search</button>
       </div>
       {userLocation && (
-        <MapLoader userLocation={userLocation} playgrounds={playgrounds} />
+        <MapLoader userLocation={userLocation} playgrounds={playgrounds} searchQuery={searchQuery} />
       )}
     </>
   );
@@ -126,6 +131,6 @@ export const Homepage = () => {
 
 //Att göra
 //Svensk/engelsk toogle
-//fixa sökfält namn samt design search bar
+//fixa design search bar
 //Fixa UI/design för kartan och markers
 

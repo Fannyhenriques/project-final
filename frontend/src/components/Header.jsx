@@ -10,7 +10,7 @@ const HeaderContainer = styled.header`
 `;
 
 const HeaderImg = styled.img`
-  width: 15rem; /* Set the width of the logo */
+  width: 20rem; /* Set the width of the logo */
   height: auto;
   margin-right: 20px; /* Add space between the logo and the text */
 `;

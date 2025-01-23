@@ -1,5 +1,7 @@
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 import { useEffect, useRef, useState } from "react";
+import Marker from "../assets/Playground_marker.png"
+import LocationMarker from "../assets/Me_marker3.png"
 
 const mapContainerStyle = {
   width: "100%",
@@ -8,7 +10,7 @@ const mapContainerStyle = {
 
 const libraries = ["marker"]; // Ensure "marker" is listed
 
-export const MapLoader = ({ userLocation, playgrounds }) => {
+export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
   const mapRef = useRef(null); // Reference to the map
   const [markers, setMarkers] = useState([]);
   const { isLoaded, loadError } = useJsApiLoader({
@@ -19,6 +21,23 @@ export const MapLoader = ({ userLocation, playgrounds }) => {
     version: "beta",
   });
 
+
+  useEffect(() => {
+    if (searchQuery && mapRef.current) {
+      const matchingPlayground = playgrounds.find(
+        (playground) =>
+          playground.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          playground.address?.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+
+      if (matchingPlayground) {
+        const [lng, lat] = matchingPlayground.location.coordinates;
+        mapRef.current.panTo({ lat, lng }); // Focus on the matching playground
+        mapRef.current.setZoom(15); // Optionally zoom in
+      }
+    }
+  }, [searchQuery, playgrounds]); // Trigger whenever searchQuery or playgrounds change
+
   useEffect(() => {
     console.log("Playgrounds updated:", playgrounds);
     if (isLoaded && mapRef.current && playgrounds.length > 0) {
@@ -27,7 +46,7 @@ export const MapLoader = ({ userLocation, playgrounds }) => {
       // Disable the default markers (like the user's location or other markers)
       map.setOptions({
         disableDefaultUI: true,
-        gestureHandling: "greedy", // Optional: To prevent zoom handling on mobile
+        gestureHandling: "greedy", // Ensures the map handles touch gestures like zooming and dragging on mobile
       });
 
       // Clear existing markers before adding new ones
@@ -41,16 +60,22 @@ export const MapLoader = ({ userLocation, playgrounds }) => {
 
           console.log(`Adding marker for: ${playground.name} at ${lat}, ${lng}`); // Add this for debugging
 
+
           // HTML content for the marker
           const markerContent = document.createElement("div");
-          markerContent.style.background = "#FF6F61";
-          markerContent.style.color = "#FFF";
-          markerContent.style.padding = "5px";
-          markerContent.style.borderRadius = "5px";
-          markerContent.innerText = playground.name;
+          markerContent.style.position = "absolute"; // Absolute positioning for custom alignment
+          markerContent.style.transform = "translate(-50%, -60%)"; // Ensures the bottom center of the marker aligns with the coordinates
+
+          const markerImage = document.createElement("img");
+          markerImage.src = Marker
+          markerImage.alt = "playground-marker"
+          markerImage.style.width = "80px"; // Adjust size
+          markerImage.style.height = "100px"; // Adjust size
+          markerImage.style.objectFit = "contain"; // Ensures the image fits properly
+          markerContent.appendChild(markerImage);
 
           // Create AdvancedMarkerView and place it on the map
-          const marker = new google.maps.marker.AdvancedMarkerView({
+          const marker = new google.maps.marker.AdvancedMarkerElement({
             map,
             position: { lat, lng },
             content: markerContent,
@@ -67,14 +92,19 @@ export const MapLoader = ({ userLocation, playgrounds }) => {
 
         // HTML content for user location marker
         const userMarkerContent = document.createElement("div");
-        userMarkerContent.style.background = "#007BFF"; // Change to desired color
-        userMarkerContent.style.color = "#FFF";
-        userMarkerContent.style.padding = "5px";
-        userMarkerContent.style.borderRadius = "50%";
-        userMarkerContent.innerText = "You";
+        const userMarkerImage = document.createElement("img");
+        userMarkerContent.style.position = "absolute"; // Absolute positioning for custom alignment
+        userMarkerContent.style.transform = "translate(-50%, -60%)"; // Ensures the bottom center of the marker aligns with the coordinates
+        userMarkerImage.src = LocationMarker
+        userMarkerImage.alt = "User-marker"
+        userMarkerImage.style.width = "80px"; // Adjust size
+        userMarkerImage.style.height = "100px"; // Adjust size
+        userMarkerImage.style.objectFit = "contain"; // Ensures the image fits properly
+        userMarkerContent.appendChild(userMarkerImage);
+
 
         // Create AdvancedMarkerView for user location
-        const userMarker = new google.maps.marker.AdvancedMarkerView({
+        const userMarker = new google.maps.marker.AdvancedMarkerElement({
           map,
           position: { lat, lng },
           content: userMarkerContent,
@@ -109,213 +139,4 @@ export const MapLoader = ({ userLocation, playgrounds }) => {
     />
   );
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
-// import { useEffect, useRef } from "react";
-
-// const mapContainerStyle = {
-//   width: "100%",
-//   height: "500px",
-// };
-
-// const libraries = ["marker"]; // Ensure "marker" is listed
-
-// export const MapLoader = ({ userLocation, playgrounds }) => {
-//   const mapRef = useRef(null); // Reference to the map
-//   const { isLoaded, loadError } = useJsApiLoader({
-//     id: "google-map-script",
-//     googleMapsApiKey: import.meta.env.VITE_GOOGLE_API_KEY,
-//     libraries,
-//     mapIds: [import.meta.env.VITE_GOOGLE_MAP_ID],
-//     version: "beta",
-//   });
-
-//   useEffect(() => {
-//     console.log("Playgrounds updated:", playgrounds);
-//     if (isLoaded && mapRef.current && playgrounds.length > 0) {
-//       const map = mapRef.current;
-
-//       // Disable the default markers (like the user's location or other markers)
-//       map.setOptions({
-//         disableDefaultUI: true,
-//         gestureHandling: "greedy", // Optional: To prevent zoom handling on mobile
-//       });
-
-//       // Clear default Google markers for places
-//       map.data.setStyle(() => ({
-//         visible: false, // Hide any default Google Places markers
-//       }));
-
-//       // Remove existing markers before adding new ones
-//       map.clearOverlays && map.clearOverlays();  // Clear old markers
-
-//       // Advanced Markers for each playground
-//       playgrounds.forEach((playground) => {
-//         const { coordinates } = playground.location;
-//         const lat = coordinates[1]; // Latitude is the second value
-//         const lng = coordinates[0]; // Longitude is the first value
-
-//         console.log(`Adding marker for: ${playground.name} at ${lat}, ${lng}`); // Add this for debugging
-
-//         // HTML content for the marker
-//         const markerContent = document.createElement("div");
-//         markerContent.style.background = "#FF6F61";
-//         markerContent.style.color = "#FFF";
-//         markerContent.style.padding = "5px";
-//         markerContent.style.borderRadius = "5px";
-//         markerContent.innerText = playground.name;
-
-//         // Create AdvancedMarkerView and place it on the map
-//         new google.maps.marker.AdvancedMarkerView({
-//           map,
-//           position: { lat, lng },
-//           content: markerContent,
-//         });
-//       });
-
-//       //Marker for user location
-//       if (userLocation) {
-//         const { lat, lng } = userLocation
-
-//         // HTML content for user location marker
-//         const userMarkerContent = document.createElement("div");
-//         userMarkerContent.style.background = "#007BFF"; // Change to desired color
-//         userMarkerContent.style.color = "#FFF";
-//         userMarkerContent.style.padding = "5px";
-//         userMarkerContent.style.borderRadius = "50%";
-//         userMarkerContent.innerText = "You";
-
-//         // Create AdvancedMarkerView for user location
-//         new google.maps.marker.AdvancedMarkerView({
-//           map,
-//           position: { lat, lng },
-//           content: userMarkerContent,
-//         });
-//       }
-//     }
-
-//   }, [isLoaded, playgrounds, userLocation]);
-
-//   if (loadError) {
-//     return <p>Error loading map...</p>;
-//   }
-
-//   if (!isLoaded) {
-//     return <p>Loading map...</p>;
-//   }
-
-//   return (
-//     <GoogleMap
-//       mapContainerStyle={mapContainerStyle}
-//       center={userLocation}
-//       zoom={12}
-//       options={{
-//         mapId: import.meta.env.VITE_GOOGLE_MAP_ID,
-//         disableDefaultUI: true,
-//       }}
-//       onLoad={(map) => (mapRef.current = map)} // Store the map reference onLoad
-//     />
-//   );
-// };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
-
-// const mapContainerStyle = {
-//   width: "100%",
-//   height: "500px",
-// };
-
-// const libraries = ["places"];
-
-// export const MapLoader = ({ userLocation, playgrounds }) => {
-//   const { isLoaded, loadError } = useJsApiLoader({
-//     id: "google-map-script",
-//     googleMapsApiKey: import.meta.env.VITE_GOOGLE_API_KEY,
-//     libraries,
-//     mapIds: [import.meta.env.VITE_GOOGLE_MAP_ID]
-//   })
-//   console.log("Google API Key:", import.meta.env.VITE_GOOGLE_API_KEY);
-//   console.log("map-id:", import.meta.env.VITE_GOOGLE_MAP_ID);
-
-//   if (loadError) {
-//     return <p>Error loading map...</p>;
-//   }
-
-//   if (!isLoaded) {
-//     return <p>Loading map...</p>;
-//   }
-
-//   return (
-//     <GoogleMap
-//       mapContainerStyle={mapContainerStyle}
-//       center={userLocation}
-//       zoom={12}
-//       options={{
-//         mapId: import.meta.env.VITE_GOOGLE_MAP_ID,
-//         disableDefaultUI: true,
-//       }}
-//     >
-//       {playgrounds.map((playground) => {
-//         const { coordinates } = playground.location;
-//         const lat = coordinates[1];
-//         const lng = coordinates[0];
-
-//         return (
-//           <marker-advanced
-//             key={playground._id}
-//             position={{ lat, lng }}
-//             title={playground.name}
-//           />
-//         );
-//       })}
-//     </GoogleMap>
-//   );
-// };
 
