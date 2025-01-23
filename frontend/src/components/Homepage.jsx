@@ -18,7 +18,7 @@ export const Homepage = () => {
   const [userLocation, setUserLocation] = useState(null);
   const [playgrounds, setPlaygrounds] = useState([]);
   const [address, setAddress] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+  const [isFetchingData, setIsFetchingData] = useState(true);
   const [searchQuery, setSearchQuery] = useState("")
 
   useEffect(() => {
@@ -45,7 +45,7 @@ export const Homepage = () => {
         }
         const data = await response.json();
         console.log("Playgrounds Data:", data);
-        setPlaygrounds(data);
+
 
         // Ensure the data is in the expected format before setting state
         if (Array.isArray(data)) {
@@ -57,7 +57,7 @@ export const Homepage = () => {
       } catch (error) {
         console.error("Error fetching location or playgrounds:", error.message);
       } finally {
-        setIsLoading(false);
+        setIsFetchingData(false);
       }
     };
 
@@ -107,7 +107,7 @@ export const Homepage = () => {
     }
   };
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isFetchingData) return <p>Loading...</p>;
 
   return (
     <>

@@ -1,7 +1,7 @@
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 import { useEffect, useRef, useState } from "react";
 import Marker from "../assets/Playground_marker.png"
-import LocationMarker from "../assets/Me_marker3.png"
+import LocationMarker from "../assets/Me_marker5.png"
 
 const mapContainerStyle = {
   width: "100%",
