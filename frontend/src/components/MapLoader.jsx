@@ -33,7 +33,7 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
       if (matchingPlayground) {
         const [lng, lat] = matchingPlayground.location.coordinates;
         mapRef.current.panTo({ lat, lng }); // Focus on the matching playground
-        mapRef.current.setZoom(15); // Optionally zoom in
+        mapRef.current.setZoom(12); // Optionally zoom in
       }
     }
   }, [searchQuery, playgrounds]); // Trigger whenever searchQuery or playgrounds change
@@ -45,7 +45,6 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
 
       // Disable the default markers (like the user's location or other markers)
       map.setOptions({
-        disableDefaultUI: true,
         gestureHandling: "greedy", // Ensures the map handles touch gestures like zooming and dragging on mobile
       });
 

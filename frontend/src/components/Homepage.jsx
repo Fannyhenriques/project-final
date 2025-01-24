@@ -4,15 +4,60 @@ import { Title } from "../ui/Typography";
 import { MapLoader } from "./MapLoader";
 import { getUserLocation } from "../hooks/getUserLocation";
 
+// Styled component for the content container
+const StyledContent = styled.div`
+  display: flex;                  /* Enable flexbox */
+  flex-direction: column;          /* Stack the title and the input vertically */
+  align-items: flex-start;         /* Left-align the title */
+  justify-content: flex-start;     /* Align content to the top */
+  width: 100%;            /* Add space around the content */
+`;
+
 const StyledTitle = styled(Title)`
-  padding: 5px 0; 
-  margin-left: 10px;
+  margin-left: 10px;  /* Left margin to keep the title away from the edge */
 
   @media (max-width: 480px) {
     font-size: 1rem;
     color: black;
   }
 `;
+
+const SearchBarContainer = styled.div`
+  display: flex;
+  justify-content: space-between;   /* Space between Textarea and Button */
+  width: 100%;
+  max-width: 300px;                 /* Adjust max-width to control the size */
+  margin-top: 10px;                 /* Add some space between title and search bar */
+`;
+
+const Textarea = styled.textarea`
+  resize: none;
+  padding: 10px;
+  margin: 0px 0px 5px;
+  width: 60%;  /* Set width of Textarea */
+  height: 30%; 
+  border-radius: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
+
+`;
+
+const Button = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 7rem;
+  height: 3rem;
+  padding: 0.5rem;
+  background: #9AC4C0;
+  box-shadow: 5px 5px 5px rgba(33, 33, 33, 0.7);
+  border-radius: 15px;
+  color: #000;
+  font-size: 16px;
+  font-family: "Poppins";
+  margin: 5px 0px 10px 5px; 
+`;
+
 
 export const Homepage = () => {
   const [userLocation, setUserLocation] = useState(null);
@@ -109,19 +154,30 @@ export const Homepage = () => {
 
   if (isFetchingData) return <p>Loading...</p>;
 
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      handleSearch(event);
+    }
+  };
+
+
   return (
     <>
-      <StyledTitle>Find a playground</StyledTitle>
-      <div>
-        <input
-          type="text"
-          id="searchAddress"
-          placeholder="Enter a name or address"
-          value={address}
-          onChange={(event) => setAddress(event.target.value)}
-        />
-        <button onClick={handleSearch}>Search</button>
-      </div>
+      <StyledContent>
+        <StyledTitle>Find a playground</StyledTitle>
+        <SearchBarContainer>
+          <Textarea
+            type="text"
+            id="searchAddress"
+            placeholder="Enter a playground or city..."
+            value={address}
+            onKeyDown={handleKeyDown}
+            onChange={(event) => setAddress(event.target.value)}
+          />
+          <Button onClick={handleSearch}>Search</Button>
+        </SearchBarContainer>
+      </StyledContent>
       {userLocation && (
         <MapLoader userLocation={userLocation} playgrounds={playgrounds} searchQuery={searchQuery} />
       )}
@@ -132,5 +188,7 @@ export const Homepage = () => {
 //Att göra
 //Svensk/engelsk toogle
 //fixa design search bar
-//Fixa UI/design för kartan och markers
+
+
+
 

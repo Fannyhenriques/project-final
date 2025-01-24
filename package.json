@@ -5,6 +5,7 @@
     "postinstall": "npm install --prefix backend"
   },
   "dependencies": {
+    "@react-google-maps/api": "^2.20.5",
     "axios": "^1.7.9",
     "bcrypt": "^5.1.1",
     "bcrypt-nodejs": "^0.0.3",
