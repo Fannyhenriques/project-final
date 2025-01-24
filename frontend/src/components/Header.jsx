@@ -6,18 +6,29 @@ import playground from "../assets/PlaygroundFinder.png";
 const HeaderContainer = styled.header`
   display: flex;                /* Enable flexbox */
   flex-direction: column;        /* Arrange items vertically */
-  align-items: center;           /* Center the items horizontally */
-  justify-content: center;       /* Center the items vertically */
-  padding-top: 20px;                 /* Add some padding around the container */          /* Add some space below the header */
+  align-items: left;           /* Center the items horizontally */
+  justify-content: left;       /* Center the items vertically */
+  padding-top: 10px;  
+  
+  @media (max-width: 480px) {
+    align-items: center;           /* Center the items horizontally on mobile*/
+    justify-content: center;
+  }
 `;
 
 const HeaderImg = styled.img`
-  width: 30rem;                  
-  height: auto;                     
+  width: 25rem;                  
+  height: auto;   
+  
+  @media (min-width: 768px) {
+    width: 15rem; /* Adjust width for tablets and larger screens */
+  }
   
   @media (max-width: 480px) {
     width: 10rem;
-  }     
+  }  
+  
+ 
 `;
 
 export const Header = () => {
