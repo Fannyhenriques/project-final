@@ -7,10 +7,9 @@ export const ProfilePage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchUserProfile(); // Fetch the user profile when the component mounts
+    fetchUserProfile();
   }, [fetchUserProfile]);
 
-  // Check loading, error, and user states inside the return block
   if (isLoading) {
     return <p>Loading...</p>;
   }
@@ -25,12 +24,12 @@ export const ProfilePage = () => {
   }
 
   if (!user) {
-    return <p>No user found.</p>; // Ensure the user is available before rendering
+    return <p>Oops! It looks like you're not logged in. <br></br> Please log in or register to access your profile page.</p>;
   }
 
   const handleLogout = () => {
-    logout(); // Perform the logout logic
-    navigate("/login"); // Redirect to login page
+    logout(); // Performs the logout logic
+    navigate("/login"); // Redirects to login page when logout button is clicked
   };
 
   console.log('User Data:', user);
