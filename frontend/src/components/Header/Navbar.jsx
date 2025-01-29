@@ -18,6 +18,26 @@ const Nav = styled.nav`
   @media (max-width: 480px) {
     height: 3.5rem;
   }
+
+      {/* Hamburger icon */}
+      <HamburgerIcon onClick={toggleMenu}>
+        <div></div>
+        <div></div>
+        <div></div>
+      </HamburgerIcon>
+
+      {/* Menu content */}
+      <MenuBox isOpen={isMenuOpen}>
+        <CloseButton onClick={toggleMenu}>X</CloseButton>
+        <ul>
+          <li><a href="#Home" onClick={toggleMenu}>Library</a></li>
+          <li><a href="#personal-spells" onClick={toggleMenu}>Personalized Spells</a></li>
+          <li><a href="/#about">About Daily Spells</a></li>
+          <li><a href="/#terms">Terms of use</a></li>
+        </ul>
+      </MenuBox>
+  );
+};
 `;
 
 const NavLink = styled.li`

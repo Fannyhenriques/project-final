@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import playground from "../../assets/PlaygroundFinder.png";
-// import { Navbar } from "../Navbar";
+import { Navbar } from "../Navbar";
 
 
 // Styled component for the header container
@@ -42,16 +42,10 @@ const HeaderImg = styled.img`
 export const Header = () => {
   return (
     // <header>
-    // <Navbar />
     <HeaderContainer>
+      <Navbar />
       <HeaderImg src={playground} alt="playground-img" />
     </HeaderContainer>
     // {/* </header> */}
   );
 };
-
-
-
-
-
-

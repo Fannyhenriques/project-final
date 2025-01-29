@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
-import Lottie from "lottie-react";
-import animationData from "../assets/Animation - 1738089651426.json";
+// import Lottie from "lottie-react";
+// import animationData from "../assets/Animation - 1738089651426.json";
+import { useNavigate } from "react-router-dom";
+import { PlaygroundDetails } from "../pages/PlaygroundDetails";
 import Marker from "../assets/Playground_marker.png";
 import LocationMarker from "../assets/Me_marker4.png";
 import styled from "styled-components";
@@ -37,6 +39,17 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
     version: "beta",
   });
 
+  const navigate = useNavigate();
+
+  // const handleMarkerClick = (place_id) => {
+  //   navigate(`/playgrounds/${place_id}`);
+  // };
+  const handleMarkerClick = (playgroundId) => {
+    console.log("Navigating to:", `/playgrounds/id/${playgroundId}`); // Debugging
+    navigate(`/playgrounds/id/${playgroundId}`);
+  };
+
+
   useEffect(() => {
     console.log("isLoaded:", isLoaded);
   }, [isLoaded]);
@@ -66,7 +79,7 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
   useEffect(() => {
     if (isLoaded && mapRef.current && playgrounds.length > 0) {
       const map = mapRef.current;
-      map.setOptions({ gestureHandling: "greedy" });
+      map.setOptions({ gestureHandling: "greedy" }); //Mobile friendly zoom
 
       markers.forEach((marker) => marker.setMap(null));
       setMarkers([]);
@@ -92,6 +105,9 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
             position: { lat, lng },
             content: markerContent,
           });
+
+          // Add click event to navigate when marker is clicked
+          markerContent.onclick = () => handleMarkerClick(playground.googlePlaceId);
 
           setMarkers((prevMarkers) => [...prevMarkers, marker]);
         }
@@ -127,26 +143,27 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
     return <p>Error loading map...</p>;
   }
 
-  if (!isLoaded || !isMapLoaded) {
-    console.log("Loading animation is showing...");  // Log when the animation is showing
-
-    return (
-      <AnimationContainer aria-label="Loading map, please wait">
-        <Lottie
-          animationData={animationData}
-          loop
-          style={{
-            top: "50%",            // Centers the animation vertically
-            left: "50%",           // Centers the animation horizontally
-            transform: "translate(-50%, -50%)",  // Adjusts position to fully center
-            height: "200px",       // Adjust this value to fit your design
-            width: "200px",        // Adjust this value to fit your design
-            zIndex: 9999,          // Ensures the animation stays on top
-          }}
-        />
-      </AnimationContainer>
-    );
+  if (!isLoaded) {
+    return <p>Loading map....</p>
+    // console.log("Loading animation is showing...");  // Log when the animation is showing
   }
+  //   return (
+  //     <AnimationContainer aria-label="Loading map, please wait">
+  //       <Lottie
+  //         animationData={animationData}
+  //         loop
+  //         style={{
+  //           top: "50%",            // Centers the animation vertically
+  //           left: "50%",           // Centers the animation horizontally
+  //           transform: "translate(-50%, -50%)",  // Adjusts position to fully center
+  //           height: "200px",       // Adjust this value to fit your design
+  //           width: "200px",        // Adjust this value to fit your design
+  //           zIndex: 9999,          // Ensures the animation stays on top
+  //         }}
+  //       />
+  //     </AnimationContainer>
+  //   );
+  // }
 
   return (
     <GoogleMap
@@ -163,3 +180,4 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
     />
   );
 };
+
