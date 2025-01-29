@@ -8,7 +8,7 @@ export const PlaygroundDetails = () => {
   useEffect(() => {
     const fetchPlaygroundDetails = async () => {
       try {
-        // Make API call to your backend using the place_id
+        // API call to backend using the place_id
         const response = await fetch(`http://localhost:9000/api/playgrounds/id/${place_id}`);
         const data = await response.json();
         setPlayground(data); // Update state with the playground details

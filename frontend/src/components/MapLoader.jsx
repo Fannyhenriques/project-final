@@ -57,7 +57,7 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
 
       if (matchingPlayground) {
         const [lng, lat] = matchingPlayground.location.coordinates;
-        mapRef.current.panTo({ lat, lng });
+        mapRef.current.panTo({ lat, lng }); // Zoom in on searched playground 
         mapRef.current.setZoom(12);
       }
     }
