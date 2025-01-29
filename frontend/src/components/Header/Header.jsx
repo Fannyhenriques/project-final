@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import playground from "../assets/PlaygroundFinder.png";
+import playground from "../../assets/PlaygroundFinder.png";
+// import { Navbar } from "../Navbar";
 
 
 // Styled component for the header container
@@ -8,7 +9,14 @@ const HeaderContainer = styled.header`
   flex-direction: column;        /* Arrange items vertically */
   align-items: left;           /* Center the items horizontally */
   justify-content: left;       /* Center the items vertically */
-  padding-top: 10px;  
+  padding: 5px;  
+  background-color:white;
+  box-shadow:  10px 5px 5px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 1;
+  margin-top: 30px; 
+  
+
   
   @media (max-width: 480px) {
     align-items: center;           /* Center the items horizontally on mobile*/
@@ -33,8 +41,17 @@ const HeaderImg = styled.img`
 
 export const Header = () => {
   return (
+    // <header>
+    // <Navbar />
     <HeaderContainer>
       <HeaderImg src={playground} alt="playground-img" />
     </HeaderContainer>
+    // {/* </header> */}
   );
 };
+
+
+
+
+
+

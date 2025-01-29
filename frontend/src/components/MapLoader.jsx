@@ -1,18 +1,34 @@
+import React, { useState, useEffect, useRef } from "react";
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
-import { useEffect, useRef, useState } from "react";
-import Marker from "../assets/Playground_marker.png"
-import LocationMarker from "../assets/Me_marker3.png"
+import Lottie from "lottie-react";
+import animationData from "../assets/Animation - 1738089651426.json";
+import Marker from "../assets/Playground_marker.png";
+import LocationMarker from "../assets/Me_marker4.png";
+import styled from "styled-components";
+
+
+const libraries = ["marker"];
 
 const mapContainerStyle = {
   width: "100%",
-  height: "700px",
+  height: "800px",
 };
 
-const libraries = ["marker"]; // Ensure "marker" is listed
+const AnimationContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  background-color: #f9f9f9;
+  position: relative; 
+`;
+
 
 export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
-  const mapRef = useRef(null); // Reference to the map
+  const mapRef = useRef(null);
   const [markers, setMarkers] = useState([]);
+  const [isMapLoaded, setIsMapLoaded] = useState(false);
   const { isLoaded, loadError } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_API_KEY,
@@ -21,6 +37,15 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
     version: "beta",
   });
 
+  useEffect(() => {
+    console.log("isLoaded:", isLoaded);
+  }, [isLoaded]);
+
+  useEffect(() => {
+    if (isLoaded) {
+      setIsMapLoaded(true);
+    }
+  }, [isLoaded]);
 
   useEffect(() => {
     if (searchQuery && mapRef.current) {
@@ -32,84 +57,67 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
 
       if (matchingPlayground) {
         const [lng, lat] = matchingPlayground.location.coordinates;
-        mapRef.current.panTo({ lat, lng }); // Focus on the matching playground
-        mapRef.current.setZoom(12); // Optionally zoom in
+        mapRef.current.panTo({ lat, lng });
+        mapRef.current.setZoom(12);
       }
     }
-  }, [searchQuery, playgrounds]); // Trigger whenever searchQuery or playgrounds change
+  }, [searchQuery, playgrounds]);
 
   useEffect(() => {
-    console.log("Playgrounds updated:", playgrounds);
     if (isLoaded && mapRef.current && playgrounds.length > 0) {
       const map = mapRef.current;
+      map.setOptions({ gestureHandling: "greedy" });
 
-      // Disable the default markers (like the user's location or other markers)
-      map.setOptions({
-        gestureHandling: "greedy", // Ensures the map handles touch gestures like zooming and dragging on mobile
-      });
+      markers.forEach((marker) => marker.setMap(null));
+      setMarkers([]);
 
-      // Clear existing markers before adding new ones
-      markers.forEach((marker) => marker.setMap(null)); // Remove old markers
-      setMarkers([]); // Reset markers state
-
-      // Advanced Markers for each playground
       playgrounds.forEach((playground) => {
-        if (playground.location && playground.location.coordinates) {
+        if (playground.location?.coordinates) {
           const [lng, lat] = playground.location.coordinates;
 
-          console.log(`Adding marker for: ${playground.name} at ${lat}, ${lng}`); // Add this for debugging
-
-
-          // HTML content for the marker
           const markerContent = document.createElement("div");
-          markerContent.style.position = "absolute"; // Absolute positioning for custom alignment
-          markerContent.style.transform = "translate(-50%, -60%)"; // Ensures the bottom center of the marker aligns with the coordinates
+          markerContent.style.position = "absolute";
+          markerContent.style.transform = "translate(-50%, -60%)";
 
           const markerImage = document.createElement("img");
-          markerImage.src = Marker
-          markerImage.alt = "playground-marker"
-          markerImage.style.width = "80px"; // Adjust size
-          markerImage.style.height = "100px"; // Adjust size
-          markerImage.style.objectFit = "contain"; // Ensures the image fits properly
+          markerImage.src = Marker;
+          markerImage.alt = "playground-marker";
+          markerImage.style.width = "80px";
+          markerImage.style.height = "100px";
+          markerImage.style.objectFit = "contain";
           markerContent.appendChild(markerImage);
 
-          // Create AdvancedMarkerView and place it on the map
           const marker = new google.maps.marker.AdvancedMarkerElement({
             map,
             position: { lat, lng },
             content: markerContent,
           });
 
-          // Store the marker in the state for future removal
           setMarkers((prevMarkers) => [...prevMarkers, marker]);
         }
       });
 
-      // Marker for user location
       if (userLocation) {
         const { lat, lng } = userLocation;
 
-        // HTML content for user location marker
         const userMarkerContent = document.createElement("div");
+        userMarkerContent.style.position = "absolute";
+        userMarkerContent.style.transform = "translate(-50%, -60%)";
+
         const userMarkerImage = document.createElement("img");
-        userMarkerContent.style.position = "absolute"; // Absolute positioning for custom alignment
-        userMarkerContent.style.transform = "translate(-50%, -60%)"; // Ensures the bottom center of the marker aligns with the coordinates
-        userMarkerImage.src = LocationMarker
-        userMarkerImage.alt = "User-marker"
-        userMarkerImage.style.width = "80px"; // Adjust size
-        userMarkerImage.style.height = "100px"; // Adjust size
-        userMarkerImage.style.objectFit = "contain"; // Ensures the image fits properly
+        userMarkerImage.src = LocationMarker;
+        userMarkerImage.alt = "User-marker";
+        userMarkerImage.style.width = "80px";
+        userMarkerImage.style.height = "100px";
+        userMarkerImage.style.objectFit = "contain";
         userMarkerContent.appendChild(userMarkerImage);
 
-
-        // Create AdvancedMarkerView for user location
         const userMarker = new google.maps.marker.AdvancedMarkerElement({
           map,
           position: { lat, lng },
           content: userMarkerContent,
         });
 
-        // Store user marker in state if needed for future removal
         setMarkers((prevMarkers) => [...prevMarkers, userMarker]);
       }
     }
@@ -119,8 +127,25 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
     return <p>Error loading map...</p>;
   }
 
-  if (!isLoaded) {
-    return <p>Loading map...</p>;
+  if (!isLoaded || !isMapLoaded) {
+    console.log("Loading animation is showing...");  // Log when the animation is showing
+
+    return (
+      <AnimationContainer aria-label="Loading map, please wait">
+        <Lottie
+          animationData={animationData}
+          loop
+          style={{
+            top: "50%",            // Centers the animation vertically
+            left: "50%",           // Centers the animation horizontally
+            transform: "translate(-50%, -50%)",  // Adjusts position to fully center
+            height: "200px",       // Adjust this value to fit your design
+            width: "200px",        // Adjust this value to fit your design
+            zIndex: 9999,          // Ensures the animation stays on top
+          }}
+        />
+      </AnimationContainer>
+    );
   }
 
   return (
@@ -133,9 +158,8 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
         disableDefaultUI: true,
       }}
       onLoad={(map) => {
-        mapRef.current = map; // Store the map reference onLoad
+        mapRef.current = map;
       }}
     />
   );
 };
-
