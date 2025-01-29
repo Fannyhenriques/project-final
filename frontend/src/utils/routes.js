@@ -3,5 +3,5 @@ export const routes = {
     login: "/login",
     register: "/signup",
     profile: "/profile",
-    playgroundDetails: "/playgrounds/:id",
+    playgroundDetails: "/playgrounds/:id/playgroundId",
 };

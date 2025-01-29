@@ -15,7 +15,7 @@ export const App = () => {
         <Route path={routes.home} element={<Homepage />} />
         <Route path={routes.login} element={<LoginPage />} />
         <Route path={routes.profile} element={<ProfilePage />} />
-        <Route path="/playgrounds/:place_id" element={<PlaygroundDetails />} />
+        <Route path="/playgrounds/:playgroundId" element={<PlaygroundDetails />} />
       </Routes>
     </Router>
   );
