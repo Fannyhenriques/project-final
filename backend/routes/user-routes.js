@@ -1,18 +1,18 @@
 import bcrypt from "bcrypt-nodejs";
 import express from "express";
+import jwt from "jsonwebtoken";
 import { User } from "../models/user";
 import { authenticateUser } from "../middleware/auth.js";
 
 export const router = express.Router();
 
-// route to register as a user
 router.post("/register", async (req, res) => {
   try {
     const { name, email, password } = req.body;
     const user = new User({ name, email, password: bcrypt.hashSync(password) });
     await user.save();
     res.status(201).json({
-      id: user._id,
+      userId: user._id,
       accessToken: user.accessToken,
       message: "User registered successfully",
     });
@@ -32,7 +32,6 @@ router.post("/register", async (req, res) => {
   }
 });
 
-//route for login
 router.post("/login", async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -63,7 +62,6 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// a possible route for profilepage
 router.get("/profile", authenticateUser, async (req, res) => {
   try {
     // Fetch the user by ID, populating saved playgrounds
@@ -75,7 +73,7 @@ router.get("/profile", authenticateUser, async (req, res) => {
     res.status(200).json({
       success: true,
       user: {
-        id: user._id,
+        userId: user._id,
         name: user.name,
         email: user.email,
         savedPlaygrounds: user.savedPlaygrounds,

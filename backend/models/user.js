@@ -24,6 +24,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: () => crypto.randomBytes(128).toString("hex"),
   },
+  savedPlaygrounds: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Playground' }],
 });
 
 export const User = mongoose.model("User", userSchema);
