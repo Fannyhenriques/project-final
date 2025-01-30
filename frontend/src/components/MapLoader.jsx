@@ -1,12 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
-// import Lottie from "lottie-react";
-// import animationData from "../assets/Animation - 1738089651426.json";
 import { useNavigate } from "react-router-dom";
-import { PlaygroundDetails } from "../pages/PlaygroundDetails";
 import Marker from "../assets/Playground_marker.png";
 import LocationMarker from "../assets/Me_marker4.png";
-import styled from "styled-components";
+
 
 
 const libraries = ["marker"];
@@ -16,15 +13,6 @@ const mapContainerStyle = {
   height: "800px",
 };
 
-const AnimationContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  width: 100%;
-  background-color: #f9f9f9;
-  position: relative; 
-`;
 
 export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
   const mapRef = useRef(null);
@@ -40,13 +28,6 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
 
   const navigate = useNavigate();
 
-  // const handleMarkerClick = (place_id) => {
-  //   navigate(`/playgrounds/${place_id}`);
-  // };
-  // const handleMarkerClick = (playgroundId) => {
-  //   console.log("Navigating to:", `/playgrounds/id/${playgroundId}`); // Debugging
-  //   navigate(`/playgrounds/id/${playgroundId}`);
-  // };
   const handleMarkerClick = async (playgroundId) => {
     console.log("Fetching details for playground ID:", playgroundId);
 
@@ -160,25 +141,7 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
 
   if (!isLoaded) {
     return <p>Loading map....</p>
-    // console.log("Loading animation is showing...");  // Log when the animation is showing
   }
-  //   return (
-  //     <AnimationContainer aria-label="Loading map, please wait">
-  //       <Lottie
-  //         animationData={animationData}
-  //         loop
-  //         style={{
-  //           top: "50%",            // Centers the animation vertically
-  //           left: "50%",           // Centers the animation horizontally
-  //           transform: "translate(-50%, -50%)",  // Adjusts position to fully center
-  //           height: "200px",       // Adjust this value to fit your design
-  //           width: "200px",        // Adjust this value to fit your design
-  //           zIndex: 9999,          // Ensures the animation stays on top
-  //         }}
-  //       />
-  //     </AnimationContainer>
-  //   );
-  // }
 
   return (
     <GoogleMap
@@ -195,84 +158,4 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
     />
   );
 };
-
-// import React, { useRef, useEffect } from "react";
-// import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api"; // Ensure Marker is imported from react-google-maps/api
-// import { usePlaygroundStore } from "../stores/usePlaygroundStore";
-// import LocationMarkerIcon from "../assets/Me_marker4.png"; // Renamed the import for clarity
-// import PlaygroundMarkerIcon from "../assets/Playground_marker.png"; // Renamed the import for clarity
-
-// const mapContainerStyle = {
-//   width: "100%",
-//   height: "800px",
-// };
-
-// export const MapLoader = () => {
-//   const mapRef = useRef(null);
-//   const { userLocation, playgrounds, searchQuery, isFetchingData } = usePlaygroundStore();
-
-//   const { isLoaded, loadError } = useJsApiLoader({
-//     id: "google-map-script",
-//     googleMapsApiKey: import.meta.env.VITE_GOOGLE_API_KEY,
-//     mapIds: [import.meta.env.VITE_GOOGLE_MAP_ID],
-//     version: "beta",
-//   });
-
-//   useEffect(() => {
-//     if (searchQuery && mapRef.current && playgrounds.length > 0) {
-//       const matchingPlayground = playgrounds.find(
-//         (playground) =>
-//           playground.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-//           playground.address?.toLowerCase().includes(searchQuery.toLowerCase())
-//       );
-
-//       if (matchingPlayground) {
-//         const [lng, lat] = matchingPlayground.location.coordinates;
-//         mapRef.current.panTo({ lat, lng });
-//         mapRef.current.setZoom(12);
-//       }
-//     }
-//   }, [searchQuery, playgrounds]);
-
-//   if (isFetchingData || !userLocation || !isLoaded) {
-//     return <div>Loading map...</div>; // Loading indicator while fetching data
-//   }
-
-//   return (
-//     <GoogleMap
-//       mapContainerStyle={mapContainerStyle}
-//       center={userLocation} // Pass the user location for map center
-//       zoom={12}
-//       options={{
-//         mapId: import.meta.env.VITE_GOOGLE_MAP_ID,
-//         disableDefaultUI: true,
-//       }}
-//       onLoad={(map) => {
-//         mapRef.current = map;
-//       }}
-//     >
-//       {/* User location marker */}
-//       {userLocation && (
-//         <Marker
-//           position={userLocation}
-//           icon={LocationMarkerIcon} // Use the correct icon for user location
-//           title="Your Location"
-//         />
-//       )}
-
-//       {/* Playground markers */}
-//       {playgrounds.map((playground) => {
-//         const [lng, lat] = playground.location.coordinates;
-//         return (
-//           <Marker
-//             key={playground._id} // Unique key for each playground
-//             position={{ lat, lng }}
-//             icon={PlaygroundMarkerIcon} // Use the correct icon for playgrounds
-//             title={playground.name} // Tooltip when hovering over the marker
-//           />
-//         );
-//       })}
-//     </GoogleMap>
-//   );
-// };
 

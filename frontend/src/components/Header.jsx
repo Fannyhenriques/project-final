@@ -1,11 +1,8 @@
 import styled from "styled-components";
-import { useState } from "react"
 import { NavLink } from "react-router-dom";
 import playground from "../assets/PlaygroundFinder.png";
 import { routes } from "../utils/routes";
-import { HamburgerMenu } from "./HamburgerMenu"
-import { MenuItems } from "../ui/MenuItems"; // Import menuItems from the separate file
-import { Homepage } from "../pages/Homepage"
+
 
 const HeaderContainer = styled.header`
   display: flex;
@@ -64,20 +61,11 @@ const StyledNavLink = styled(NavLink)`
 `;
 
 export const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const toggleMenu = () => {
-    setIsMenuOpen((prev) => !prev);  // Toggle the state of the menu
-  };
+
   return (
     <div>
       <HeaderContainer>
         <HeaderImg src={playground} alt="Playground Finder Logo" />
-        {/* Hamburger Menu (Only visible on smaller screens) */}
-        <HamburgerMenu
-          menuItems={MenuItems}
-          isMenuOpen={isMenuOpen}
-          toggleMenu={toggleMenu}
-        />
         {/* Regular Navbar (Only visible on larger screens) */}
         <Nav>
           <NavList>
@@ -88,8 +76,6 @@ export const Header = () => {
           </NavList>
         </Nav>
       </HeaderContainer>
-      {/* Only render Homepage (with search bar) when menu is not open */}
-      <Homepage isMenuOpen={isMenuOpen} />
     </div>
   );
 };
