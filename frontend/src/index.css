@@ -5,3 +5,9 @@ body, html {
   width: 100%;
   background-color:#053332;
 }
+
+ul {
+  list-style-type: none;  /* Remove default bullet points */
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+}
