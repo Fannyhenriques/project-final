@@ -82,25 +82,29 @@ export const PlaygroundDetails = () => {
 `;
 
   const Description = styled(Text)`
-  font-size: 1.2rem;
+  font-size: 1rem;
   margin-bottom: 1rem;
   text-align: center;
 `;
 
   const Phone = styled(Text)`
-  margin-top: 1rem;
+  margin: 10px 10px 10px;
 `;
 
   const OpeningHours = styled(Text)`
   margin: 0 auto;
+  padding-left: 10px; 
 `;
 
   const Facilities = styled(Text)`
   margin-top: 1rem;
+  padding-left: 10px; 
+  
 `;
 
   const Rating = styled(Text)`
   margin-top: 1rem;
+  padding-left: 10px; 
 `;
 
   const SaveButton = styled.button`
@@ -113,6 +117,7 @@ export const PlaygroundDetails = () => {
   cursor: pointer;
   font-family: "Poppins", sans-serif;
   margin: 0 auto;
+  margin: 10px 10px 20px; 
 `;
 
   const Map = styled.div`
@@ -161,7 +166,9 @@ export const PlaygroundDetails = () => {
   }
 `;
 
-
+  const StyledP = styled(Text)`
+  margin: 0 auto;
+`
 
   return (
     <div>
@@ -172,7 +179,7 @@ export const PlaygroundDetails = () => {
         {formattedPhotos.length > 0 ? (
           <ImageGrid photos={formattedPhotos} />
         ) : (
-          <p>No images available.</p>
+          <StyledP>No images available.</StyledP>
         )}
       </ImageSection>
 
@@ -202,7 +209,7 @@ export const PlaygroundDetails = () => {
           </ul>
         </OpeningHours>
       ) : (
-        <p>Opening hours not available.</p>
+        <StyledP>Opening hours not available.</StyledP>
       )}
 
       {/* Facilities */}
@@ -215,7 +222,7 @@ export const PlaygroundDetails = () => {
             ))}
           </ul>
         ) : (
-          <p>No facilities listed.</p>
+          <StyledP>No facilities listed.</StyledP>
         )}
       </Facilities>
 
@@ -225,7 +232,7 @@ export const PlaygroundDetails = () => {
           <p><strong>Rating:</strong> {playground.rating.toFixed(1)} / 5</p>
         </Rating>
       ) : (
-        <p>No ratings available.</p>
+        <StyledP>No ratings available.</StyledP>
       )}
 
       <SaveButton onClick={savePlayground}>Save to Profile</SaveButton>
@@ -265,7 +272,7 @@ export const PlaygroundDetails = () => {
           ))}
         </Reviews>
       ) : (
-        <p>No reviews available.</p>
+        <StyledP>No reviews available.</StyledP>
       )}
     </div>
   );

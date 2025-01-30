@@ -18,16 +18,29 @@ const Grid = styled.div`
   }
 `;
 
-// Styled component for image
 const Image = styled.img`
-  width: 100%;  // Image takes full width of grid cell
-  height: 200px;  // Fixed height to ensure uniformity
-  object-fit: cover;  // Ensure images are cropped and maintain aspect ratio
+  width: 100%;  
+  height: 100%;  
+  object-fit: cover;  
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin: 0;
-  display: block;  // Prevents any unwanted space under images
+  display: block;  
+  aspect-ratio: 1;  
+  box-sizing: border-box; 
+ 
+
+  @media (max-width: 768px) {  
+    height: 150px;  
+  }
+
+  @media (max-width: 480px) {  
+    height: 120px;  
+    width: 100%; 
+    padding: 5px;  
+  }
 `;
+
 
 // ImageGrid now just displays the photos passed to it via the "photos" prop
 export const ImageGrid = ({ photos }) => {
