@@ -32,7 +32,7 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
     console.log("Fetching details for playground ID:", playgroundId);
 
     try {
-      const response = await fetch(`http://localhost:9000/api/playgrounds/id/${playgroundId}`);
+      const response = await fetch(`https://project-playground-api.onrender.com/api/playgrounds/id/${playgroundId}`);
       if (!response.ok) {
         throw new Error("Failed to fetch playground details");
       }

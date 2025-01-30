@@ -8,7 +8,7 @@ export const useUserStore = create(
       isLoggedIn: false,
       register: async (name, email, password) => {
         try {
-          const response = await fetch("http://localhost:9000/user/register", {
+          const response = await fetch("https://project-playground-api.onrender.com/user/register", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ name, email, password }),
@@ -49,7 +49,7 @@ export const useUserStore = create(
       },
       login: async (email, password) => {
         try {
-          const response = await fetch("http://localhost:9000/user/login", {
+          const response = await fetch("https://project-playground-api.onrender.com/user/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, password }),
@@ -92,7 +92,7 @@ export const useUserStore = create(
             console.log("Parsed User: ", user);
 
             if (user && user.accessToken) {
-              const response = await fetch("http://localhost:9000/user/profile", {
+              const response = await fetch("https://project-playground-api.onrender.com/user/profile", {
                 method: "GET",
                 headers: {
                   "Content-Type": "application/json",
@@ -120,7 +120,7 @@ export const useUserStore = create(
           const user = get().user;
           if (!user) throw new Error("User not logged in");
 
-          const response = await fetch("http://localhost:9000/api/playgrounds", {
+          const response = await fetch("https://project-playground-api.onrender.com/api/playgrounds", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -157,7 +157,7 @@ export const useUserStore = create(
 
       removePlayground: async (playgroundToRemove) => {
         try {
-          const response = await fetch(`http://localhost:9000/playgrounds/${playgroundToRemove.id}`, {
+          const response = await fetch(`https://project-playground-api.onrender.com/playgrounds/${playgroundToRemove.id}`, {
             method: "DELETE",
           });
 

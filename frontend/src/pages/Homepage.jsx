@@ -70,7 +70,7 @@ export const Homepage = () => {
         }
 
         const response = await fetch(
-          `http://localhost:9000/api/playgrounds?lat=${location.lat}&lng=${location.lng}`
+          `https://project-playground-api.onrender.com/api/playgrounds?lat=${location.lat}&lng=${location.lng}`
         );
 
         if (!response.ok) {
@@ -104,7 +104,7 @@ export const Homepage = () => {
 
     try {
       const radius = 2000;
-      const url = `http://localhost:9000/api/playgrounds?name=${encodeURIComponent(address)}&radius=${radius}`;
+      const url = `https://project-playground-api.onrender.com/api/playgrounds?name=${encodeURIComponent(address)}&radius=${radius}`;
       console.log("Request URL:", url);
       const response = await fetch(url);
 
