@@ -172,11 +172,100 @@ export const Homepage = () => {
   );
 };
 
+// import React, { useEffect } from "react";
+// import styled from "styled-components";
+// import { MapLoader } from "../components/MapLoader";
+// import { usePlaygroundStore } from "../stores/usePlaygroundStore";
 
-//Att göra
-//Svensk/engelsk toogle
+// const SearchMapContainer = styled.div`
+//   position: relative;
+//   height: 100vh;
+//   width: 100%;
+// `;
 
+// const SearchBarContainer = styled.div`
+//   position: absolute;
+//   top: 10px;
+//   left: 50%;
+//   transform: translateX(-50%);
+//   display: flex;
+//   align-items: center;
+//   background: white;
+//   opacity: 90%;
+//   border-radius: 15px;
+//   padding: 8px 12px;
+//   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+//   z-index: 10;
+//   width: 80%;
 
+//   @media (min-width: 768px) {
+//     width: 400px;
+//   }
+// `;
 
+// const SearchInput = styled.input`
+//   flex: 1;
+//   border: none;
+//   outline: none;
+//   padding: 8px;
+//   font-size: 1rem;
+//   border-radius: 25px;
+// `;
+
+// const ClearButton = styled.button`
+//   background: none;
+//   border: none;
+//   font-size: 1.2rem;
+//   color: #888;
+//   cursor: pointer;
+
+//   &:hover {
+//     color: #000;
+//   }
+// `;
+
+// export const Homepage = () => {
+//   const {
+//     userLocation,
+//     searchQuery,
+//     isFetchingData,
+//     fetchUserLocation,
+//     fetchPlaygrounds,
+//     setSearchQuery,
+//     searchPlaygrounds,
+//   } = usePlaygroundStore();
+
+//   useEffect(() => {
+//     const loadData = async () => {
+//       if (!userLocation) {
+//         await fetchUserLocation();
+//       }
+//       if (userLocation) {
+//         await fetchPlaygrounds(userLocation.lat, userLocation.lng);
+//       }
+//     };
+
+//     loadData();
+//   }, [userLocation, fetchUserLocation, fetchPlaygrounds]);
+
+//   const handleSearch = async () => {
+//     await searchPlaygrounds(searchQuery);
+//   };
+
+//   return (
+//     <SearchMapContainer>
+//       <SearchBarContainer>
+//         <SearchInput
+//           type="text"
+//           value={searchQuery}
+//           onChange={(e) => setSearchQuery(e.target.value)}
+//           placeholder="Search playgrounds..."
+//         />
+//         <ClearButton onClick={() => setSearchQuery("")}>×</ClearButton>
+//       </SearchBarContainer>
+//       <MapLoader />
+//     </SearchMapContainer>
+//   );
+// };
 
 

@@ -26,7 +26,6 @@ const AnimationContainer = styled.div`
   position: relative; 
 `;
 
-
 export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
   const mapRef = useRef(null);
   const [markers, setMarkers] = useState([]);
@@ -44,11 +43,27 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
   // const handleMarkerClick = (place_id) => {
   //   navigate(`/playgrounds/${place_id}`);
   // };
-  const handleMarkerClick = (playgroundId) => {
-    console.log("Navigating to:", `/playgrounds/id/${playgroundId}`); // Debugging
-    navigate(`/playgrounds/id/${playgroundId}`);
-  };
+  // const handleMarkerClick = (playgroundId) => {
+  //   console.log("Navigating to:", `/playgrounds/id/${playgroundId}`); // Debugging
+  //   navigate(`/playgrounds/id/${playgroundId}`);
+  // };
+  const handleMarkerClick = async (playgroundId) => {
+    console.log("Fetching details for playground ID:", playgroundId);
 
+    try {
+      const response = await fetch(`http://localhost:9000/api/playgrounds/id/${playgroundId}`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch playground details");
+      }
+      const data = await response.json();
+      console.log("Playground details:", data);
+
+      // Navigate to the details page with the playground data
+      navigate(`/playgrounds/${playgroundId}`, { state: { playground: data } });
+    } catch (error) {
+      console.error("Error fetching playground details:", error.message);
+    }
+  };
 
   useEffect(() => {
     console.log("isLoaded:", isLoaded);
@@ -180,4 +195,84 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
     />
   );
 };
+
+// import React, { useRef, useEffect } from "react";
+// import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api"; // Ensure Marker is imported from react-google-maps/api
+// import { usePlaygroundStore } from "../stores/usePlaygroundStore";
+// import LocationMarkerIcon from "../assets/Me_marker4.png"; // Renamed the import for clarity
+// import PlaygroundMarkerIcon from "../assets/Playground_marker.png"; // Renamed the import for clarity
+
+// const mapContainerStyle = {
+//   width: "100%",
+//   height: "800px",
+// };
+
+// export const MapLoader = () => {
+//   const mapRef = useRef(null);
+//   const { userLocation, playgrounds, searchQuery, isFetchingData } = usePlaygroundStore();
+
+//   const { isLoaded, loadError } = useJsApiLoader({
+//     id: "google-map-script",
+//     googleMapsApiKey: import.meta.env.VITE_GOOGLE_API_KEY,
+//     mapIds: [import.meta.env.VITE_GOOGLE_MAP_ID],
+//     version: "beta",
+//   });
+
+//   useEffect(() => {
+//     if (searchQuery && mapRef.current && playgrounds.length > 0) {
+//       const matchingPlayground = playgrounds.find(
+//         (playground) =>
+//           playground.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+//           playground.address?.toLowerCase().includes(searchQuery.toLowerCase())
+//       );
+
+//       if (matchingPlayground) {
+//         const [lng, lat] = matchingPlayground.location.coordinates;
+//         mapRef.current.panTo({ lat, lng });
+//         mapRef.current.setZoom(12);
+//       }
+//     }
+//   }, [searchQuery, playgrounds]);
+
+//   if (isFetchingData || !userLocation || !isLoaded) {
+//     return <div>Loading map...</div>; // Loading indicator while fetching data
+//   }
+
+//   return (
+//     <GoogleMap
+//       mapContainerStyle={mapContainerStyle}
+//       center={userLocation} // Pass the user location for map center
+//       zoom={12}
+//       options={{
+//         mapId: import.meta.env.VITE_GOOGLE_MAP_ID,
+//         disableDefaultUI: true,
+//       }}
+//       onLoad={(map) => {
+//         mapRef.current = map;
+//       }}
+//     >
+//       {/* User location marker */}
+//       {userLocation && (
+//         <Marker
+//           position={userLocation}
+//           icon={LocationMarkerIcon} // Use the correct icon for user location
+//           title="Your Location"
+//         />
+//       )}
+
+//       {/* Playground markers */}
+//       {playgrounds.map((playground) => {
+//         const [lng, lat] = playground.location.coordinates;
+//         return (
+//           <Marker
+//             key={playground._id} // Unique key for each playground
+//             position={{ lat, lng }}
+//             icon={PlaygroundMarkerIcon} // Use the correct icon for playgrounds
+//             title={playground.name} // Tooltip when hovering over the marker
+//           />
+//         );
+//       })}
+//     </GoogleMap>
+//   );
+// };
 
