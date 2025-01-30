@@ -13,7 +13,6 @@ const mapContainerStyle = {
 export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
   const mapRef = useRef(null);
   const [markers, setMarkers] = useState([]);
-  // Removed setMapLoaded state because it's redundant
   const { isLoaded, loadError } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_API_KEY,
@@ -82,6 +81,7 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
           const markerContent = document.createElement("div");
           markerContent.style.position = "absolute";
           markerContent.style.transform = "translate(-50%, -60%)";
+          markerContent.style.cursor = "pointer"; // Ensure cursor is a pointer when hovering over the marker
 
           const markerImage = document.createElement("img");
           markerImage.src = Marker;
