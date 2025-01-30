@@ -55,13 +55,25 @@ export const PlaygroundDetails = () => {
     }
 
     const playgroundData = {
-      id: playground.id,
+      id: playgroundId,
       name: playground.name,
       description: playground.description,
       formatted_address: playground.formatted_address,
       photos: playground.photos,
       facilities: playground.facilities,
+
     };
+
+
+      location: playground.geometry ? {
+        type: "Point",
+        coordinates: [playground.geometry.location.lat, playground.geometry.location.lng]
+      } : { type: "Point", coordinates: [0, 0] },
+      // Add any other relevant fields to save
+    };
+
+    // Call the postPlayground function from your user store to save it
+    console.log(playgroundData)
 
     postPlayground(playgroundData);
   };
@@ -277,6 +289,3 @@ export const PlaygroundDetails = () => {
     </div>
   );
 };
-
-
-
