@@ -115,23 +115,24 @@ export const useUserStore = create(
           }
         }
       },
+      //function to post and save a playground to the profilepage
       postPlayground: async (playgroundData) => {
         try {
           const user = get().user;
           if (!user) throw new Error("User not logged in");
 
+          // Use the playgroundData passed into the function
           const response = await fetch("https://project-playground-api.onrender.com/api/playgrounds", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
               Authorization: `${user.accessToken}`,
             },
-            body: JSON.stringify(playgroundData),
+            body: JSON.stringify(playgroundData), // Use the passed playgroundData
           });
 
-          // Read response only once
           const data = await response.json();
-          console.log("API Response Data:", data);
+          console.log("Playground data from API:", data);
 
           if (!response.ok) throw new Error(data.message || "Failed to post playground");
 
@@ -144,6 +145,7 @@ export const useUserStore = create(
                 ...data.playground ? [data.playground] : []
               ],
             };
+            localStorage.setItem("user", JSON.stringify(updatedUser));
             console.log("Updated savedPlaygrounds:", updatedUser.savedPlaygrounds);
             return { user: updatedUser };
           });
@@ -154,33 +156,44 @@ export const useUserStore = create(
         }
       },
 
-
       removePlayground: async (playgroundToRemove) => {
-        try {
-          const response = await fetch(`https://project-playground-api.onrender.com/playgrounds/${playgroundToRemove.id}`, {
-            method: "DELETE",
-          });
+        console.log("Received Playground to Remove:", playgroundToRemove); // Log the full object being passed
 
-          if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message || "Failed to remove playground");
+        try {
+          const user = get().user;
+          if (!user) throw new Error("User not logged in");
+
+          if (!playgroundToRemove || !playgroundToRemove._id) {
+            throw new Error("Playground ID is missing.");
           }
 
-          // Update the state to remove the playground from savedPlaygrounds
+          console.log("Playground ID to Remove:", playgroundToRemove._id);
+
+          // Compare the _id field of the saved playgrounds with the _id of the playground to remove
+          const updatedPlaygrounds = user.savedPlaygrounds.filter(
+            (pg) => String(pg._id) !== String(playgroundToRemove._id)
+          );
+
+          // Update the state with the new list of savedPlaygrounds (without the removed one)
           set((state) => ({
             user: {
               ...state.user,
-              savedPlaygrounds: state.user.savedPlaygrounds.filter(
-                (pg) => pg.id !== playgroundToRemove.id
-              ),
+              savedPlaygrounds: updatedPlaygrounds,
             },
           }));
 
-          console.log("Playground removed successfully:", playgroundToRemove);
+          // Update localStorage with the new user data (without the removed playground)
+          localStorage.setItem("user", JSON.stringify({
+            ...user,
+            savedPlaygrounds: updatedPlaygrounds,
+          }));
+
+          console.log("Playground removed from localStorage and state successfully.");
         } catch (err) {
-          console.error("Error removing playground:", err);
+          console.error("Error removing playground from localStorage:", err.message);
         }
       },
+
       logout: () => {
         try {
           set({ user: null, isLoggedIn: false });

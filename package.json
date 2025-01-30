@@ -13,8 +13,8 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "lottie-react": "^2.4.1",
-    "mongoose": "^8.9.4"
-    
+    "mongoose": "^8.9.4",
+    "styled-components": "^6.1.14"
   },
   "description": "Replace this readme with your own information about your project.",
   "main": "index.js",

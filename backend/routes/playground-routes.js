@@ -242,3 +242,37 @@ router.patch('/rate', async (req, res) => {
     res.status(500).json({ error: "Error updating playground rating" });
   }
 });
+
+router.delete("/:id", authenticateUser, async (req, res) => {
+  const { id } = req.params; // The ID passed in the URL
+  const { googlePlaceId, place_id } = req.body; // Optional body parameters for Google Place ID
+
+  try {
+    let playground;
+    // Check if we are deleting based on googlePlaceId or playgroundId
+    if (googlePlaceId) {
+      playground = await Playground.findOne({ googlePlaceId });
+    } else if (place_id) {
+      playground = await Playground.findOne({ place_id });
+    } else {
+      playground = await Playground.findById(id); // Default to using playgroundId (MongoDB _id)
+    }
+    // Check if the playground exists
+    if (!playground) {
+      return res.status(404).json({ message: "Playground not found" });
+    }
+    // Check if the current user is the one who posted the playground
+    if (playground.postedBy.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: "You do not have permission to delete this playground" });
+    }
+    // Delete the playground
+    await Playground.findByIdAndDelete(playground._id);
+
+    res.status(200).json({ message: "Playground removed successfully" });
+  } catch (error) {
+    console.error("Error deleting playground:", error);
+    res.status(500).json({ message: "Error deleting playground", error });
+  }
+});
+
+
