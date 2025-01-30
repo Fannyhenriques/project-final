@@ -1,8 +1,12 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useUserStore } from "../stores/useUserStore";
+// import { usePlaygroundStore } from "../stores/usePlaygroundStore";
 
 export const PlaygroundDetails = () => {
   const [playground, setPlayground] = useState(null);
+  const { user, isLoggedIn, ratePlayground, postPlayground } = useUserStore();
+  const [rating, setRating] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -31,13 +35,34 @@ export const PlaygroundDetails = () => {
   }, [playgroundId]);
 
   if (loading) return <div>Loading...</div>; // Show loading text while waiting for the data
-
   if (error) return <div>Error: {error}</div>; // Show error message if there is an error
 
   // Calculate average rating if available
   const averageRating = playground.ratings && playground.ratings.length
     ? playground.ratings.reduce((sum, rating) => sum + rating, 0) / playground.ratings.length
     : null;
+
+  //function to save a playground to profile
+  const savePlayground = () => {
+    if (!user) {
+      console.error("User must be logged in to save a playground.");
+      return;
+    }
+
+    // Assuming the playground data you want to save is in the `playground` state
+    const playgroundData = {
+      id: playground.id,
+      name: playground.name,
+      description: playground.description,
+      formatted_address: playground.formatted_address,
+      photos: playground.photos,
+      facilities: playground.facilities,
+      // Add any other relevant fields to save
+    };
+
+    // Call the postPlayground function from your user store to save it
+    postPlayground(playgroundData);
+  };
 
   return (
     <div className="playground-details">
@@ -97,8 +122,6 @@ export const PlaygroundDetails = () => {
           <p>No facilities listed.</p>
         )}
       </div>
-
-      {/* Average Rating */}
       {playground.rating ? (
         <p>
           <strong>Rating:</strong> {playground.rating.toFixed(1)} / 5
@@ -106,7 +129,7 @@ export const PlaygroundDetails = () => {
       ) : (
         <p>No ratings available.</p>
       )}
-
+      <button onClick={savePlayground}>Save to Profile</button>
       {/* Location Map */}
       {playground.geometry && (
         <div id="map">

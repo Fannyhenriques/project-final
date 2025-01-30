@@ -1,42 +1,9 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-// Playground interface
-interface Playground {
-  id: string;
-  name: string;
-  description?: string;
-  facilities?: string[];
-  address?: string;
-  images?: string[];
-  location?: {
-    type: string;
-    coordinates: number[];
-  };
-  ratings?: number[];
-}
-
-// User interface
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  savedPlaygrounds?: Playground[];
-}
-
-// UserStore interface
-interface UserStore {
-  user: User | null;
-  isLoggedIn: boolean;
-  register: (name: string, email: string, password: string) => Promise<void>;
-  login: (email: string, password: string) => Promise<void>;
-  fetchUserProfile: () => Promise<void>;
-  logout: () => void;
-}
-
-export const useUserStore = create<UserStore>()(
+export const useUserStore = create(
   persist(
-    (set) => ({
+    (set, get) => ({
       user: null,
       isLoggedIn: false,
       register: async (name, email, password) => {
@@ -146,6 +113,72 @@ export const useUserStore = create<UserStore>()(
           } catch (err) {
             console.error("Failed to parse user from localStorage:", err);
           }
+        }
+      },
+      postPlayground: async (playgroundData) => {
+        try {
+          const user = get().user;
+          if (!user) throw new Error("User not logged in");
+
+          const response = await fetch("http://localhost:9000/api/playgrounds", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `${user.accessToken}`,
+            },
+            body: JSON.stringify(playgroundData),
+          });
+
+          // Read response only once
+          const data = await response.json();
+          console.log("API Response Data:", data);
+
+          if (!response.ok) throw new Error(data.message || "Failed to post playground");
+
+          // Update user in the store with the new playground
+          set((state) => {
+            const updatedUser = {
+              ...state.user,
+              savedPlaygrounds: [
+                ...state.user.savedPlaygrounds,
+                ...data.playground ? [data.playground] : []
+              ],
+            };
+            console.log("Updated savedPlaygrounds:", updatedUser.savedPlaygrounds);
+            return { user: updatedUser };
+          });
+
+          console.log("Playground added:", data.playground);
+        } catch (err) {
+          console.error("Error posting playground:", err);
+        }
+      },
+
+
+      removePlayground: async (playgroundToRemove) => {
+        try {
+          const response = await fetch(`http://localhost:9000/playgrounds/${playgroundToRemove.id}`, {
+            method: "DELETE",
+          });
+
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || "Failed to remove playground");
+          }
+
+          // Update the state to remove the playground from savedPlaygrounds
+          set((state) => ({
+            user: {
+              ...state.user,
+              savedPlaygrounds: state.user.savedPlaygrounds.filter(
+                (pg) => pg.id !== playgroundToRemove.id
+              ),
+            },
+          }));
+
+          console.log("Playground removed successfully:", playgroundToRemove);
+        } catch (err) {
+          console.error("Error removing playground:", err);
         }
       },
       logout: () => {
