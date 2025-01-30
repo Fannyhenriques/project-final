@@ -1,6 +1,5 @@
 import bcrypt from "bcrypt-nodejs";
 import express from "express";
-import jwt from "jsonwebtoken";
 import { User } from "../models/user";
 import { authenticateUser } from "../middleware/auth.js";
 
