@@ -13,7 +13,7 @@ const mapContainerStyle = {
 export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
   const mapRef = useRef(null);
   const [markers, setMarkers] = useState([]);
-  const [isMapLoaded, setIsMapLoaded] = useState(false); // This state is declared but never used directly, as setIsMapLoaded is used to update it
+  // Removed setMapLoaded state because it's redundant
   const { isLoaded, loadError } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_API_KEY,
@@ -43,12 +43,6 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
     console.log("isLoaded:", isLoaded);
   }, [isLoaded]);
 
-  useEffect(() => {
-    if (isLoaded) {
-      console.log("Map has been loaded.");
-      setIsMapLoaded(true);
-    }
-  }, [isLoaded]);
 
   useEffect(() => {
     if (searchQuery && mapRef.current) {
