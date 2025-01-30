@@ -4,15 +4,11 @@ import { useNavigate } from "react-router-dom";
 import Marker from "../assets/Playground_marker.png";
 import LocationMarker from "../assets/Me_marker4.png";
 
-
-
 const libraries = ["marker"];
-
 const mapContainerStyle = {
   width: "100%",
   height: "800px",
 };
-
 
 export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
   const mapRef = useRef(null);
@@ -30,7 +26,6 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
 
   const handleMarkerClick = async (playgroundId) => {
     console.log("Fetching details for playground ID:", playgroundId);
-
     try {
       const response = await fetch(`https://project-playground-api.onrender.com/api/playgrounds/id/${playgroundId}`);
       if (!response.ok) {
@@ -38,8 +33,6 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
       }
       const data = await response.json();
       console.log("Playground details:", data);
-
-      // Navigate to the details page with the playground data
       navigate(`/playgrounds/${playgroundId}`, { state: { playground: data } });
     } catch (error) {
       console.error("Error fetching playground details:", error.message);
@@ -66,7 +59,7 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
 
       if (matchingPlayground) {
         const [lng, lat] = matchingPlayground.location.coordinates;
-        mapRef.current.panTo({ lat, lng }); // Zoom in on searched playground 
+        mapRef.current.panTo({ lat, lng });
         mapRef.current.setZoom(12);
       }
     }
@@ -75,12 +68,16 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
   useEffect(() => {
     if (isLoaded && mapRef.current && playgrounds.length > 0) {
       const map = mapRef.current;
-      map.setOptions({ gestureHandling: "greedy" }); //Mobile friendly zoom
+      map.setOptions({ gestureHandling: "greedy" });
 
+      // Clear previous markers before adding new ones
       markers.forEach((marker) => marker.setMap(null));
       setMarkers([]);
 
-      playgrounds.forEach((playground) => {
+      // Use a new array to batch the markers before updating state
+      const newMarkers = [];
+      for (let i = 0; i < playgrounds.length; i++) {
+        const playground = playgrounds[i];
         if (playground.location?.coordinates) {
           const [lng, lat] = playground.location.coordinates;
 
@@ -102,13 +99,15 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
             content: markerContent,
           });
 
-          // Add click event to navigate when marker is clicked
           markerContent.onclick = () => handleMarkerClick(playground.googlePlaceId);
-
-          setMarkers((prevMarkers) => [...prevMarkers, marker]);
+          newMarkers.push(marker);
         }
-      });
+      }
 
+      // Update markers in state after loop finishes
+      setMarkers((prevMarkers) => [...prevMarkers, ...newMarkers]);
+
+      // Add the user's location marker
       if (userLocation) {
         const { lat, lng } = userLocation;
 
@@ -140,7 +139,7 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
   }
 
   if (!isLoaded) {
-    return <p>Loading map....</p>
+    return <p>Loading map....</p>;
   }
 
   return (
@@ -158,4 +157,3 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
     />
   );
 };
-
