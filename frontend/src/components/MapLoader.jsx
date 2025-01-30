@@ -13,7 +13,7 @@ const mapContainerStyle = {
 export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
   const mapRef = useRef(null);
   const [markers, setMarkers] = useState([]);
-  const [isMapLoaded, setIsMapLoaded] = useState(false);
+  const [isMapLoaded, setIsMapLoaded] = useState(false); // This state is declared but never used directly, as setIsMapLoaded is used to update it
   const { isLoaded, loadError } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_API_KEY,
@@ -45,12 +45,14 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
 
   useEffect(() => {
     if (isLoaded) {
+      console.log("Map has been loaded.");
       setIsMapLoaded(true);
     }
   }, [isLoaded]);
 
   useEffect(() => {
     if (searchQuery && mapRef.current) {
+      console.log("Search query:", searchQuery);
       const matchingPlayground = playgrounds.find(
         (playground) =>
           playground.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -61,12 +63,14 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
         const [lng, lat] = matchingPlayground.location.coordinates;
         mapRef.current.panTo({ lat, lng });
         mapRef.current.setZoom(12);
+        console.log("Pan to playground:", matchingPlayground.name);
       }
     }
   }, [searchQuery, playgrounds]);
 
   useEffect(() => {
     if (isLoaded && mapRef.current && playgrounds.length > 0) {
+      console.log("Map is loaded and playgrounds are available:", playgrounds);
       const map = mapRef.current;
       map.setOptions({ gestureHandling: "greedy" });
 
@@ -100,12 +104,16 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
           });
 
           markerContent.onclick = () => handleMarkerClick(playground.googlePlaceId);
+
+          // Logga ut varje marker som skapas
+          console.log("Marker created for:", playground.name);
           newMarkers.push(marker);
         }
       }
 
       // Update markers in state after loop finishes
       setMarkers((prevMarkers) => [...prevMarkers, ...newMarkers]);
+
 
       // Add the user's location marker
       if (userLocation) {
@@ -130,15 +138,18 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
         });
 
         setMarkers((prevMarkers) => [...prevMarkers, userMarker]);
+        console.log("User location marker added:", { lat, lng });
       }
     }
   }, [isLoaded, playgrounds, userLocation]);
 
   if (loadError) {
+    console.error("Error loading map:", loadError);
     return <p>Error loading map...</p>;
   }
 
   if (!isLoaded) {
+    console.log("Loading map...");
     return <p>Loading map....</p>;
   }
 
@@ -153,6 +164,7 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
       }}
       onLoad={(map) => {
         mapRef.current = map;
+        console.log("Map loaded and reference set");
       }}
     />
   );
