@@ -5,7 +5,7 @@ import { Playground } from "../models/playground.js";
 
 export const router = express.Router();
 
-// Helper function to query Google Places API by coordinates and radius(and default radius/coordinates)
+// Helper function to query Google Places API
 export async function fetchGooglePlacesPlaygrounds(
   lat,
   lng,
@@ -31,24 +31,10 @@ export async function fetchGooglePlacesPlaygrounds(
     throw new Error("Google Places API error");
   }
 }
-//helper function to query by name using textsearch - optional to keep since the url is hardcoded.
-export async function fetchGooglePlacesPlaygroundsByName(name, radius = process.env.DEFAULT_RADIUS) {
-  const apiUrl = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${encodeURIComponent(name)}+playground&radius=${radius}&key=${process.env.GOOGLE_API_KEY}`;
 
-  // console.log("API URL for Name Search:", apiUrl);
-  try {
-    const response = await axios.get(apiUrl);
-    // console.log("API Response for Name Search:", response.data); // Log the API response
-    return response.data.results;
-  } catch (error) {
-    console.error("Error fetching from Google Places API:", error.message);
-    throw new Error("Google Places API error");
-  }
-}
-
-//new route to get playgrounds by fallback coordinates, specific coordinates or name
+// Define routes
 router.get("/", async (req, res) => {
-  let { lat, lng, radius = 5000, name } = req.query;
+  let { lat, lng, radius = 2000 } = req.query;
 
   console.log("Received Coordinates:", lat, lng);
 
@@ -59,20 +45,12 @@ router.get("/", async (req, res) => {
   }
 
   try {
-    let playgrounds = [];
-
-    if (name) {
-      // If a name is provided, search for playgrounds by name
-      console.log("Searching for playgrounds by name:", name);
-      playgrounds = await fetchGooglePlacesPlaygroundsByName(name, radius);
-    } else {
-      // If no name is provided, fetch playgrounds based on coordinates
-      console.log("Searching for nearby playgrounds by coordinates.");
-      playgrounds = await fetchGooglePlacesPlaygrounds(lat, lng, radius);
-    }
+    const playgrounds = await fetchGooglePlacesPlaygrounds(lat, lng, radius);
 
     if (playgrounds.length === 0) {
-      console.log("No playgrounds found, using fallback.");
+      console.log(
+        "No playgrounds found for provided coordinates, using fallback."
+      );
       const fallbackPlaygrounds = await fetchGooglePlacesPlaygrounds(
         process.env.STOCKHOLM_COORDINATES.split(",")[0],
         process.env.STOCKHOLM_COORDINATES.split(",")[1],
@@ -100,9 +78,9 @@ router.get("/", async (req, res) => {
         };
       });
 
-      // Saving playgrounds to the database
-      const savedPlaygrounds = await Playground.insertMany(processedPlaygrounds);
-
+      const savedPlaygrounds = await Playground.insertMany(
+        processedPlaygrounds
+      );
       return res.json(savedPlaygrounds);
     }
   } catch (error) {
@@ -127,6 +105,7 @@ router.get("/id/:place_id", async (req, res) => {
     res.status(500).send("Error fetching from Google Places API");
   }
 });
+
 
 router.post("/", authenticateUser, async (req, res) => {
   const { name, description, address, facilities, images, location } = req.body;
@@ -183,7 +162,3 @@ router.patch('/rate', async (req, res) => {
     res.status(500).json({ error: "Error updating playground rating" });
   }
 });
-
-
-// 59.5114531 / 18.0824075
-// http://localhost:9000/api/playgrounds?lat=59.5114531&lng=18.0824075

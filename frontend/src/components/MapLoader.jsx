@@ -40,13 +40,6 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
 
   const navigate = useNavigate();
 
-  // const handleMarkerClick = (place_id) => {
-  //   navigate(`/playgrounds/${place_id}`);
-  // };
-  // const handleMarkerClick = (playgroundId) => {
-  //   console.log("Navigating to:", `/playgrounds/id/${playgroundId}`); // Debugging
-  //   navigate(`/playgrounds/id/${playgroundId}`);
-  // };
   const handleMarkerClick = async (playgroundId) => {
     console.log("Fetching details for playground ID:", playgroundId);
 
@@ -160,25 +153,7 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
 
   if (!isLoaded) {
     return <p>Loading map....</p>
-    // console.log("Loading animation is showing...");  // Log when the animation is showing
   }
-  //   return (
-  //     <AnimationContainer aria-label="Loading map, please wait">
-  //       <Lottie
-  //         animationData={animationData}
-  //         loop
-  //         style={{
-  //           top: "50%",            // Centers the animation vertically
-  //           left: "50%",           // Centers the animation horizontally
-  //           transform: "translate(-50%, -50%)",  // Adjusts position to fully center
-  //           height: "200px",       // Adjust this value to fit your design
-  //           width: "200px",        // Adjust this value to fit your design
-  //           zIndex: 9999,          // Ensures the animation stays on top
-  //         }}
-  //       />
-  //     </AnimationContainer>
-  //   );
-  // }
 
   return (
     <GoogleMap
