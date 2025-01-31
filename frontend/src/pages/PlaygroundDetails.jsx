@@ -1,18 +1,20 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useUserStore } from "../stores/useUserStore";
+import { usePlaygroundStore } from "../stores/usePlaygroundStore";
 import styled from "styled-components";
 import { ImageGrid } from "../components/ImageGrid";
 import { Text, PageTitle } from "../ui/Typography"
 
 export const PlaygroundDetails = () => {
   const [playground, setPlayground] = useState(null);
-  const { user, isLoggedIn, ratePlayground, postPlayground } = useUserStore();
+  const { user, isLoggedIn, postPlayground } = useUserStore();
+  const { ratePlayground } = usePlaygroundStore();
   const [rating, setRating] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
   const { playgroundId } = useParams();
+  const navigate = useNavigate();
   console.log("Fetching playground details for:", playgroundId);
 
   useEffect(() => {
@@ -39,6 +41,33 @@ export const PlaygroundDetails = () => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
+  console.log("Playground data state:", playground);
+
+  // Calculate average rating and update the rating
+  const handleRatingChange = (e) => setRating(Number(e.target.value));
+
+  const handleSubmit = async () => {
+    if (rating >= 1 && rating <= 5) {
+      try {
+        // Use ratePlayground function correctly
+        const updatedPlayground = await ratePlayground(playgroundId, rating);
+
+        // Ensure the updated playground has a valid rating
+        if (updatedPlayground && updatedPlayground.rating) {
+          setPlayground((prev) => ({
+            ...prev,
+            rating: updatedPlayground.rating, // Update the rating field
+          }));
+        }
+      } catch (error) {
+        console.error("Error updating rating:", error);
+      }
+    } else {
+      alert("Please select a valid rating between 1 and 5.");
+    }
+  };
+
+  const displayRating = playground.rating || (playground.ratings && playground.ratings[0]);
   const averageRating = playground.ratings && playground.ratings.length
     ? playground.ratings.reduce((sum, rating) => sum + rating, 0) / playground.ratings.length
     : null;
@@ -61,10 +90,6 @@ export const PlaygroundDetails = () => {
       formatted_address: playground.formatted_address,
       photos: playground.photos,
       facilities: playground.facilities,
-
-    };
-
-
       location: playground.geometry ? {
         type: "Point",
         coordinates: [playground.geometry.location.lat, playground.geometry.location.lng]
@@ -78,6 +103,9 @@ export const PlaygroundDetails = () => {
     postPlayground(playgroundData);
   };
 
+  const handleGoToProfile = () => {
+    navigate("/profile"); // Navigate to the profile page
+  };
 
   const CenteredContainer = styled.div`
   max-width: 600px;
@@ -180,7 +208,7 @@ export const PlaygroundDetails = () => {
 
   const StyledP = styled(Text)`
   margin: 0 auto;
-`
+`;
 
   return (
     <div>
@@ -196,8 +224,8 @@ export const PlaygroundDetails = () => {
       </ImageSection>
 
       <Description>
-        {playground && playground.Description ? (
-          <p>{playground.Description}</p>
+        {playground && playground.description ? (
+          <p>{playground.description}</p>
         ) : (
           <p>No description available.</p>
         )}
@@ -209,8 +237,6 @@ export const PlaygroundDetails = () => {
           <p><strong>Phone number: </strong> <a href={`tel:${playground.formatted_phone_number}`}>{playground.formatted_phone_number}</a></p>
         </Phone>
       )}
-
-      {/* Opening Hours */}
       {playground.opening_hours ? (
         <OpeningHours>
           <strong>Opening Hours:</strong>
@@ -223,69 +249,81 @@ export const PlaygroundDetails = () => {
       ) : (
         <StyledP>Opening hours not available.</StyledP>
       )}
+      <div>
 
-      {/* Facilities */}
-      <Facilities>
-        <strong>Facilities:</strong>
-        {playground.facilities && playground.facilities.length > 0 ? (
-          <ul>
-            {playground.facilities.map((facility, index) => (
-              <li key={index}>{facility}</li>
-            ))}
-          </ul>
+        {/* Facilities */}
+        <Facilities>
+          <strong>Facilities:</strong>
+          {playground.facilities && playground.facilities.length > 0 ? (
+            <ul>
+              {playground.facilities.map((facility, index) => (
+                <li key={index}>{facility}</li>
+              ))}
+            </ul>
+          ) : (
+            <StyledP>No facilities listed.</StyledP>
+          )}
+        </Facilities>
+
+        {/* Rating */}
+        {playground.rating ? (
+          <Rating>
+            <p><strong>Rating:</strong> {playground.rating.toFixed(1)} / 5</p>
+          </Rating>
         ) : (
-          <StyledP>No facilities listed.</StyledP>
+          <StyledP>No ratings available.</StyledP>
         )}
-      </Facilities>
+        <div>
+          <label>Want to rate this playground?</label>
+          <select onChange={handleRatingChange} value={rating}>
+            <option value="">Choose a rating</option>
+            {[1, 2, 3, 4, 5].map((num) => (
+              <option key={num} value={num}>{num}</option>
+            ))}
+          </select>
+          <button onClick={handleSubmit}>Submit Rating</button>
+        </div>
+        <SaveButton onClick={savePlayground}>Save to Profile</SaveButton>
+        <button onClick={handleGoToProfile}>Go to Profile</button>
 
-      {/* Rating */}
-      {playground.rating ? (
-        <Rating>
-          <p><strong>Rating:</strong> {playground.rating.toFixed(1)} / 5</p>
-        </Rating>
-      ) : (
-        <StyledP>No ratings available.</StyledP>
-      )}
+        {/* Location Map */}
+        {playground.geometry && (
+          <Map>
+            <iframe
+              src={`https://www.google.com/maps?q=${playground.geometry.location.lat},${playground.geometry.location.lng}&z=15&output=embed`}
+              width="600"
+              height="450"
+              title="Playground Location"
+            ></iframe>
+          </Map>
+        )}
 
-      <SaveButton onClick={savePlayground}>Save to Profile</SaveButton>
-
-      {/* Location Map */}
-      {playground.geometry && (
-        <Map>
-          <iframe
-            src={`https://www.google.com/maps?q=${playground.geometry.location.lat},${playground.geometry.location.lng}&z=15&output=embed`}
-            width="600"
-            height="450"
-            title="Playground Location"
-          ></iframe>
-        </Map>
-      )}
-
-      {/* Reviews */}
-      {playground.reviews && playground.reviews.length > 0 ? (
-        <Reviews>
-          <h2>Reviews:</h2>
-          {playground.reviews.map((review, index) => (
-            <Review key={index}>
-              <div>
-                <img
-                  src={review.profile_photo_url}
-                  alt={`${review.author_name}'s profile`}
-                  className="profile-photo"
-                />
-                <a href={review.author_url} target="_blank" rel="noopener noreferrer">
-                  {review.author_name}
-                </a>
-              </div>
-              <div>Rating: {review.rating}</div>
-              <div>{review.text}</div>
-              <div>{review.relative_time_description}</div>
-            </Review>
-          ))}
-        </Reviews>
-      ) : (
-        <StyledP>No reviews available.</StyledP>
-      )}
+        {/* Reviews */}
+        {playground.reviews && playground.reviews.length > 0 ? (
+          <Reviews>
+            <h2>Reviews:</h2>
+            {playground.reviews.map((review, index) => (
+              <Review key={index}>
+                <div>
+                  <img
+                    src={review.profile_photo_url}
+                    alt={`${review.author_name}'s profile`}
+                    className="profile-photo"
+                  />
+                  <a href={review.author_url} target="_blank" rel="noopener noreferrer">
+                    {review.author_name}
+                  </a>
+                </div>
+                <div>Rating: {review.rating}</div>
+                <div>{review.text}</div>
+                <div>{review.relative_time_description}</div>
+              </Review>
+            ))}
+          </Reviews>
+        ) : (
+          <StyledP>No reviews available.</StyledP>
+        )}
+      </div>
     </div>
   );
 };
