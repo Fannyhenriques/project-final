@@ -265,15 +265,6 @@ export const PlaygroundDetails = () => {
         ) : (
           <StyledP>No ratings available.</StyledP>
         )}
-        <div>
-          <select onChange={handleRatingChange} value={rating}>
-            <option value="">Choose a rating</option>
-            {[1, 2, 3, 4, 5].map((num) => (
-              <option key={num} value={num}>{num}</option>
-            ))}
-          </select>
-          <button onClick={handleSubmit}>Submit Rating</button>
-        </div>
         <ButtonContainer>
           <SaveButton onClick={savePlayground}>Save to Profile</SaveButton>
           <SaveButton onClick={handleGoToProfile}>Go to Profile ⇨</SaveButton>
