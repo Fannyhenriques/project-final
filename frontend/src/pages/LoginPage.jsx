@@ -34,6 +34,10 @@ const StyledForm = styled.form`
   background: #226e6d; 
   border-radius: 15px; 
   padding: 20px; 
+
+  @media (max-width: 480px) {
+  width: 80%;
+}
 `;
 
 const InputGroup = styled.div`

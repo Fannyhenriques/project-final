@@ -2,13 +2,22 @@ import { create } from "zustand";
 
 export const usePlaygroundStore = create((set, get) => ({
   playground: null,
+
+  // Menu State
+  isMenuOpen: false,
+  toggleMenu: () => set((state) => ({ isMenuOpen: !state.isMenuOpen })),
+  closeMenu: () => set({ isMenuOpen: false }),
+
   ratePlayground: async (playgroundId, rating) => {
     try {
-      const response = await fetch("http://localhost:9000/api/playgrounds/rate", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ playgroundId, rating }),
-      });
+      const response = await fetch(
+        "http://localhost:9000/api/playgrounds/rate",
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ playgroundId, rating }),
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -19,7 +28,6 @@ export const usePlaygroundStore = create((set, get) => ({
       console.log("Playground rated successfully:", updatedPlayground);
 
       set({ playground: updatedPlayground });
-
     } catch (err) {
       console.error("Error rating playground:", err);
     }

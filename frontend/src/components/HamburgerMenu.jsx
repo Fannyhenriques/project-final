@@ -1,7 +1,7 @@
 // HamburgerMenu.js
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import { usePlaygroundStore } from "../stores/usePlaygroundStore";
 import { NavLink } from 'react-router-dom';
+import styled from 'styled-components';
 
 const HamburgerIcon = styled.div`
   display: none; 
@@ -36,7 +36,7 @@ const MenuBox = styled.div`
   padding: 0rem 0.5rem;
   flex-direction: column;
   align-items: flex-end;
-  display: ${props => (props.isOpen ? 'block' : 'none')};
+  display: ${({ $isOpen }) => ($isOpen ? "block" : "none")};
   z-index: 1000;
   transition: all 0.3s ease-in-out;
   padding: 0rem 0.5rem;
@@ -78,10 +78,8 @@ const CloseButton = styled.div`
 `;
 
 export const HamburgerMenu = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { isMenuOpen, toggleMenu, closeMenu } = usePlaygroundStore();
 
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-  const closeMenu = () => setIsMenuOpen(false);
 
   return (
     <>
@@ -91,7 +89,7 @@ export const HamburgerMenu = () => {
         <div></div>
       </HamburgerIcon>
 
-      <MenuBox isOpen={isMenuOpen}>
+      <MenuBox $isOpen={isMenuOpen}>
         {/* Close Button */}
         <CloseButton onClick={closeMenu}>×</CloseButton>
 

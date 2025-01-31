@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { MapLoader } from "../components/MapLoader";
 import { getUserLocation } from "../hooks/getUserLocation";
+import { usePlaygroundStore } from "../stores/usePlaygroundStore";
 
 const SearchMapContainer = styled.div`
   position: relative;
@@ -11,7 +12,7 @@ const SearchMapContainer = styled.div`
 
 const SearchBarContainer = styled.div`
   position: absolute;
-  top: 10px;
+  top: 20px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -23,6 +24,7 @@ const SearchBarContainer = styled.div`
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 10;
   width: 80%; 
+  display: ${({ $isMenuOpen }) => ($isMenuOpen ? "none" : "flex")};
 
   @media (min-width: 768px) {
     width: 400px; 
@@ -56,6 +58,7 @@ export const Homepage = () => {
   const [address, setAddress] = useState("");
   const [isFetchingData, setIsFetchingData] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+  const isMenuOpen = usePlaygroundStore((state) => state.isMenuOpen);
 
   useEffect(() => {
     const fetchLocationAndPlaygrounds = async () => {
@@ -144,7 +147,7 @@ export const Homepage = () => {
 
   return (
     <SearchMapContainer>
-      <SearchBarContainer>
+      <SearchBarContainer $isMenuOpen={isMenuOpen}>
         <SearchInput
           type="text"
           placeholder="Search for a playground..."
