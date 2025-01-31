@@ -3,11 +3,11 @@ import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import playground from "../assets/PlaygroundFinder.png";
 import { routes } from "../utils/routes";
-import { HamburgerMenu } from './HamburgerMenu'; // Import the HamburgerMenu
+import { HamburgerMenu } from './HamburgerMenu';
 
 const HeaderContainer = styled.header`
   display: flex;
-  justify-content: center; /* Centers content */
+  justify-content: center; 
   align-items: center;
   padding: 15px 20px;
   height: 50px;
@@ -39,7 +39,7 @@ const Nav = styled.nav`
   justify-content: center;
 
   @media (max-width: 768px) {
-    display: none; // Hide regular navbar on mobile and tablet.
+    display: none; 
   }
 `;
 
@@ -73,7 +73,6 @@ export const Header = () => {
           <StyledNavLink to={routes.about} aria-label="About PlayGroundFinder">About</StyledNavLink>
         </NavList>
       </Nav>
-      {/* Include the Hamburger Menu Component here */}
       <HamburgerMenu />
     </HeaderContainer>
   );

@@ -66,12 +66,9 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
       console.log("Map is loaded and playgrounds are available:", playgrounds);
       const map = mapRef.current;
       map.setOptions({ gestureHandling: "greedy" });
-
-      // Clear previous markers before adding new ones
       markers.forEach((marker) => marker.setMap(null));
       setMarkers([]);
 
-      // Use a new array to batch the markers before updating state
       const newMarkers = [];
       for (let i = 0; i < playgrounds.length; i++) {
         const playground = playgrounds[i];
@@ -81,7 +78,7 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
           const markerContent = document.createElement("div");
           markerContent.style.position = "absolute";
           markerContent.style.transform = "translate(-50%, -60%)";
-          markerContent.style.cursor = "pointer"; // Ensure cursor is a pointer when hovering over the marker
+          markerContent.style.cursor = "pointer";
 
           const markerImage = document.createElement("img");
           markerImage.src = Marker;
@@ -99,17 +96,13 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
 
           markerContent.onclick = () => handleMarkerClick(playground.googlePlaceId);
 
-          // Logga ut varje marker som skapas
           console.log("Marker created for:", playground.name);
           newMarkers.push(marker);
         }
       }
 
-      // Update markers in state after loop finishes
       setMarkers((prevMarkers) => [...prevMarkers, ...newMarkers]);
 
-
-      // Add the user's location marker
       if (userLocation) {
         const { lat, lng } = userLocation;
 

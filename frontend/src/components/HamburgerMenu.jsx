@@ -1,16 +1,16 @@
 // HamburgerMenu.js
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { NavLink } from 'react-router-dom'; // Import NavLink
+import { NavLink } from 'react-router-dom';
 
 const HamburgerIcon = styled.div`
-  display: none; /* Default: hidden */
+  display: none; 
 
   @media (max-width: 768px) {
     display: flex;
     position: absolute;
     top: 1.5rem;
-    left: 1rem; /* Position the hamburger menu at the top-left */
+    left: 1rem; 
     width: 30px;
     height: 25px;
     flex-direction: column;
@@ -59,7 +59,6 @@ const MenuBox = styled.div`
     font-family: "Poppins";
   }
 
-  /* Hide the menu on desktop and larger screens */
   @media (min-width: 769px) {
     display: none;
   }
@@ -82,7 +81,7 @@ export const HamburgerMenu = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-  const closeMenu = () => setIsMenuOpen(false); // Close menu when the "X" is clicked
+  const closeMenu = () => setIsMenuOpen(false);
 
   return (
     <>

@@ -33,7 +33,7 @@ const playgroundSchema = new mongoose.Schema(
 );
 
 
-// Method to add a rating and update the average (called by the controller)
+// Method to add a rating and update the average 
 playgroundSchema.methods.addRating = function (newRating) {
   if (newRating >= 1 && newRating <= 5) {
     this.ratings.push(newRating);
@@ -46,7 +46,7 @@ playgroundSchema.methods.addRating = function (newRating) {
 // Helper method to calculate average rating
 playgroundSchema.methods.calculateAverageRating = function () {
   if (this.ratings.length === 0) {
-    return null; // No ratings yet
+    return null;
   }
   const total = this.ratings.reduce((sum, rating) => sum + rating, 0);
   return total / this.ratings.length;

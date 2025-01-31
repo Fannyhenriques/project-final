@@ -2,11 +2,14 @@ import { useEffect, useState } from "react";
 import { useUserStore } from "../stores/useUserStore";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { Text, PageTitle } from "../ui/Typography";
 
 const Container = styled.div`
   padding: 20px;
+  width: 50%;
   display: grid;
   text-align: center;
+  margin: 0 auto;
 `;
 
 const Heading1 = styled.h1`
@@ -18,16 +21,17 @@ const Heading2 = styled.h2`
 `;
 
 const Button = styled.button`
-  background-color: #4caf50;
-  color: white;
-  border: none;
+  margin-bottom: 2rem;
   padding: 10px 20px;
+  background-color: white;
+  color: #053332;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
-  margin: 10px 0;
+  font-family: "Poppins", sans-serif;
+  margin: 0 auto;
+  margin: 10px 10px 20px; 
 
-  &:hover {
-    background-color: #45a049;
-  }
 `;
 
 const List = styled.ul`
@@ -68,27 +72,12 @@ const Input = styled.input`
   border: 1px solid #ccc;
 `;
 
-const TextArea = styled.textarea`
-  width: 100%;
-  padding: 8px;
-  font-size: 14px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  height: 100px;
-`;
-
 const StyledIframe = styled.iframe`
   width: 100%;
   max-width: 300px;
   height: 200px;
   border: none;
 `;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
 
 export const ProfilePage = () => {
   const { user, fetchUserProfile, logout, isLoading, error, postPlayground, removePlayground } = useUserStore();
@@ -103,7 +92,7 @@ export const ProfilePage = () => {
     location: { coordinates: [0, 0] },
   });
 
-  const [postedPlaygrounds, setPostedPlaygrounds] = useState([]); // Store multiple posted playgrounds
+  const [postedPlaygrounds, setPostedPlaygrounds] = useState([]);
 
   useEffect(() => {
     console.log("Profile updated, savedPlaygrounds:", user?.savedPlaygrounds);
@@ -116,7 +105,6 @@ export const ProfilePage = () => {
   if (isLoading) {
     return <p>Loading...</p>;
   }
-
   if (error) {
     return (
       <div>
@@ -125,14 +113,13 @@ export const ProfilePage = () => {
       </div>
     );
   }
-
   if (!user) {
     return <p>Oops! It looks like you're not logged in. <br></br> Please log in or register to access your profile page.</p>;
   }
 
   const handleLogout = () => {
-    logout(); // Performs the logout logic
-    navigate("/login"); // Redirects to login page when logout button is clicked
+    logout();
+    navigate("/login");
   };
 
   const handleInputChange = (e) => {
@@ -147,10 +134,8 @@ export const ProfilePage = () => {
     e.preventDefault();
     await postPlayground(newPlayground);
 
-    // Add the new playground to the list of posted playgrounds
     setPostedPlaygrounds((prev) => [...prev, newPlayground]);
 
-    // Reset form after posting
     setNewPlayground({
       name: '',
       address: '',
@@ -160,10 +145,8 @@ export const ProfilePage = () => {
 
   const handleRemovePlayground = async (playgroundToRemove) => {
     try {
-      // Call the zustand action to remove the playground from the backend and store
       await removePlayground(playgroundToRemove);
 
-      // After the playground is removed from the store, update the savedPlaygrounds in the profile state
       setPostedPlaygrounds((prev) => prev.filter(pg => pg.id !== playgroundToRemove.id));
     } catch (err) {
       console.error("Error removing playground:", err.message);
@@ -217,7 +200,7 @@ export const ProfilePage = () => {
         </FormGroup>
         <FormGroup>
           <Label>Description:</Label>
-          <TextArea
+          <Input
             name="description"
             value={newPlayground.description}
             onChange={handleInputChange}
