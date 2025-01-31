@@ -4,11 +4,127 @@ import { useUserStore } from "../stores/useUserStore";
 import { usePlaygroundStore } from "../stores/usePlaygroundStore";
 import styled from "styled-components";
 import { ImageGrid } from "../components/ImageGrid";
-import { Text, PageTitle } from "../ui/Typography"
+import { Text, PageTitle } from "../ui/Typography";
+
+const CenteredContainer = styled.div`
+  max-width: 600px;
+  margin: 0 auto;
+  color: white;
+  font-family: "Poppins", sans-serif;
+  `;
+
+const Title = styled(PageTitle)`
+  font-size: 1.5rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  `;
+
+const Phone = styled(Text)`
+  margin: 10px 10px 10px;
+  `;
+
+const OpeningHours = styled(Text)`
+  margin: 0 auto;
+  padding-left: 10px; 
+  `;
+
+const Facilities = styled(Text)`
+  margin-top: 1rem;
+  padding-left: 10px; 
+  `;
+
+const Rating = styled(Text)`
+  margin-top: 1rem;
+  padding-left: 10px; 
+  `;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  `;
+
+const SaveButton = styled.button`
+  margin-bottom: 2rem;
+  padding: 10px 20px;
+  background-color: white;
+  color: #053332;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: "Poppins", sans-serif;
+  margin: 0 auto;
+  margin: 10px 10px 20px; 
+  `;
+
+const Map = styled.div`
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  iframe {
+    width: 100%;
+    height: 450px;
+    border: none;
+  }
+
+  @media (max-width: 768px) {
+    iframe {
+      height: 300px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    iframe {
+      height: 250px;
+    }
+  }
+  `;
+
+const Reviews = styled(CenteredContainer)`
+  margin-top: 2rem;
+  `;
+
+const Review = styled.div`
+  margin-bottom: 1rem;
+  font-family: "Poppins", sans-serif;
+  `;
+
+const ReviewPhoto = styled.img`
+  width: 100px;
+  height: 100px;
+  `;
+
+const AuthorName = styled.a`
+  padding-left: 1rem;
+  color: white;
+  text-decoration: none;
+  `;
+
+const ReviewText = styled.div`
+  font-weight: 200;
+  `;
+
+const ImageSection = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+
+  img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+  }
+  `;
+
+const StyledP = styled(Text)`
+  margin: 0 auto;
+  `;
 
 export const PlaygroundDetails = () => {
   const [playground, setPlayground] = useState(null);
-  const { user, isLoggedIn, postPlayground } = useUserStore();
+  const { user, postPlayground } = useUserStore();
   const { ratePlayground } = usePlaygroundStore();
   const [rating, setRating] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -43,20 +159,17 @@ export const PlaygroundDetails = () => {
 
   console.log("Playground data state:", playground);
 
-  // Calculate average rating and update the rating
   const handleRatingChange = (e) => setRating(Number(e.target.value));
 
   const handleSubmit = async () => {
     if (rating >= 1 && rating <= 5) {
       try {
-        // Use ratePlayground function correctly
         const updatedPlayground = await ratePlayground(playgroundId, rating);
 
-        // Ensure the updated playground has a valid rating
         if (updatedPlayground && updatedPlayground.rating) {
           setPlayground((prev) => ({
             ...prev,
-            rating: updatedPlayground.rating, // Update the rating field
+            rating: updatedPlayground.rating,
           }));
         }
       } catch (error) {
@@ -94,127 +207,20 @@ export const PlaygroundDetails = () => {
         type: "Point",
         coordinates: [playground.geometry.location.lat, playground.geometry.location.lng]
       } : { type: "Point", coordinates: [0, 0] },
-      // Add any other relevant fields to save
     };
 
-    // Call the postPlayground function from your user store to save it
     console.log(playgroundData)
 
     postPlayground(playgroundData);
   };
 
   const handleGoToProfile = () => {
-    navigate("/profile"); // Navigate to the profile page
+    navigate("/profile");
   };
-
-  const CenteredContainer = styled.div`
-  max-width: 600px;
-  margin: 0 auto;
-  color: white;
-  font-family: "Poppins", sans-serif;
-`;
-
-  const Title = styled(PageTitle)`
-  font-size: 1.5rem;
-  text-align: center;
-  margin-bottom: 1rem;
-  margin-top: 1rem;
-`;
-
-  const Description = styled(Text)`
-  font-size: 1rem;
-  margin-bottom: 1rem;
-  text-align: center;
-`;
-
-  const Phone = styled(Text)`
-  margin: 10px 10px 10px;
-`;
-
-  const OpeningHours = styled(Text)`
-  margin: 0 auto;
-  padding-left: 10px; 
-`;
-
-  const Facilities = styled(Text)`
-  margin-top: 1rem;
-  padding-left: 10px; 
-  
-`;
-
-  const Rating = styled(Text)`
-  margin-top: 1rem;
-  padding-left: 10px; 
-`;
-
-  const SaveButton = styled.button`
-  margin-bottom: 2rem;
-  padding: 10px 20px;
-  background-color: white;
-  color: #053332;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-family: "Poppins", sans-serif;
-  margin: 0 auto;
-  margin: 10px 10px 20px; 
-`;
-
-  const Map = styled.div`
-  width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
-  iframe {
-    width: 100%;
-    height: 450px;
-    border: none;
-  }
-
-  @media (max-width: 768px) {
-    iframe {
-      height: 300px;
-    }
-  }
-
-  @media (max-width: 480px) {
-    iframe {
-      height: 250px;
-    }
-  }
-`;
-
-  const Reviews = styled(CenteredContainer)`
-  margin-top: 2rem;
-`;
-
-  const Review = styled.div`
-  margin-bottom: 1rem;
-  font-family: "Poppins", sans-serif;
-`;
-
-  // Styled components for Image Section
-  const ImageSection = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 1rem;
-
-  img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 10px;
-  }
-`;
-
-  const StyledP = styled(Text)`
-  margin: 0 auto;
-`;
 
   return (
     <div>
       <Title>{playground.name}</Title>
-
-      {/* Display Photos */}
       <ImageSection>
         {formattedPhotos.length > 0 ? (
           <ImageGrid photos={formattedPhotos} />
@@ -222,16 +228,6 @@ export const PlaygroundDetails = () => {
           <StyledP>No images available.</StyledP>
         )}
       </ImageSection>
-
-      <Description>
-        {playground && playground.description ? (
-          <p>{playground.description}</p>
-        ) : (
-          <p>No description available.</p>
-        )}
-      </Description>
-
-      {/* Phone Number */}
       {playground.formatted_phone_number && (
         <Phone>
           <p><strong>Phone number: </strong> <a href={`tel:${playground.formatted_phone_number}`}>{playground.formatted_phone_number}</a></p>
@@ -250,8 +246,6 @@ export const PlaygroundDetails = () => {
         <StyledP>Opening hours not available.</StyledP>
       )}
       <div>
-
-        {/* Facilities */}
         <Facilities>
           <strong>Facilities:</strong>
           {playground.facilities && playground.facilities.length > 0 ? (
@@ -264,8 +258,6 @@ export const PlaygroundDetails = () => {
             <StyledP>No facilities listed.</StyledP>
           )}
         </Facilities>
-
-        {/* Rating */}
         {playground.rating ? (
           <Rating>
             <p><strong>Rating:</strong> {playground.rating.toFixed(1)} / 5</p>
@@ -274,7 +266,6 @@ export const PlaygroundDetails = () => {
           <StyledP>No ratings available.</StyledP>
         )}
         <div>
-          <label>Want to rate this playground?</label>
           <select onChange={handleRatingChange} value={rating}>
             <option value="">Choose a rating</option>
             {[1, 2, 3, 4, 5].map((num) => (
@@ -283,10 +274,10 @@ export const PlaygroundDetails = () => {
           </select>
           <button onClick={handleSubmit}>Submit Rating</button>
         </div>
-        <SaveButton onClick={savePlayground}>Save to Profile</SaveButton>
-        <button onClick={handleGoToProfile}>Go to Profile</button>
-
-        {/* Location Map */}
+        <ButtonContainer>
+          <SaveButton onClick={savePlayground}>Save to Profile</SaveButton>
+          <SaveButton onClick={handleGoToProfile}>Go to Profile ⇨</SaveButton>
+        </ButtonContainer>
         {playground.geometry && (
           <Map>
             <iframe
@@ -297,25 +288,23 @@ export const PlaygroundDetails = () => {
             ></iframe>
           </Map>
         )}
-
-        {/* Reviews */}
         {playground.reviews && playground.reviews.length > 0 ? (
           <Reviews>
             <h2>Reviews:</h2>
             {playground.reviews.map((review, index) => (
               <Review key={index}>
                 <div>
-                  <img
+                  <ReviewPhoto
                     src={review.profile_photo_url}
                     alt={`${review.author_name}'s profile`}
                     className="profile-photo"
                   />
-                  <a href={review.author_url} target="_blank" rel="noopener noreferrer">
+                  <AuthorName href={review.author_url} target="_blank" rel="noopener noreferrer">
                     {review.author_name}
-                  </a>
+                  </AuthorName>
                 </div>
                 <div>Rating: {review.rating}</div>
-                <div>{review.text}</div>
+                <ReviewText>{review.text}</ReviewText>
                 <div>{review.relative_time_description}</div>
               </Review>
             ))}

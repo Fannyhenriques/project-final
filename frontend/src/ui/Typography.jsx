@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 // Font families (e.g., primary for headings, secondary for paragraphs)
 export const primaryFont = "Poppins";
@@ -19,7 +19,7 @@ export const PageTitle = styled.h2`
   font-size: 1.6rem;
   font-weight: 400;
   line-height: 1.3;
-  margin: 0; /* Reset margin */
+  margin: 0; 
   color: #FFF;
 `;
 

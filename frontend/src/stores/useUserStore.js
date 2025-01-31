@@ -15,10 +15,8 @@ export const useUserStore = create(
           });
           const data = await response.json();
 
-          // Log the response data for debugging
           console.log("API Response:", data);
 
-          // Improved error handling for registration
           if (!response.ok) {
             throw new Error(`Registration failed: ${data.message || 'Unknown error'}`);
           }
@@ -32,13 +30,10 @@ export const useUserStore = create(
               name,
             };
 
-            // Store the user in localStorage
             localStorage.setItem("user", JSON.stringify(user));
             console.log("User registered and saved to localStorage:", user);
 
             set({ user, isLoggedIn: true });
-            // Optionally, fetch the complete user profile after registration to populate additional fields
-            // Example: fetchUserProfile();
 
           } else {
             console.error("User data not found in API response (missing userId or accessToken)");
@@ -57,13 +52,12 @@ export const useUserStore = create(
 
           const data = await response.json();
 
-          console.log("Login response data:", data);  // Log the response for debugging
+          console.log("Login response data:", data);
 
           if (!response.ok) {
             throw new Error(`Login failed: ${data.message || 'Unknown error'}`);
           }
 
-          // Ensure userData matches the expected User type
           const userData = {
             id: data.userId,
             name: data.name,
@@ -72,10 +66,9 @@ export const useUserStore = create(
             accessToken: data.accessToken,
           };
 
-          localStorage.setItem("user", JSON.stringify(userData));  // Store as a JSON string
+          localStorage.setItem("user", JSON.stringify(userData));
           console.log("Stored user in localStorage:", userData);
 
-          // Update state or store with the user data
           set({ user: userData, isLoggedIn: true });
 
         } catch (err) {
@@ -104,7 +97,6 @@ export const useUserStore = create(
                 const profileData = await response.json();
                 console.log("Fetched Profile Data:", profileData);
 
-                // This retrieves the name which is nested in the user. 
                 set({ user: { ...user, name: profileData.user?.name }, isLoggedIn: true });
               } else {
                 console.error("Failed to fetch profile:", response.statusText);
@@ -115,20 +107,18 @@ export const useUserStore = create(
           }
         }
       },
-      //function to post and save a playground to the profilepage
       postPlayground: async (playgroundData) => {
         try {
           const user = get().user;
           if (!user) throw new Error("User not logged in");
 
-          // Use the playgroundData passed into the function
           const response = await fetch("https://project-playground-api.onrender.com/api/playgrounds", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
               Authorization: `${user.accessToken}`,
             },
-            body: JSON.stringify(playgroundData), // Use the passed playgroundData
+            body: JSON.stringify(playgroundData),
           });
 
           const data = await response.json();
@@ -136,7 +126,6 @@ export const useUserStore = create(
 
           if (!response.ok) throw new Error(data.message || "Failed to post playground");
 
-          // Update user in the store with the new playground
           set((state) => {
             const updatedUser = {
               ...state.user,
@@ -157,7 +146,7 @@ export const useUserStore = create(
       },
 
       removePlayground: async (playgroundToRemove) => {
-        console.log("Received Playground to Remove:", playgroundToRemove); // Log the full object being passed
+        console.log("Received Playground to Remove:", playgroundToRemove);
 
         try {
           const user = get().user;
@@ -169,12 +158,10 @@ export const useUserStore = create(
 
           console.log("Playground ID to Remove:", playgroundToRemove._id);
 
-          // Compare the _id field of the saved playgrounds with the _id of the playground to remove
           const updatedPlaygrounds = user.savedPlaygrounds.filter(
             (pg) => String(pg._id) !== String(playgroundToRemove._id)
           );
 
-          // Update the state with the new list of savedPlaygrounds (without the removed one)
           set((state) => ({
             user: {
               ...state.user,
@@ -182,7 +169,6 @@ export const useUserStore = create(
             },
           }));
 
-          // Update localStorage with the new user data (without the removed playground)
           localStorage.setItem("user", JSON.stringify({
             ...user,
             savedPlaygrounds: updatedPlaygrounds,
@@ -197,16 +183,16 @@ export const useUserStore = create(
       logout: () => {
         try {
           set({ user: null, isLoggedIn: false });
-          localStorage.removeItem("user"); // Remove user from localStorage
+          localStorage.removeItem("user");
         } catch (err) {
           console.error("An error occurred while logging out:", err);
         }
       },
     }),
     {
-      name: "user-store", // Key for persistence
+      name: "user-store",
       partialize: (state) => ({
-        user: state.user, // Only persist the user data
+        user: state.user,
       }),
     }
   )

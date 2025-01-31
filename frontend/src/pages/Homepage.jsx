@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { MapLoader } from "../components/MapLoader";
 import { getUserLocation } from "../hooks/getUserLocation";
 
-
 const SearchMapContainer = styled.div`
   position: relative;
   height: 100vh;
@@ -23,10 +22,10 @@ const SearchBarContainer = styled.div`
   padding: 8px 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 10;
-  width: 80%; /* Adjust width for mobile */
+  width: 80%; 
 
   @media (min-width: 768px) {
-    width: 400px; /* Adjust width for tablets and larger screens */
+    width: 400px; 
   }
 `;
 
@@ -72,7 +71,6 @@ export const Homepage = () => {
         const response = await fetch(
           `https://project-playground-api.onrender.com/api/playgrounds?lat=${location.lat}&lng=${location.lng}`
         );
-
         if (!response.ok) {
           throw new Error(`Failed to fetch playgrounds: ${response.statusText}`);
         }
@@ -165,10 +163,9 @@ export const Homepage = () => {
           userLocation={userLocation}
           playgrounds={playgrounds}
           searchQuery={searchQuery}
-          isFetchingData={isFetchingData}  // Pass loading state down to MapLoader
+          isFetchingData={isFetchingData}
         />
       )}
     </SearchMapContainer>
   );
 };
-

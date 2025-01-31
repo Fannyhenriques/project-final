@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { PageTitle, Text } from "../ui/Typography";
 
-
 const StyledPageTitle = styled(PageTitle)`
   padding: 40px 0px 10px;
 `;
@@ -17,7 +16,7 @@ const TextWithSpacing = styled(Text)`
 
 const BoldText = styled(Text)`
   font-weight: 500; 
-  margin-bottom: 20px; /* Add margin to this as well */
+  margin-bottom: 20px; 
 `;
 
 export const About = () => {
@@ -49,7 +48,3 @@ export const About = () => {
     </div>
   );
 };
-
-
-
-
