@@ -6,7 +6,7 @@ import { Text, PageTitle } from "../ui/Typography";
 
 const Container = styled.div`
   padding: 20px;
-  width: 50%;
+  width: 30%;
   display: grid;
   text-align: center;
   margin: 0 auto;
