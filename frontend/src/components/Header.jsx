@@ -21,7 +21,7 @@ const HeaderContainer = styled.header`
 const HeaderImg = styled.img`
   position: absolute;
   left: 20px;
-  width: 12rem;
+  width: 15rem;
   height: auto;
   padding: 5px;
 
@@ -54,6 +54,7 @@ const NavList = styled.ul`
 const StyledNavLink = styled(NavLink)`
   text-decoration: none;
   color: #053332;
+  font-size: 20px; 
   font-weight: bold;
   font-family: "Poppins";
   &:hover {

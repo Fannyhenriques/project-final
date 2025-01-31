@@ -32,7 +32,7 @@ const MenuBox = styled.div`
   left: 0;
   background-color: #053332;
   width: 10rem;
-  height: 20rem;
+  height: 18rem;
   padding: 0rem 0.5rem;
   flex-direction: column;
   align-items: flex-end;

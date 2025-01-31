@@ -47,6 +47,7 @@ const ListItem = styled.li`
 
 const Paragraph = styled(Text)`
   font-size: 16px;
+  padding-left: 10px; 
 `;
 
 const Form = styled.form`
@@ -113,7 +114,7 @@ export const ProfilePage = () => {
     );
   }
   if (!user) {
-    return <p>Oops! It looks like you're not logged in. <br></br> Please log in or register to access your profile page.</p>;
+    return <Paragraph>Oops! It looks like you're not logged in. <br></br> Please log in or register to access your profile page.</Paragraph>;
   }
 
   const handleLogout = () => {

@@ -31,6 +31,9 @@ const StyledForm = styled.form`
   flex-direction: column;
   width: 100%;
   gap: 12px;
+  background: #226e6d; 
+  border-radius: 15px; 
+  padding: 20px; 
 `;
 
 const InputGroup = styled.div`
@@ -60,7 +63,7 @@ const Button = styled.button`
   background-color: white;
   color: #053332;
   &:hover {
-    background-color: #149290;
+    background-color: #053332;
     color: white; 
   }
   &:disabled {

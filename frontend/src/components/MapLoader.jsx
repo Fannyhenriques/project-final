@@ -25,6 +25,9 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
 
   const navigate = useNavigate();
 
+  //Event handler- handles marker click events 
+  //fetch ID from our backend API- Fetches details of the selected playground and navigates to its detail page.
+
   const handleMarkerClick = async (playgroundId) => {
     try {
       const response = await fetch(
@@ -40,6 +43,10 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
     }
   };
 
+  /**
+   * Effect Hook: Runs when the search query changes.
+   * Finds a matching playground and moves the map view to its location.
+   */
   useEffect(() => {
     if (searchQuery && mapRef.current) {
       const matchingPlayground = playgrounds.find(
@@ -50,16 +57,17 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
 
       if (matchingPlayground) {
         const [lng, lat] = matchingPlayground.location.coordinates;
-        mapRef.current.panTo({ lat, lng });
+        mapRef.current.panTo({ lat, lng });  // Moves the map to the searched location
         mapRef.current.setZoom(12);
       }
     }
   }, [searchQuery, playgrounds]);
 
+
   useEffect(() => {
     if (isLoaded && mapRef.current && playgrounds.length > 0) {
       const map = mapRef.current;
-      map.setOptions({ gestureHandling: "greedy" });
+      map.setOptions({ gestureHandling: "greedy" });  // Allows easier touch interactions
       markers.forEach((marker) => marker.setMap(null));
       setMarkers([]);
 
