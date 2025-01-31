@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useUserStore } from "../stores/useUserStore";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { Text, PageTitle } from "../ui/Typography";
+import { Text, PageTitle, SubPageTitle } from "../ui/Typography";
 
 const Container = styled.div`
   padding: 20px;
@@ -12,11 +12,11 @@ const Container = styled.div`
   margin: 0 auto;
 `;
 
-const Heading1 = styled.h1`
+const Heading1 = styled(PageTitle)`
   color: white;
 `;
 
-const Heading2 = styled.h2`
+const Heading2 = styled(SubPageTitle)`
   color: white;
 `;
 
@@ -34,7 +34,7 @@ const Button = styled.button`
 
 `;
 
-const List = styled.ul`
+const List = styled(Text)`
   list-style-type: none;
   padding: 0;
 `;

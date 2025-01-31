@@ -6,7 +6,7 @@ import { Playground } from "../models/playground.js";
 
 export const router = express.Router();
 
-// Helper function to query Google Places API
+// Helper function to query Google Places API 
 export async function fetchGooglePlacesPlaygrounds(
   lat,
   lng,
@@ -15,6 +15,7 @@ export async function fetchGooglePlacesPlaygrounds(
   const coordinates =
     lat && lng ? `${lat},${lng}` : process.env.STOCKHOLM_COORDINATES;
 
+  //constructing the api dynamicly with the 
   const apiUrl = process.env.GOOGLE_PLACES_URL.replace(
     "{LAT}",
     coordinates.split(",")[0]
@@ -37,7 +38,6 @@ export async function fetchGooglePlacesPlaygrounds(
 export async function fetchGooglePlacesPlaygroundsByName(name, radius = process.env.DEFAULT_RADIUS) {
   const apiUrl = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${encodeURIComponent(name)}+playground&radius=${radius}&key=${process.env.GOOGLE_API_KEY}`;
 
-  // console.log("API URL for Name Search:", apiUrl);
   try {
     const response = await axios.get(apiUrl);
     // console.log("API Response for Name Search:", response.data); // Log the API response
@@ -113,6 +113,7 @@ router.get("/", async (req, res) => {
   }
 });
 
+//and then here we have the route that we are using to retrieve details about the specific playground, so when you click on a playground this route will be used and display images, description and so on... 
 router.get("/id/:place_id", async (req, res) => {
   const { place_id } = req.params;
   const apiUrl = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${place_id}&key=${process.env.GOOGLE_API_KEY}`;
@@ -130,10 +131,8 @@ router.get("/id/:place_id", async (req, res) => {
   }
 });
 
-
 router.post("/", authenticateUser, async (req, res) => {
   const { name, description, address, facilities, images, location } = req.body;
-  //checks if there is a location with coordinates provided, if not it will use the fallback location which is null
   const validLocation = location && Array.isArray(location.coordinates) && location.coordinates.length === 2
     ? location
     : { type: "Point", coordinates: [0, 0] };

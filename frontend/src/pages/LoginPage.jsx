@@ -4,6 +4,12 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { PageTitle, Text } from "../ui/Typography";
 
+
+const StyledPageTitle = styled(PageTitle)`
+  padding-top: 20px; 
+  
+  `;
+
 const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -13,8 +19,8 @@ const FormContainer = styled.div`
   max-width: 400px;
   margin: 0 auto;
 
-
 `;
+
 
 const StyledForm = styled.form`
   display: flex;
@@ -29,7 +35,7 @@ const InputGroup = styled.div`
   gap: 4px;
 `;
 
-const Label = styled.label`
+const Label = styled(Text)`
   font-weight: bold;
 `;
 
@@ -50,7 +56,8 @@ const Button = styled.button`
   background-color: white;
   color: #053332;
   &:hover {
-    background-color: #085352;
+    background-color: #149290;
+    color: white; 
   }
   &:disabled {
     background-color: #ccc;
@@ -60,11 +67,8 @@ const Button = styled.button`
 
 const ToggleButton = styled(Button)`
   background-color: transparent;
-  color: #007bff;
+  color: white;
   text-decoration: underline;
-  &:hover {
-    color: #0056b3;
-  }
 `;
 
 export const LoginPage = () => {
@@ -100,7 +104,7 @@ export const LoginPage = () => {
 
   return (
     <FormContainer>
-      <PageTitle>{isRegister ? "Register" : "Login"}</PageTitle>
+      <StyledPageTitle>{isRegister ? "Register" : "Login"}</StyledPageTitle>
       <StyledForm onSubmit={handleSubmit}>
         {isRegister && (
           <InputGroup>
