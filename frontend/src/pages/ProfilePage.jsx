@@ -45,9 +45,8 @@ const ListItem = styled.li`
   border-radius: 8px;
 `;
 
-const Paragraph = styled.p`
+const Paragraph = styled(Text)`
   font-size: 16px;
-  color: #666;
 `;
 
 const Form = styled.form`
@@ -58,7 +57,7 @@ const FormGroup = styled.div`
   margin-bottom: 15px;
 `;
 
-const Label = styled.label`
+const Label = styled(Text)`
   display: block;
   font-size: 14px;
   margin-bottom: 5px;
