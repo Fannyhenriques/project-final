@@ -1,6 +1,71 @@
 import { useState, useEffect } from "react";
 import { useUserStore } from "../stores/useUserStore";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import { PageTitle, Text } from "../ui/Typography";
+
+const FormContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+
+
+`;
+
+const StyledForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 12px;
+`;
+
+const InputGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+`;
+
+const Label = styled.label`
+  font-weight: bold;
+`;
+
+const Input = styled.input`
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+`;
+
+const Button = styled.button`
+  padding: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: white;
+  color: #053332;
+  &:hover {
+    background-color: #085352;
+  }
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+`;
+
+const ToggleButton = styled(Button)`
+  background-color: transparent;
+  color: #007bff;
+  text-decoration: underline;
+  &:hover {
+    color: #0056b3;
+  }
+`;
 
 export const LoginPage = () => {
   const { login, register, isLoading, error, isLoggedIn } = useUserStore();
@@ -34,13 +99,13 @@ export const LoginPage = () => {
   };
 
   return (
-    <div>
-      <h1>{isRegister ? "Register" : "Login"}</h1>
-      <form onSubmit={handleSubmit}>
+    <FormContainer>
+      <PageTitle>{isRegister ? "Register" : "Login"}</PageTitle>
+      <StyledForm onSubmit={handleSubmit}>
         {isRegister && (
-          <div>
-            <label htmlFor="name">Name</label>
-            <input
+          <InputGroup>
+            <Label htmlFor="name">Name</Label>
+            <Input
               type="text"
               id="name"
               name="name"
@@ -48,11 +113,11 @@ export const LoginPage = () => {
               onChange={handleInputChange}
               required
             />
-          </div>
+          </InputGroup>
         )}
-        <div>
-          <label htmlFor="email">Email</label>
-          <input
+        <InputGroup>
+          <Label htmlFor="email">Email</Label>
+          <Input
             type="email"
             id="email"
             name="email"
@@ -60,10 +125,10 @@ export const LoginPage = () => {
             onChange={handleInputChange}
             required
           />
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
+        </InputGroup>
+        <InputGroup>
+          <Label htmlFor="password">Password</Label>
+          <Input
             type="password"
             id="password"
             name="password"
@@ -71,15 +136,15 @@ export const LoginPage = () => {
             onChange={handleInputChange}
             required
           />
-        </div>
-        {error && <p>{error}</p>}
-        <button type="submit" disabled={isLoading}>
+        </InputGroup>
+        {error && <Text color="red">{error}</Text>}
+        <Button type="submit" disabled={isLoading}>
           {isLoading ? "Loading..." : isRegister ? "Register" : "Login"}
-        </button>
-      </form>
-      <button onClick={() => setIsRegister(!isRegister)}>
-        {isRegister ? "Already have an account? Login instead" : "Dont have an account? Register instead"}
-      </button>
-    </div>
+        </Button>
+      </StyledForm>
+      <ToggleButton onClick={() => setIsRegister(!isRegister)}>
+        {isRegister ? "Already have an account? Login instead" : "Don't have an account? Register instead"}
+      </ToggleButton>
+    </FormContainer>
   );
 };
