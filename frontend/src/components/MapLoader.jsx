@@ -101,7 +101,7 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
           tooltip.style.transform = "translate(-50%, -120%)";
           markerContent.appendChild(tooltip);
 
-          //Desktop functionality
+          //Desktop function
           markerContent.onmouseover = () => {
             tooltip.style.visibility = "visible"; // Show tooltip on hover
           };
@@ -110,7 +110,7 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
             tooltip.style.visibility = "hidden"; // Hide tooltip when not hovering
           };
 
-          //Mobile functionality
+          //Mobile function
           markerContent.onClick = () => {
             (tooltip.style.visibility = tooltip.style.visibility === "visible" ? "hidden" : "visible");
           };
