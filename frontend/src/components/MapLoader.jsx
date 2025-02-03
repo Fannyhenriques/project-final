@@ -101,8 +101,19 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
           tooltip.style.transform = "translate(-50%, -120%)";
           markerContent.appendChild(tooltip);
 
-          markerContent.onmouseover = () => (tooltip.style.visibility = "visible");
-          markerContent.onmouseout = () => (tooltip.style.visibility = "hidden");
+          //Desktop function
+          markerContent.onmouseover = () => {
+            tooltip.style.visibility = "visible"; // Show tooltip on hover
+          };
+
+          markerContent.onmouseout = () => {
+            tooltip.style.visibility = "hidden"; // Hide tooltip when not hovering
+          };
+
+          //Mobile function
+          markerContent.onClick = () => {
+            (tooltip.style.visibility = tooltip.style.visibility === "visible" ? "hidden" : "visible");
+          };
 
           const marker = new google.maps.marker.AdvancedMarkerElement({
             map,

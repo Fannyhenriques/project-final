@@ -3,12 +3,28 @@ import { useUserStore } from "../stores/useUserStore";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { PageTitle, Text } from "../ui/Typography";
+import Children from "../assets/Children.png"
 
 
 const StyledPageTitle = styled(PageTitle)`
   padding-top: 20px; 
   
   `;
+
+const Img = styled.img`
+  right: 100px;
+  width: 20rem;
+  height: auto;
+  padding-top: 20px;
+
+  @media (max-width: 768px) {
+    width: 14rem;
+    margin: 0 auto;
+    justify-content: center; 
+    display: block;
+    padding: 0px 10px 0px 10px;
+  }
+`;
 
 const FormContainer = styled.div`
   display: flex;
@@ -22,9 +38,7 @@ const FormContainer = styled.div`
 @media (max-width: 480px) {
   max-width: 300px;
 }
-
 `;
-
 
 const StyledForm = styled.form`
   display: flex;
@@ -36,7 +50,7 @@ const StyledForm = styled.form`
   padding: 20px; 
 
   @media (max-width: 480px) {
-  width: 80%;
+  width: 90%;
 }
 `;
 
@@ -115,6 +129,7 @@ export const LoginPage = () => {
 
   return (
     <FormContainer>
+
       <StyledPageTitle>{isRegister ? "Register" : "Login"}</StyledPageTitle>
       <StyledForm onSubmit={handleSubmit}>
         {isRegister && (
@@ -157,9 +172,11 @@ export const LoginPage = () => {
           {isLoading ? "Loading..." : isRegister ? "Register" : "Login"}
         </Button>
       </StyledForm>
+
       <ToggleButton onClick={() => setIsRegister(!isRegister)}>
         {isRegister ? "Already have an account? Login instead" : "Don't have an account? Register instead"}
       </ToggleButton>
+      <Img src={Children} alt="playground-image" />
     </FormContainer>
   );
 };
