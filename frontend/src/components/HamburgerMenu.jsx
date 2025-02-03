@@ -1,7 +1,6 @@
-// HamburgerMenu.js
-import { usePlaygroundStore } from "../stores/usePlaygroundStore";
-import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
+import { NavLink } from 'react-router-dom';
+import { usePlaygroundStore } from "../stores/usePlaygroundStore";
 
 const HamburgerIcon = styled.div`
   display: none; 
@@ -32,7 +31,7 @@ const MenuBox = styled.div`
   left: 0;
   background-color: #053332;
   width: 10rem;
-  height: 18rem;
+  height: 20rem;
   padding: 0rem 0.5rem;
   flex-direction: column;
   align-items: flex-end;
@@ -43,7 +42,7 @@ const MenuBox = styled.div`
 
   ul {
     list-style: none;
-    padding-top: 70px;
+    padding-top: 40px;
     text-align: center;
   }
 
@@ -80,7 +79,6 @@ const CloseButton = styled.div`
 export const HamburgerMenu = () => {
   const { isMenuOpen, toggleMenu, closeMenu } = usePlaygroundStore();
 
-
   return (
     <>
       <HamburgerIcon onClick={toggleMenu}>
@@ -95,16 +93,16 @@ export const HamburgerMenu = () => {
 
         <ul>
           <li>
-            <NavLink to="/" activeClassName="active" aria-label="Go to Home page">Home</NavLink>
+            <NavLink to="/" className={({ isActive }) => (isActive ? "active" : "")} aria-label="Go to Home page">Home</NavLink>
           </li>
           <li>
-            <NavLink to="/login" activeClassName="active" aria-label="Go to Login page">Login</NavLink>
+            <NavLink to="/login" className={({ isActive }) => (isActive ? "active" : "")} aria-label="Go to Login page">Login</NavLink>
           </li>
           <li>
-            <NavLink to="/profile" activeClassName="active" aria-label="Go to Profile">Profile</NavLink>
+            <NavLink to="/profile" className={({ isActive }) => (isActive ? "active" : "")} aria-label="Go to Profile">Profile</NavLink>
           </li>
           <li>
-            <NavLink to="/about" activeClassName="active" aria-label="About PlayGroundFinder">About</NavLink>
+            <NavLink to="/about" className={({ isActive }) => (isActive ? "active" : "")} aria-label="About PlayGroundFinder">About</NavLink>
           </li>
         </ul>
       </MenuBox>
