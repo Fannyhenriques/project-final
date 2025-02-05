@@ -1,7 +1,7 @@
 // Header.js
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
-import playground from "../assets/PlaygroundFinder.png";
+import playground from "../assets/PlaygroundFinder_white.png";
 import { routes } from "../utils/routes";
 import { HamburgerMenu } from './HamburgerMenu';
 
@@ -11,7 +11,7 @@ const HeaderContainer = styled.header`
   align-items: center;
   padding: 15px 20px;
   height: 50px;
-  background-color: white;
+  background-color: #3c6e71;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   position: relative;
   margin-top: 35px;
@@ -53,12 +53,12 @@ const NavList = styled.ul`
 
 const StyledNavLink = styled(NavLink)`
   text-decoration: none;
-  color: #053332;
+  color: white;
   font-size: 20px; 
   font-weight: bold;
   font-family: "Poppins";
   &:hover {
-    color: #0f8381;
+    color: #2f3e46;
   }
 `;
 

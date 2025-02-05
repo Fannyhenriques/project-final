@@ -111,7 +111,7 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
           };
 
           //Mobile function
-          markerContent.onClick = () => {
+          markerContent.onclick = () => {
             (tooltip.style.visibility = tooltip.style.visibility === "visible" ? "hidden" : "visible");
           };
 

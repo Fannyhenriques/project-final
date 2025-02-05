@@ -19,19 +19,19 @@ const HamburgerIcon = styled.div`
     div {
       width: 100%;
       height: 4px;
-      background-color: #053332;
+      background-color: white;
       border-radius: 4px;
     }
   }
 `;
 
-const MenuBox = styled.div`
+const MenuBox = styled.div` 
   position: fixed;
-  top: 7.2rem;
+  top: 7.22rem;
   left: 0;
-  background-color: #053332;
+  background-color: #3c6e71; 
   width: 10rem;
-  height: 20rem;
+  height: 15rem;
   padding: 0rem 0.5rem;
   flex-direction: column;
   align-items: flex-end;
@@ -42,7 +42,7 @@ const MenuBox = styled.div`
 
   ul {
     list-style: none;
-    padding-top: 40px;
+    padding-top: 30px;
     text-align: center;
   }
 
@@ -51,7 +51,7 @@ const MenuBox = styled.div`
     font-size: 1rem;
   }
 
-  a {
+  a { 
     color: white;
     text-decoration: none;
     font-weight: 300;
