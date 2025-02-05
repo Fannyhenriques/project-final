@@ -34,13 +34,12 @@ export async function fetchGooglePlacesPlaygrounds(
   }
 }
 
-//helper function to query by name using textsearch - optional to keep since the url is hardcoded.
+//helper function to query by name using textsearch 
 export async function fetchGooglePlacesPlaygroundsByName(name, radius = process.env.DEFAULT_RADIUS) {
   const apiUrl = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${encodeURIComponent(name)}+playground&radius=${radius}&key=${process.env.GOOGLE_API_KEY}`;
 
   try {
     const response = await axios.get(apiUrl);
-    // console.log("API Response for Name Search:", response.data); // Log the API response
     return response.data.results;
   } catch (error) {
     console.error("Error fetching from Google Places API:", error.message);
