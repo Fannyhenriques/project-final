@@ -43,7 +43,7 @@ playgroundSchema.methods.addRating = function (newRating) {
   }
 };
 
-// Helper method to calculate average rating
+// Helper method to calculate the average rating
 playgroundSchema.methods.calculateAverageRating = function () {
   if (this.ratings.length === 0) {
     return null;
