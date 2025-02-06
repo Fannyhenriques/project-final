@@ -21,7 +21,7 @@ const port = process.env.PORT || 9000;
 const app = express();
 
 app.use(cors({
-  origin: 'https://playgroundfinder.netlify.app/', // Allowing your Netlify frontend
+  origin: 'https://playgroundfinder.netlify.app', // Allowing your Netlify frontend
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
