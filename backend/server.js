@@ -20,11 +20,7 @@ if (!mongoUrl) {
 const port = process.env.PORT || 9000;
 const app = express();
 
-app.use(cors({
-  origin: 'https://playgroundfinder.netlify.app', // Allowing your Netlify frontend
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
+app.use(cors());
 app.use(express.json());
 
 // This will prefix all the routes in playgroundRoutes with /api/playgrounds
