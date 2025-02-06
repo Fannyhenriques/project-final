@@ -112,7 +112,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-//and then here we have the route that we are using to retrieve details about the specific playground, so when you click on a playground this route will be used and display images, description and so on... 
 router.get("/id/:place_id", async (req, res) => {
   const { place_id } = req.params;
   const apiUrl = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${place_id}&key=${process.env.GOOGLE_API_KEY}`;
