@@ -2,56 +2,113 @@ import { useEffect, useState } from "react";
 import { useUserStore } from "../stores/useUserStore";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { Text, PageTitle, SubPageTitle } from "../ui/Typography";
+import { Text, PageTitle, SubPageTitle, primaryFont } from "../ui/Typography";
 
 const Container = styled.div`
   padding: 20px;
-  width: 30%;
+  padding-top: 2rem;
+  width: 80%;
   display: grid;
   text-align: center;
   margin: 0 auto;
 `;
 
 const Heading1 = styled(PageTitle)`
+  padding-bottom: 1rem;
   color: white;
 `;
 
 const Heading2 = styled(SubPageTitle)`
   color: white;
+  padding-top: 4rem;
+  padding-bottom: 1rem;
+  margin: 0;
 `;
 
 const Button = styled.button`
-  margin-bottom: 2rem;
-  padding: 10px 20px;
+  width: 20%;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
   background-color: white;
   color: #053332;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-family: "Poppins", sans-serif;
-  margin: 0 auto;
-  margin: 10px 10px 20px; 
-
+  &:hover {
+    background-color: #053332;
+    color: white; 
+  }
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
 `;
 
-const List = styled(Text)`
+const SavedContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+`;
+
+const NoPlaygroundsText = styled(Text)`
+  grid-column: span 3;
+`;
+
+const ContainerButton = styled.button`
+  max-width: 100%;
+  padding: 0.6rem;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  align-self: center;
+  cursor: pointer;
+  background-color: white;
+  color: #053332;
+  &:hover {
+    background-color: #053332;
+    color: white; 
+  }
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+`;
+
+const List = styled.ul`
+  display: contents;
+  background-color: red;
+  max-width: 100%;
   list-style-type: none;
   padding: 0;
 `;
 
 const ListItem = styled.li`
-  margin: 10px 0;
+  max-width: 100%;
+  /* margin: 10px 0; */
   padding: 15px;
-  border-radius: 8px;
+`;
+
+const LogoutText = styled(Text)`
+  font-family: ${primaryFont};
+  text-align: center;
+  font-size: 1.2rem;
+  padding-top: 2rem; 
 `;
 
 const Paragraph = styled(Text)`
-  font-size: 16px;
-  padding-left: 10px; 
 `;
 
 const Form = styled.form`
-  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #446569; 
+  border-radius: 15px; 
+  padding: 20px;
+  width: 300px;
+  margin: 0 auto;
+  gap: 0.3rem;
 `;
 
 const FormGroup = styled.div`
@@ -60,12 +117,17 @@ const FormGroup = styled.div`
 
 const Label = styled(Text)`
   display: block;
+  display: flex;
+  align-items: center;
+  width: 100%;
   font-size: 14px;
-  margin-bottom: 5px;
+  padding: 0;
+  margin: 0;
+  margin-bottom: 0.2rem;
 `;
 
 const Input = styled.input`
-  width: 100%;
+  width: 200px;
   padding: 8px;
   font-size: 14px;
   border-radius: 4px;
@@ -114,7 +176,7 @@ export const ProfilePage = () => {
     );
   }
   if (!user) {
-    return <Paragraph>Oops! It looks like you're not logged in. <br></br> Please log in or register to access your profile page.</Paragraph>;
+    return <LogoutText>Oops! It looks like you're not logged in. <br></br> Please log in or register to access your profile page.</LogoutText>;
   }
 
   const handleLogout = () => {
@@ -158,38 +220,41 @@ export const ProfilePage = () => {
 
   return (
     <Container>
-      <Heading1>Welcome, {user.name}</Heading1>
-      <Button onClick={handleLogout}>Logout</Button>
-
+      <div>
+        <Heading1>Welcome, {user.name}</Heading1>
+        <Button onClick={handleLogout}>Logout</Button>
+      </div>
       <Heading2>Your saved Playgrounds:</Heading2>
-      {Array.isArray(user?.savedPlaygrounds) && user.savedPlaygrounds.length > 0 ? (
-        <List>
-          {user.savedPlaygrounds.map((pg) => (
-            <ListItem key={pg._id}>
-              <h3>{pg.name}</h3>
-              <div>
-                <StyledIframe
-                  src={`https://www.google.com/maps?q=${pg.location.coordinates[0]},${pg.location.coordinates[1]}&z=15&output=embed`}
-                  title="Playground Location"
-                ></StyledIframe>
-              </div>
-              <Paragraph>
-                <a href={`/details/${pg._id}`}>Go to playground</a>
-              </Paragraph>
-              <Button onClick={() => handleRemovePlayground(pg)}>
-                Remove from favourites
-              </Button>
-            </ListItem>
-          ))}
-        </List>
-      ) : (
-        <Paragraph>You have no saved playgrounds yet. Add some!</Paragraph>
-      )}
+      <SavedContainer>
+        {Array.isArray(user?.savedPlaygrounds) && user.savedPlaygrounds.length > 0 ? (
+          <List>
+            {user.savedPlaygrounds.map((pg) => (
+              <ListItem key={pg._id}>
+                <Paragraph>{pg.name}</Paragraph>
+                <div>
+                  <StyledIframe
+                    src={`https://www.google.com/maps?q=${pg.location.coordinates[0]},${pg.location.coordinates[1]}&z=15&output=embed`}
+                    title="Playground Location"
+                  ></StyledIframe>
+                </div>
+                <Paragraph>
+                  <a href={`/details/${pg._id}`}>Go to playground</a>
+                </Paragraph>
+                <ContainerButton onClick={() => handleRemovePlayground(pg)}>
+                  Remove from favourites
+                </ContainerButton>
+              </ListItem>
+            ))}
+          </List>
+        ) : (
+          <NoPlaygroundsText>You have no saved playgrounds yet. Add some!</NoPlaygroundsText>
+        )}
+      </SavedContainer>
 
       <Heading2>Add a New Playground:</Heading2>
       <Form onSubmit={handlePostPlayground}>
         <FormGroup>
-          <Label>Name:</Label>
+          <Label>Name of playground:</Label>
           <Input
             type="text"
             name="name"
@@ -256,7 +321,7 @@ export const ProfilePage = () => {
             }
           />
         </FormGroup>
-        <Button type="submit">Post Playground</Button>
+        <ContainerButton type="submit">Post Playground</ContainerButton>
       </Form>
 
       <Heading2>Your Posted Playgrounds:</Heading2>
@@ -269,14 +334,14 @@ export const ProfilePage = () => {
               <p><strong>Address:</strong> {playground.address}</p>
               <p><strong>Facilities:</strong> {playground.facilities}</p>
               <p><strong>Location:</strong> {playground.location.coordinates.join(", ")}</p>
-              <Button onClick={() => handleRemovePlayground(playground)}>
+              <ContainerButton onClick={() => handleRemovePlayground(playground)}>
                 Remove Playground
-              </Button>
+              </ContainerButton>
             </ListItem>
           ))}
         </List>
       ) : (
-        <Paragraph>No playgrounds posted yet.</Paragraph>
+        <Paragraph>You have not posted any playgrounds yet.</Paragraph>
       )}
     </Container>
   );

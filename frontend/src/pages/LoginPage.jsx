@@ -43,7 +43,7 @@ const FormContainer = styled.div`
 const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 90%;
   gap: 12px;
   background: #446569; 
   border-radius: 15px; 
