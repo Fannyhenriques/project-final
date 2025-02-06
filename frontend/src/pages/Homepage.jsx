@@ -72,8 +72,19 @@ export const Homepage = () => {
         }
 
         const response = await fetch(
-          `https://project-playground-api.onrender.com/api/playgrounds?lat=${location.lat}&lng=${location.lng}`
+          `https://project-playground-api.onrender.com/api/playgrounds?lat=${location.lat}&lng=${location.lng}`,
+          {
+            method: "GET",
+            mode: "cors",
+            headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Request-Method": "GET",
+              "Access-Control-Request-Headers": "Content-Type",
+            },
+          }
         );
+        console.log("Response Status:", response.status);
+        console.log("Response Headers:", response.headers);
         if (!response.ok) {
           throw new Error(`Failed to fetch playgrounds: ${response.statusText}`);
         }
