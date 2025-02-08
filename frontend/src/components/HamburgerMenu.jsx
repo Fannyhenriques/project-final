@@ -5,7 +5,7 @@ import { usePlaygroundStore } from "../stores/usePlaygroundStore";
 const HamburgerIcon = styled.div`
   display: none; 
 
-  @media (max-width: 768px) {
+  @media (max-width: 1000px) {
     display: flex;
     position: absolute;
     top: 1.5rem;
@@ -58,7 +58,7 @@ const MenuBox = styled.div`
     font-family: "Poppins";
   }
 
-  @media (min-width: 769px) {
+  @media (min-width: 1001px) {
     display: none;
   }
 `;

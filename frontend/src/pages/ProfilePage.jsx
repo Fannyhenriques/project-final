@@ -34,7 +34,7 @@ const Button = styled.button`
   border-radius: 4px;
   cursor: pointer;
   background-color: white;
-  color: #053332;
+  color: #2f3e46;
   &:hover {
     background-color: #3c6e71;
     color: white; 
@@ -43,19 +43,32 @@ const Button = styled.button`
     background-color: #ccc;
     cursor: not-allowed;
   }
+
+    @media (min-width: 1250px) {
+    width: 300px; 
+  }
+
 `;
 
 const SavedContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  flex-direction: column; 
 `;
 
 const NoPlaygroundsText = styled(Text)`
-  grid-column: span 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 0 auto; 
+  text-align: center;
+  padding: 2rem 0;
 `;
 
 const ContainerButton = styled.button`
-  max-width: 100%;
+  max-width: 80%;
   padding: 0.6rem;
   font-size: 16px;
   font-weight: bold;
@@ -100,21 +113,28 @@ const Paragraph = styled(Text)`
 `;
 
 const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: #446569; 
-  border-radius: 15px; 
-  padding: 20px;
-  width: 300px;
-  margin: 0 auto;
-  gap: 0.3rem;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+background: #446569; 
+border-radius: 15px; 
+padding: 20px;
+width: 300px;
+margin: 0 auto;
+gap: 0.3rem;
 
-  @media (max-width: 480px) {
-    width: 250px;
-  }
+@media (max-width: 480px) {
+  width: 250px; 
+  margin: 0 auto; 
+}
+
+@media (max-width: 330px) {
+  width: 90%; 
+  padding: 15px; 
+  margin: 0 auto; 
+}
 `;
-
 const FormGroup = styled.div`
   margin-bottom: 15px;
 `;
