@@ -5,7 +5,7 @@ import styled from "styled-components";
 import Marker from "../assets/Playground_marker.png";
 import LocationMarker from "../assets/Me_marker4.png";
 
-const libraries = ["marker"];
+const libraries = ["marker", "places"];
 
 const MapContainer = styled.div`
   width: 100%;
