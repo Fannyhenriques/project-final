@@ -36,7 +36,7 @@ const Button = styled.button`
   background-color: white;
   color: #053332;
   &:hover {
-    background-color: #053332;
+    background-color: #3c6e71;
     color: white; 
   }
   &:disabled {
@@ -64,9 +64,9 @@ const ContainerButton = styled.button`
   align-self: center;
   cursor: pointer;
   background-color: white;
-  color: #053332;
+  color: #2f3e46;
   &:hover {
-    background-color: #053332;
+    background-color: #2f3e46;
     color: white; 
   }
   &:disabled {
