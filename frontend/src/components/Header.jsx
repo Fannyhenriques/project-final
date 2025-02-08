@@ -25,12 +25,17 @@ const HeaderImg = styled.img`
   height: auto;
   padding: 5px;
 
-  @media (max-width: 768px) {
-    width: 14rem;
+  @media (max-width: 1000px) {
+    width: 18rem;
     left: unset;
     margin: 0 auto;
     display: block;
     padding: 5px 10px 0px 50px;
+  }
+
+
+  @media  (max-width: 480px) {
+   width: 15rem; 
   }
 `;
 
@@ -38,7 +43,7 @@ const Nav = styled.nav`
   display: flex;
   justify-content: center;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1000px) {
     display: none; 
   }
 `;
