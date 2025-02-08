@@ -79,9 +79,9 @@ const Button = styled.button`
   border-radius: 4px;
   cursor: pointer;
   background-color: white;
-  color: #053332;
+  color: #2f3e46;
   &:hover {
-    background-color: #053332;
+    background-color: #2f3e46;
     color: white; 
   }
   &:disabled {

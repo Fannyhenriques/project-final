@@ -26,8 +26,8 @@ const HamburgerIcon = styled.div`
 `;
 
 const MenuBox = styled.div` 
-  position: fixed;
-  top: 7.22rem;
+  position: absolute;
+  top: 100%;
   left: 0;
   background-color: #3c6e71; 
   width: 10rem;
