@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import { useUserStore } from "../stores/useUserStore";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom"
+import { routes } from "../utils/routes"
 import styled from "styled-components";
 import { Text, PageTitle, SubPageTitle, primaryFont } from "../ui/Typography";
+
 
 const Container = styled.div`
   padding: 20px;
@@ -204,7 +207,7 @@ export const ProfilePage = () => {
     );
   }
   if (!user) {
-    return <LogoutText>Oops! It looks like you're not logged in. <br></br> Please log in or register to access your profile page.</LogoutText>;
+    return <LogoutText>Oops! It looks like you're not logged in. <br></br> Please <Link to={routes.login}>login</Link> or register to access your profile page.</LogoutText>;
   }
 
   const handleLogout = () => {
