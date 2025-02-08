@@ -126,7 +126,6 @@ export const PlaygroundDetails = () => {
   const [playground, setPlayground] = useState(null);
   const { user, postPlayground } = useUserStore();
   const { ratePlayground } = usePlaygroundStore();
-  const [rating, setRating] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { playgroundId } = useParams();
@@ -158,32 +157,6 @@ export const PlaygroundDetails = () => {
   if (error) return <div>Error: {error}</div>;
 
   console.log("Playground data state:", playground);
-
-  const handleRatingChange = (e) => setRating(Number(e.target.value));
-
-  const handleSubmit = async () => {
-    if (rating >= 1 && rating <= 5) {
-      try {
-        const updatedPlayground = await ratePlayground(playgroundId, rating);
-
-        if (updatedPlayground && updatedPlayground.rating) {
-          setPlayground((prev) => ({
-            ...prev,
-            rating: updatedPlayground.rating,
-          }));
-        }
-      } catch (error) {
-        console.error("Error updating rating:", error);
-      }
-    } else {
-      alert("Please select a valid rating between 1 and 5.");
-    }
-  };
-
-  const displayRating = playground.rating || (playground.ratings && playground.ratings[0]);
-  const averageRating = playground.ratings && playground.ratings.length
-    ? playground.ratings.reduce((sum, rating) => sum + rating, 0) / playground.ratings.length
-    : null;
 
   const formattedPhotos = playground.photos?.map(
     (photo) =>
