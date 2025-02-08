@@ -73,16 +73,15 @@ const Map = styled.div`
       height: 300px;
     }
   }
-
-  @media (max-width: 480px) {
-    iframe {
-      height: 250px;
-    }
-  }
   `;
 
 const Reviews = styled(CenteredContainer)`
   margin-top: 2rem;
+
+  @media (max-width: 480px) {
+      padding: 10px;
+  }
+
   `;
 
 const Review = styled.div`
