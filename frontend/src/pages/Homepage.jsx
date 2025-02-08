@@ -12,13 +12,13 @@ const SearchMapContainer = styled.div`
 
 const SearchBarContainer = styled.div`
   position: absolute;
-  top: 20px;
+  top: 30px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   align-items: center;
   background: white;
-  opacity: 90%;
+  /* opacity: 95%; */
   border-radius: 15px;
   padding: 8px 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -44,7 +44,7 @@ const ClearButton = styled.button`
   background: none;
   border: none;
   font-size: 1.2rem;
-  color: #888;
+  color: #444444;
   cursor: pointer;
 
   &:hover {

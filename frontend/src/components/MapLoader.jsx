@@ -84,8 +84,8 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
           const markerImage = document.createElement("img");
           markerImage.src = Marker;
           markerImage.alt = "playground-marker";
-          markerImage.style.width = "80px";
-          markerImage.style.height = "100px";
+          markerImage.style.width = "30px";
+          markerImage.style.height = "50px";
           markerImage.style.objectFit = "contain";
           markerContent.appendChild(markerImage);
 
@@ -139,8 +139,8 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
         const userMarkerImage = document.createElement("img");
         userMarkerImage.src = LocationMarker;
         userMarkerImage.alt = "User-marker";
-        userMarkerImage.style.width = "80px";
-        userMarkerImage.style.height = "100px";
+        userMarkerImage.style.width = "30px";
+        userMarkerImage.style.height = "50px";
         userMarkerImage.style.objectFit = "contain";
         userMarkerContent.appendChild(userMarkerImage);
 
