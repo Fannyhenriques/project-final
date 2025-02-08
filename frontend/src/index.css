@@ -12,3 +12,11 @@ ul {
   margin: 0; /* Remove default margin */
   padding: 0; /* Remove default padding */
 }
+
+a {
+  color: #7cc0c4;
+}
+
+a:hover {
+  color: whitesmoke;
+}
