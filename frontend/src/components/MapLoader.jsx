@@ -103,11 +103,11 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
 
           //Desktop function
           markerContent.onmouseover = () => {
-            tooltip.style.visibility = "visible"; // Show tooltip on hover
+            tooltip.style.visibility = "visible";
           };
 
           markerContent.onmouseout = () => {
-            tooltip.style.visibility = "hidden"; // Hide tooltip when not hovering
+            tooltip.style.visibility = "hidden";
           };
 
           const isMobile = window.innerWidth <= 768; // Check if screen is mobile size
@@ -116,16 +116,18 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
           label.innerText = playground.name;
           label.style.position = "absolute";
           label.style.padding = "5px 10px";
+          label.style.background = "white";
           label.style.borderRadius = "5px";
+          label.style.boxShadow = "0 2px 5px rgba(0,0,0,0.2)";
           label.style.whiteSpace = "nowrap";
-          label.style.zIndex = "1000"; // Ensure visibility
+          label.style.zIndex = "1000";
 
           if (isMobile) {
-            label.style.visibility = "visible"; // Always show on mobile
-            label.style.transform = "translate(10px, -50%)"; // Position next to marker
+            label.style.visibility = "visible";
+            label.style.transform = "translate(10px, -50%)";
           } else {
-            label.style.visibility = "hidden"; // Hide initially on desktop/tablet
-            label.style.transform = "translate(-50%, -120%)"; // Position as tooltip
+            label.style.visibility = "hidden";
+            label.style.transform = "translate(-50%, -120%)";
           }
 
           markerContent.appendChild(label);
