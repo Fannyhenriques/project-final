@@ -110,10 +110,37 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
             tooltip.style.visibility = "hidden"; // Hide tooltip when not hovering
           };
 
-          //Mobile function
-          markerContent.onclick = () => {
-            (tooltip.style.visibility = tooltip.style.visibility === "visible" ? "hidden" : "visible");
-          };
+          const isMobile = window.innerWidth <= 768; // Check if screen is mobile size
+
+          const label = document.createElement("div");
+          label.innerText = playground.name;
+          label.style.position = "absolute";
+          label.style.padding = "5px 10px";
+          label.style.borderRadius = "5px";
+          label.style.whiteSpace = "nowrap";
+          label.style.zIndex = "1000"; // Ensure visibility
+
+          if (isMobile) {
+            label.style.visibility = "visible"; // Always show on mobile
+            label.style.transform = "translate(10px, -50%)"; // Position next to marker
+          } else {
+            label.style.visibility = "hidden"; // Hide initially on desktop/tablet
+            label.style.transform = "translate(-50%, -120%)"; // Position as tooltip
+          }
+
+          markerContent.appendChild(label);
+
+          // Show tooltip on hover (for desktops/tablets)
+          if (!isMobile) {
+            markerContent.onmouseover = () => {
+              label.style.visibility = "visible";
+            };
+
+            markerContent.onmouseout = () => {
+              label.style.visibility = "hidden";
+            };
+          }
+
 
           const marker = new google.maps.marker.AdvancedMarkerElement({
             map,
