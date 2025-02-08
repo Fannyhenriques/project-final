@@ -26,7 +26,7 @@ const Heading2 = styled(SubPageTitle)`
 `;
 
 const Button = styled.button`
-  width: 20%;
+  width: 30%;
   padding: 10px;
   font-size: 16px;
   font-weight: bold;
@@ -109,6 +109,10 @@ const Form = styled.form`
   width: 300px;
   margin: 0 auto;
   gap: 0.3rem;
+
+  @media (max-width: 480px) {
+    width: 250px;
+  }
 `;
 
 const FormGroup = styled.div`
@@ -127,11 +131,15 @@ const Label = styled(Text)`
 `;
 
 const Input = styled.input`
-  width: 200px;
+  width: 250px;
   padding: 8px;
   font-size: 14px;
   border-radius: 4px;
   border: 1px solid #ccc;
+
+  @media (max-width: 480px) {
+    width: 200px;
+  }
 `;
 
 const StyledIframe = styled.iframe`
