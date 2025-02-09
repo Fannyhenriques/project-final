@@ -15,6 +15,7 @@ const MapContainer = styled.div`
 export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
   const mapRef = useRef(null);
   const [markers, setMarkers] = useState([]);
+  const [map, setMap] = useState(null);
   const { isLoaded, loadError } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_API_KEY,
@@ -47,8 +48,10 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
    * Effect Hook: Runs when the search query changes.
    * Finds a matching playground and moves the map view to its location.
    */
+  // Effect now depends on map:
+
   useEffect(() => {
-    if (searchQuery && mapRef.current) {
+    if (searchQuery && map && playgrounds.length > 0) {
       const matchingPlayground = playgrounds.find(
         (playground) =>
           playground.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -61,12 +64,12 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
         mapRef.current.setZoom(12);
       }
     }
-  }, [searchQuery, playgrounds]);
+  }, [searchQuery, playgrounds, map]);
 
 
   useEffect(() => {
     console.log(isLoaded, mapRef.current, playgrounds.length)
-    if (isLoaded && mapRef.current && playgrounds.length > 0) {
+    if (isLoaded && map && playgrounds.length > 0) {
       console.log("inside first if")
       const map = mapRef.current;
       map.setOptions({ gestureHandling: "greedy" });  // Allows easier touch interactions
@@ -186,7 +189,7 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
         setMarkers((prevMarkers) => [...prevMarkers, userMarker]);
       }
     }
-  }, [isLoaded, playgrounds, userLocation]);
+  }, [isLoaded, playgrounds, userLocation, map]);
 
   if (loadError) {
     return <p>Error loading map...</p>;
@@ -207,6 +210,8 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
           disableDefaultUI: true,
         }}
         onLoad={(map) => {
+          console.log("Google Map Loaded:", map);
+          setMap(map);
           mapRef.current = map;
         }}
       />
