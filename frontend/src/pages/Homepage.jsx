@@ -23,6 +23,10 @@ flex-direction: column;
 justify-content: center;
 align-items: center; 
 padding-top: 100px; 
+
+@media (max-width: 480px) {
+  padding-top: 50px; 
+}
 `;
 
 const SearchMapContainer = styled.div`
