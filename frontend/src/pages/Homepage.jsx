@@ -1,13 +1,21 @@
+import Lottie from "lottie-react";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { MapLoader } from "../components/MapLoader";
 import { getUserLocation } from "../hooks/getUserLocation";
 import { usePlaygroundStore } from "../stores/usePlaygroundStore";
-import Lottie from "lottie-react";
 import loadingAnimation from "../assets/Animation - 1739129648764.json";
+import { Text } from "../ui/Typography"
+
+
+const StyledText = styled(Text)`
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+`;
 
 const LoaderContainer = styled.div`
 display: flex;
+flex-direction: column;
 justify-content: center;
 align-items: center; 
 padding-top: 100px; 
@@ -160,6 +168,7 @@ export const Homepage = () => {
 
     return (
       <LoaderContainer>
+        <StyledText>Loading Playground Map...</StyledText>
         <Lottie animationData={loadingAnimation} loop={true} />
       </LoaderContainer>
     );
