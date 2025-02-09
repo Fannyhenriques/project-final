@@ -24,7 +24,7 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
   });
 
   const navigate = useNavigate();
-
+  console.log("fetching playgrounds", playgrounds)
   //Event handler: handles marker click events 
   //fetch ID from our backend API- Fetches details of the selected playground and navigates to its detail page.
 
@@ -65,7 +65,9 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
 
 
   useEffect(() => {
+    console.log(isLoaded, mapRef.current, playgrounds.length)
     if (isLoaded && mapRef.current && playgrounds.length > 0) {
+      console.log("inside first if")
       const map = mapRef.current;
       map.setOptions({ gestureHandling: "greedy" });  // Allows easier touch interactions
       markers.forEach((marker) => marker.setMap(null));
@@ -73,9 +75,11 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
 
       const newMarkers = [];
       playgrounds.forEach((playground) => {
+        console.log(playground)
         if (playground.location?.coordinates) {
+          console.log("inside second if")
           const [lng, lat] = playground.location.coordinates;
-
+          console.log(lng, lat)
           const markerContent = document.createElement("div");
           markerContent.style.position = "absolute";
           markerContent.style.transform = "translate(-50%, -60%)";
@@ -149,13 +153,13 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
             position: { lat, lng },
             content: markerContent,
           });
-
+          console.log(marker, markerContent)
           markerContent.onclick = () => handleMarkerClick(playground.googlePlaceId);
 
           newMarkers.push(marker);
         }
       });
-
+      //.
       setMarkers(newMarkers);
 
       if (userLocation) {
