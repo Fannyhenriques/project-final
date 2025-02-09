@@ -57,17 +57,17 @@ const Button = styled.button`
 
 const SavedContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);  /* Default for desktop: 3 items */
-  gap: 1rem;  /* Add some spacing between the items */
+  grid-template-columns: repeat(3, 1fr);  
+  gap: 1rem;  
   justify-content: center;
   align-items: center;
 
-  @media (max-width: 1024px) {  /* Tablet breakpoint */
-    grid-template-columns: repeat(2, 1fr);  /* 2 items on tablets */
+  @media (max-width: 1024px) {  
+    grid-template-columns: repeat(2, 1fr);  
   }
 
-  @media (max-width: 480px) {  /* Mobile breakpoint */
-    grid-template-columns: 1fr;  /* 1 item on mobile */
+  @media (max-width: 480px) {  
+    grid-template-columns: 1fr;  
   }
 `;
 
@@ -102,6 +102,48 @@ const ContainerButton = styled.button`
   }
 `;
 
+const RemoveButton = styled.button`
+  max-width: 80%;
+  padding: 0.6rem;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  align-self: center;
+  cursor: pointer;
+  background-color: white;
+  color: #2f3e46;
+  &:hover {
+    background-color: #3c6e71;
+    color: white; 
+  }
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+`;
+
+const RemovePostButton = styled.button`
+  max-width: 80%;
+  padding: 0.6rem;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  align-self: center;
+  cursor: pointer;
+  background-color: white;
+  color: #2f3e46;
+  &:hover {
+    background-color: #3c6e71;
+    color: white; 
+  }
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+`;
+
 const List = styled.ul`
   display: contents;
   background-color: red;
@@ -110,7 +152,7 @@ const List = styled.ul`
   padding: 0;
 `;
 
-const ListItem = styled.li`
+const ListItem = styled(Text)`
   max-width: 100%;
   /* margin: 10px 0; */
   padding: 15px;
@@ -282,9 +324,9 @@ export const ProfilePage = () => {
               <Paragraph>
                 <a href={`/playgrounds/${pg._id}`}>Go to playground</a>
               </Paragraph>
-              <ContainerButton onClick={() => handleRemovePlayground(pg)}>
+              <RemoveButton onClick={() => handleRemovePlayground(pg)}>
                 Remove from favourites
-              </ContainerButton>
+              </RemoveButton>
             </ListItem>
           ))}
         </SavedContainer>
@@ -375,9 +417,9 @@ export const ProfilePage = () => {
               <p><strong>Address:</strong> {playground.address}</p>
               <p><strong>Facilities:</strong> {playground.facilities}</p>
               <p><strong>Location:</strong> {playground.location.coordinates.join(", ")}</p>
-              <ContainerButton onClick={() => handleRemovePlayground(playground)}>
+              <RemovePostButton onClick={() => handleRemovePlayground(playground)}>
                 Remove Playground
-              </ContainerButton>
+              </RemovePostButton>
             </ListItem>
           ))}
         </List>
