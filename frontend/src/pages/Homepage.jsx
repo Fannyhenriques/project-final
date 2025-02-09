@@ -3,6 +3,15 @@ import styled from "styled-components";
 import { MapLoader } from "../components/MapLoader";
 import { getUserLocation } from "../hooks/getUserLocation";
 import { usePlaygroundStore } from "../stores/usePlaygroundStore";
+import Lottie from "lottie-react";
+import loadingAnimation from "../assets/Animation - 1739129648764.json";
+
+const LoaderContainer = styled.div`
+display: flex;
+justify-content: center;
+align-items: center; 
+padding-top: 100px; 
+`;
 
 const SearchMapContainer = styled.div`
   position: relative;
@@ -18,7 +27,7 @@ const SearchBarContainer = styled.div`
   display: flex;
   align-items: center;
   background: white;
-  /* opacity: 95%; */
+  opacity: 95%; 
   border-radius: 15px;
   padding: 8px 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -147,7 +156,14 @@ export const Homepage = () => {
     }
   };
 
-  if (isFetchingData) return <p>Loading...</p>;
+  if (isFetchingData) {
+
+    return (
+      <LoaderContainer>
+        <Lottie animationData={loadingAnimation} loop={true} />
+      </LoaderContainer>
+    );
+  }
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter" && !event.shiftKey) {
