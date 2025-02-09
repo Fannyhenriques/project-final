@@ -11,7 +11,9 @@ const Container = styled.div`
   padding: 20px;
   padding-top: 2rem;
   width: 80%;
-  display: grid;
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
   text-align: center;
   margin: 0 auto;
 `;
@@ -54,10 +56,19 @@ const Button = styled.button`
 `;
 
 const SavedContainer = styled.div`
-  display: flex;
-  justify-content: center; 
-  align-items: center; 
-  flex-direction: column; 
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);  /* Default for desktop: 3 items */
+  gap: 1rem;  /* Add some spacing between the items */
+  justify-content: center;
+  align-items: center;
+
+  @media (max-width: 1024px) {  /* Tablet breakpoint */
+    grid-template-columns: repeat(2, 1fr);  /* 2 items on tablets */
+  }
+
+  @media (max-width: 480px) {  /* Mobile breakpoint */
+    grid-template-columns: 1fr;  /* 1 item on mobile */
+  }
 `;
 
 const NoPlaygroundsText = styled(Text)`
@@ -255,32 +266,31 @@ export const ProfilePage = () => {
         <Heading1>Welcome, {user.name}</Heading1>
         <Button onClick={handleLogout}>Logout</Button>
       </div>
+
       <Heading2>Your saved Playgrounds:</Heading2>
-      <SavedContainer>
-        {Array.isArray(user?.savedPlaygrounds) && user.savedPlaygrounds.length > 0 ? (
-          <List>
-            {user.savedPlaygrounds.map((pg) => (
-              <ListItem key={pg._id}>
-                <Paragraph>{pg.name}</Paragraph>
-                <div>
-                  <StyledIframe
-                    src={`https://www.google.com/maps?q=${pg.location.coordinates[0]},${pg.location.coordinates[1]}&z=15&output=embed`}
-                    title="Playground Location"
-                  ></StyledIframe>
-                </div>
-                <Paragraph>
-                  <a href={`/details/${pg._id}`}>Go to playground</a>
-                </Paragraph>
-                <ContainerButton onClick={() => handleRemovePlayground(pg)}>
-                  Remove from favourites
-                </ContainerButton>
-              </ListItem>
-            ))}
-          </List>
-        ) : (
-          <NoPlaygroundsText>You have no saved playgrounds yet. Add some!</NoPlaygroundsText>
-        )}
-      </SavedContainer>
+      {Array.isArray(user?.savedPlaygrounds) && user.savedPlaygrounds.length > 0 ? (
+        <SavedContainer>
+          {user.savedPlaygrounds.map((pg) => (
+            <ListItem key={pg._id}>
+              <Paragraph>{pg.name}</Paragraph>
+              <div>
+                <StyledIframe
+                  src={`https://www.google.com/maps?q=${pg.location.coordinates[0]},${pg.location.coordinates[1]}&z=15&output=embed`}
+                  title="Playground Location"
+                ></StyledIframe>
+              </div>
+              <Paragraph>
+                <a href={`/playgrounds/${pg._id}`}>Go to playground</a>
+              </Paragraph>
+              <ContainerButton onClick={() => handleRemovePlayground(pg)}>
+                Remove from favourites
+              </ContainerButton>
+            </ListItem>
+          ))}
+        </SavedContainer>
+      ) : (
+        <NoPlaygroundsText>You have no saved playgrounds yet. Add some!</NoPlaygroundsText>
+      )}
 
       <Heading2>Add a New Playground:</Heading2>
       <Form onSubmit={handlePostPlayground}>
