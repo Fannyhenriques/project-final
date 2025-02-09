@@ -8,9 +8,9 @@ body, html {
 }
 
 ul {
-  list-style-type: none;  /* Remove default bullet points */
-  margin: 0; /* Remove default margin */
-  padding: 0; /* Remove default padding */
+  list-style-type: none;  
+  margin: 0; 
+  padding: 0; 
 }
 
 a {
