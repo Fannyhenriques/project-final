@@ -36,7 +36,6 @@ export const usePlaygroundStore = create(
           }
 
           const updatedPlayground = await response.json();
-          console.log("Playground rated successfully:", updatedPlayground);
 
           set({ playground: updatedPlayground });
         } catch (err) {

@@ -9,8 +9,12 @@ import { Text } from "../ui/Typography"
 
 
 const StyledText = styled(Text)`
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   margin-bottom: 20px;
+
+  @media (max-width: 480px) {
+    font-size: 1.2rem; 
+  }
 `;
 
 const LoaderContainer = styled.div`
@@ -81,7 +85,6 @@ export const Homepage = () => {
     const fetchLocationAndPlaygrounds = async () => {
       try {
         const location = await getUserLocation();
-        console.log("User Location:", location);
         setUserLocation(location);
 
         if (!location || !location.lat || !location.lng) {
@@ -100,13 +103,11 @@ export const Homepage = () => {
             },
           }
         );
-        console.log("Response Status:", response.status);
-        console.log("Response Headers:", response.headers);
+
         if (!response.ok) {
           throw new Error(`Failed to fetch playgrounds: ${response.statusText}`);
         }
         const data = await response.json();
-        console.log("Playgrounds Data:", data);
 
         if (Array.isArray(data)) {
           setPlaygrounds(data);
@@ -134,7 +135,6 @@ export const Homepage = () => {
     try {
       const radius = 2000;
       const url = `https://project-playground-api.onrender.com/api/playgrounds?name=${encodeURIComponent(address)}&radius=${radius}`;
-      console.log("Request URL:", url);
       const response = await fetch(url);
 
       if (!response.ok) {
@@ -142,8 +142,6 @@ export const Homepage = () => {
       }
 
       const data = await response.json();
-      console.log("Fetched playgrounds:", data);
-
       setPlaygrounds(data || []);
       if (data.length > 0) {
         const { coordinates } = data[0].location;
