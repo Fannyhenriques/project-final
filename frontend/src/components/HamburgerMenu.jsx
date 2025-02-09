@@ -49,6 +49,11 @@ const MenuBox = styled.div`
   li {
     padding: 0.5rem 0rem;
     font-size: 1rem;
+
+    @media (min-width: 768px) {
+    font-size: 1.5rem; 
+  }
+    
   }
 
   a { 
@@ -61,6 +66,11 @@ const MenuBox = styled.div`
   @media (min-width: 1001px) {
     display: none;
   }
+
+  @media (min-width: 768px) {
+    width: 15rem;
+    height: 20rem;
+  }
 `;
 
 const CloseButton = styled.div`
@@ -72,7 +82,7 @@ const CloseButton = styled.div`
   cursor: pointer;
 
   &:hover {
-    color: #0f8381;
+    color: #2f3e46;
   }
 `;
 
