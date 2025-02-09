@@ -159,7 +159,7 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
           newMarkers.push(marker);
         }
       });
-
+      //.
       setMarkers(newMarkers);
 
       if (userLocation) {
