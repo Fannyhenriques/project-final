@@ -31,7 +31,7 @@ const Heading2 = styled(SubPageTitle)`
 `;
 
 const Button = styled.button`
-  width: 30%;
+  width: 50%;
   padding: 10px;
   font-size: 16px;
   font-weight: bold;
@@ -173,7 +173,7 @@ display: flex;
 flex-direction: column;
 align-items: center;
 justify-content: center;
-background: #446569; 
+background: #3c6e71; 
 border-radius: 15px; 
 padding: 20px;
 width: 300px;
