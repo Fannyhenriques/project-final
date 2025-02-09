@@ -42,6 +42,39 @@ export const useUserStore = create(
           console.error("Registration failed:", err);
         }
       },
+      // login: async (email, password) => {
+      //   try {
+      //     const response = await fetch("https://project-playground-api.onrender.com/user/login", {
+      //       method: "POST",
+      //       headers: { "Content-Type": "application/json" },
+      //       body: JSON.stringify({ email, password }),
+      //     });
+
+      //     const data = await response.json();
+
+      //     console.log("Login response data:", data);
+
+      //     if (!response.ok) {
+      //       throw new Error(`Login failed: ${data.message || 'Unknown error'}`);
+      //     }
+
+      //     const userData = {
+      //       id: data.userId,
+      //       name: data.name,
+      //       email: data.email,
+      //       savedPlaygrounds: data.savedPlaygrounds || [],
+      //       accessToken: data.accessToken,
+      //     };
+
+      //     localStorage.setItem("user", JSON.stringify(userData));
+      //     console.log("Stored user in localStorage:", userData);
+
+      //     set({ user: userData, isLoggedIn: true });
+
+      //   } catch (err) {
+      //     console.error("Login failed:", err);
+      //   }
+      // },
       login: async (email, password) => {
         try {
           const response = await fetch("https://project-playground-api.onrender.com/user/login", {
@@ -62,10 +95,16 @@ export const useUserStore = create(
             id: data.userId,
             name: data.name,
             email: data.email,
-            savedPlaygrounds: data.savedPlaygrounds || [],
             accessToken: data.accessToken,
           };
 
+          // Retrieve savedPlaygrounds from localStorage
+          const savedPlaygrounds = JSON.parse(localStorage.getItem("savedPlaygrounds") || "[]");
+
+          // Attach savedPlaygrounds to the user data
+          userData.savedPlaygrounds = savedPlaygrounds;
+
+          // Store the complete user data, including savedPlaygrounds
           localStorage.setItem("user", JSON.stringify(userData));
           console.log("Stored user in localStorage:", userData);
 
@@ -75,6 +114,7 @@ export const useUserStore = create(
           console.error("Login failed:", err);
         }
       },
+
       fetchUserProfile: async () => {
         const storedUser = localStorage.getItem("user");
         console.log("Stored User: ", storedUser);
@@ -107,17 +147,57 @@ export const useUserStore = create(
           }
         }
       },
+
+      // postPlayground: async (playgroundData) => {
+      //   try {
+      //     const user = get().user;
+      //     if (!user) throw new Error("User not logged in");
+
+      //     const response = await fetch("https://project-playground-api.onrender.com/api/playgrounds", {
+      //       method: "POST",
+      //       headers: {
+      //         "Content-Type": "application/json",
+      //         Authorization: `${user.accessToken}`,
+      //       },
+      //       body: JSON.stringify(playgroundData),
+      //     });
+
+      //     const data = await response.json();
+      //     console.log("Playground data from API:", data);
+
+      //     if (!response.ok) throw new Error(data.message || "Failed to post playground");
+
+      //     set((state) => {
+      //       const updatedUser = {
+      //         ...state.user,
+      //         savedPlaygrounds: [
+      //           ...state.user.savedPlaygrounds,
+      //           ...data.playground ? [data.playground] : []
+      //         ],
+      //       };
+      //       localStorage.setItem("user", JSON.stringify(updatedUser));
+      //       console.log("Updated savedPlaygrounds:", updatedUser.savedPlaygrounds);
+      //       return { user: updatedUser };
+      //     });
+
+      //     console.log("Playground added:", data.playground);
+      //   } catch (err) {
+      //     console.error("Error posting playground:", err);
+      //   }
+      // },
       postPlayground: async (playgroundData) => {
         try {
           const user = get().user;
-          if (!user) throw new Error("User not logged in");
+
+          // If user is logged in, use the accessToken, otherwise skip it
+          const headers = {
+            "Content-Type": "application/json",
+            ...(user && user.accessToken ? { "Authorization": `${user.accessToken}` } : {}),
+          };
 
           const response = await fetch("https://project-playground-api.onrender.com/api/playgrounds", {
             method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `${user.accessToken}`,
-            },
+            headers: headers,
             body: JSON.stringify(playgroundData),
           });
 
@@ -126,25 +206,27 @@ export const useUserStore = create(
 
           if (!response.ok) throw new Error(data.message || "Failed to post playground");
 
-          set((state) => {
-            const updatedUser = {
-              ...state.user,
-              savedPlaygrounds: [
-                ...state.user.savedPlaygrounds,
-                ...data.playground ? [data.playground] : []
-              ],
-            };
-            localStorage.setItem("user", JSON.stringify(updatedUser));
-            console.log("Updated savedPlaygrounds:", updatedUser.savedPlaygrounds);
-            return { user: updatedUser };
-          });
+          // If user is logged in, update the savedPlaygrounds in the state and localStorage
+          if (user) {
+            set((state) => {
+              const updatedUser = {
+                ...state.user,
+                savedPlaygrounds: [
+                  ...state.user.savedPlaygrounds,
+                  ...data.playground ? [data.playground] : []
+                ],
+              };
+              localStorage.setItem("user", JSON.stringify(updatedUser));
+              console.log("Updated savedPlaygrounds:", updatedUser.savedPlaygrounds);
+              return { user: updatedUser };
+            });
+          }
 
           console.log("Playground added:", data.playground);
         } catch (err) {
           console.error("Error posting playground:", err);
         }
       },
-
       removePlayground: async (playgroundToRemove) => {
         console.log("Received Playground to Remove:", playgroundToRemove);
 
@@ -179,15 +261,30 @@ export const useUserStore = create(
           console.error("Error removing playground from localStorage:", err.message);
         }
       },
-
       logout: () => {
         try {
+          const savedPlaygrounds = get().user?.savedPlaygrounds || [];
+          // Store savedPlaygrounds to localStorage
+          localStorage.setItem("savedPlaygrounds", JSON.stringify(savedPlaygrounds));
+
+          // Now clear user data
           set({ user: null, isLoggedIn: false });
-          localStorage.removeItem("user");
+          localStorage.removeItem("user"); // Remove user data from localStorage
+
+          console.log("User logged out and saved playgrounds to localStorage.");
         } catch (err) {
           console.error("An error occurred while logging out:", err);
         }
       },
+
+      // logout: () => {
+      //   try {
+      //     set({ user: null, isLoggedIn: false });
+      //     localStorage.removeItem("user");
+      //   } catch (err) {
+      //     console.error("An error occurred while logging out:", err);
+      //   }
+      // },
     }),
     {
       name: "user-store",
