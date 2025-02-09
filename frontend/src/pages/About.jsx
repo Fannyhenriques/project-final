@@ -3,12 +3,29 @@ import { PageTitle, Text } from "../ui/Typography";
 import playgroundmarker from "../assets/Playground_marker.png"
 
 const StyledPageTitle = styled(PageTitle)`
-  padding: 40px 0px 10px;
+  padding: 60px 0px 7px;
+  display: flex;
+  justify-content: center;
+
+  @media (max-width: 480px) {
+    padding: 40px 0px 7px;
+    font-size: 1.3rem; 
+    justify-content: left;
+  }
+  
 `;
 
 const AboutSection = styled.section`
-  max-width: 600px;
+  max-width: 1000px;
   padding: 0 20px;
+  margin: 0 auto; 
+`;
+
+const StyledText = styled(Text)`
+  padding: 20px 0px 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center; 
 `;
 
 const TextWithSpacing = styled(Text)`
@@ -16,35 +33,43 @@ const TextWithSpacing = styled(Text)`
 `;
 
 const BoldText = styled(Text)`
-  font-weight: 500; 
+  font-weight: 600; 
   margin-bottom: 20px; 
+  padding-top: 30px; 
 `;
 
 const StyledImage = styled.img`
-  width: 2rem; /* Adjust size to match checkmark */
+  width: 2rem; 
   height: auto;
-  margin-right: 8px; /* Space between image and text */
+  margin-right: 8px; 
 `;
 
 const StyledList = styled.ul`
-  list-style: none; /* Remove default bullets */
+  list-style: none; 
   padding: 0;
 `;
 
 const StyledListItem = styled.li`
   display: flex;
-  align-items: center; /* Align image and text */
-  margin-bottom: 10px; /* Space between list items */
+  align-items: center; 
+  margin-bottom: 10px; 
 `;
+
+const CenteredContainer = styled.div`
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+`;
+
 
 export const About = () => {
   return (
-    <div>
+    <CenteredContainer>
       <AboutSection>
         <StyledPageTitle>About PlaygroundFinder</StyledPageTitle>
-        <TextWithSpacing>
+        <StyledText>
           Welcome to PlaygroundFinder, your go-to app for discovering the best playgrounds near you! Whether you're a parent looking for a safe and fun place for your kids, or just someone who enjoys outdoor spaces, PlaygroundFinder helps you explore and find playgrounds with ease.
-        </TextWithSpacing>
+        </StyledText>
         <TextWithSpacing>
           <TextWithSpacing>Features:</TextWithSpacing>
           <StyledList>
@@ -70,16 +95,16 @@ export const About = () => {
             </StyledListItem>
           </StyledList>
         </TextWithSpacing>
-        <TextWithSpacing>
+        <StyledText>
 
           At PlaygroundFinder, we believe that outdoor play is essential for children’s development and well-being. Our goal is to make it easier for families to find great play spaces, ensuring every adventure is just a tap away!
 
           Start exploring today and make outdoor play more accessible for everyone!
-        </TextWithSpacing>
+        </StyledText>
         <BoldText>
-          This page was created as part of the final student project for the Technigo Bootcamp, January 2025, created by Anna Hansen and Fanny Henqriques.
+          This page was created as part of the final student project for the Technigo Bootcamp, January 2025, created by <a href="https://github.com/Anna2024WebDev">Anna Hansen</a> and <a href="https://github.com/Fannyhenriques">Fanny Henriques</a>.
         </BoldText>
       </AboutSection>
-    </div>
+    </CenteredContainer>
   );
 };
