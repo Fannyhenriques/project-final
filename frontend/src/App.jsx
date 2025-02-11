@@ -3,7 +3,7 @@ import { Header } from "./components/Header";
 import { Homepage } from "./pages/Homepage";
 import { LoginPage } from "./pages/LoginPage";
 import { ProfilePage } from "./pages/ProfilePage";
-import { About } from "./pages/About"
+import { About } from "./pages/About";
 import { routes } from "./utils/routes";
 import { PlaygroundDetails } from "./pages/PlaygroundDetails";
 

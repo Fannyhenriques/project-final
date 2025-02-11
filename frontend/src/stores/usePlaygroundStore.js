@@ -5,16 +5,12 @@ export const usePlaygroundStore = create(
   persist(
     (set, get) => ({
       playground: null,
-      playgrounds: [], // New state to store the list of playgrounds
+      playgrounds: [],
 
-      // Search Query (Persisted)
       searchQuery: "",
       setSearchQuery: (query) => set({ searchQuery: query }),
-
-      // Set playgrounds
       setPlaygrounds: (data) => set({ playgrounds: data }),
 
-      // Menu State
       isMenuOpen: false,
       toggleMenu: () => set((state) => ({ isMenuOpen: !state.isMenuOpen })),
       closeMenu: () => set({ isMenuOpen: false }),
@@ -44,8 +40,8 @@ export const usePlaygroundStore = create(
       },
     }),
     {
-      name: "playground-search-storage", // Storage key
-      partialize: (state) => ({ searchQuery: state.searchQuery }), // Only persist searchQuery
+      name: "playground-search-storage",
+      partialize: (state) => ({ searchQuery: state.searchQuery }),
     }
   )
 );

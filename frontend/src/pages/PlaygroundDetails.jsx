@@ -11,39 +11,39 @@ const CenteredContainer = styled.div`
   margin: 0 auto;
   color: white;
   font-family: "Poppins", sans-serif;
-  `;
+`;
 
 const Title = styled(PageTitle)`
   font-size: 1.5rem;
   text-align: center;
   margin-bottom: 1rem;
   margin-top: 1rem;
-  `;
+`;
 
 const Phone = styled(Text)`
   margin: 10px 10px 10px;
-  `;
+`;
 
 const OpeningHours = styled(Text)`
   margin: 0 auto;
   padding-left: 10px; 
-  `;
+`;
 
 const Facilities = styled(Text)`
   margin-top: 1rem;
   padding-left: 10px; 
-  `;
+`;
 
 const Rating = styled(Text)`
   margin-top: 1rem;
   padding-left: 10px; 
-  `;
+`;
 
 const ButtonContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  `;
+`;
 
 const SaveButton = styled.button`
   margin-bottom: 2rem;
@@ -56,7 +56,7 @@ const SaveButton = styled.button`
   font-family: "Poppins", sans-serif;
   margin: 0 auto;
   margin: 10px 10px 20px; 
-  `;
+`;
 
 const Map = styled.div`
   width: 100%;
@@ -73,7 +73,7 @@ const Map = styled.div`
       height: 300px;
     }
   }
-  `;
+`;
 
 const Reviews = styled(CenteredContainer)`
   margin-top: 2rem;
@@ -81,28 +81,27 @@ const Reviews = styled(CenteredContainer)`
   @media (max-width: 480px) {
       padding: 10px;
   }
-
-  `;
+`;
 
 const Review = styled.div`
   margin-bottom: 1rem;
   font-family: "Poppins", sans-serif;
-  `;
+`;
 
 const ReviewPhoto = styled.img`
   width: 100px;
   height: 100px;
-  `;
+`;
 
 const AuthorName = styled.a`
   padding-left: 1rem;
   color: white;
   text-decoration: none;
-  `;
+`;
 
 const ReviewText = styled.div`
   font-weight: 200;
-  `;
+`;
 
 const ImageSection = styled.div`
   display: flex;
@@ -115,11 +114,11 @@ const ImageSection = styled.div`
     height: auto;
     border-radius: 10px;
   }
-  `;
+`;
 
 const StyledP = styled(Text)`
   margin: 0 auto;
-  `;
+`;
 
 export const PlaygroundDetails = () => {
   const [playground, setPlayground] = useState(null);
@@ -129,7 +128,6 @@ export const PlaygroundDetails = () => {
   const [error, setError] = useState(null);
   const { playgroundId } = useParams();
   const navigate = useNavigate();
-  console.log("Fetching playground details for:", playgroundId);
 
   useEffect(() => {
     const fetchPlaygroundDetails = async () => {
@@ -140,7 +138,6 @@ export const PlaygroundDetails = () => {
           throw new Error('Failed to fetch playground details');
         }
         const data = await response.json();
-        console.log("Playground details:", data);
         setPlayground(data);
         setLoading(false);
       } catch (error) {
@@ -154,8 +151,6 @@ export const PlaygroundDetails = () => {
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
-
-  console.log("Playground data state:", playground);
 
   const formattedPhotos = playground.photos?.map(
     (photo) =>
@@ -180,8 +175,6 @@ export const PlaygroundDetails = () => {
         coordinates: [playground.geometry.location.lat, playground.geometry.location.lng]
       } : { type: "Point", coordinates: [0, 0] },
     };
-
-    console.log(playgroundData)
 
     postPlayground(playgroundData);
   };

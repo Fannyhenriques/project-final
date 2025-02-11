@@ -15,7 +15,7 @@ router.post("/register", async (req, res) => {
       accessToken: user.accessToken,
       message: "User registered successfully",
     });
-  } catch (error) { //added 11000 error for when the user or email already is registrerd. 
+  } catch (error) { //11000 error for when the user or email already is registrerd. 
     if (error.code === 11000) {
       res.status(400).json({
         success: false,
@@ -63,7 +63,7 @@ router.post("/login", async (req, res) => {
 
 router.get("/profile", authenticateUser, async (req, res) => {
   try {
-    // Fetch the user by ID, populating saved playgrounds
+    // Fetch the user by ID, populating the saved playgrounds
     const user = await User.findById(req.user.id).populate("savedPlaygrounds");
 
     if (!user) {

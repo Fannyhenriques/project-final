@@ -47,7 +47,6 @@ export async function fetchGooglePlacesPlaygroundsByName(name, radius = process.
   }
 }
 
-//new route to get playgrounds by fallback coordinates, specific coordinates or name
 router.get("/", async (req, res) => {
   let { lat, lng, radius = 5000, name } = req.query;
 
@@ -63,11 +62,11 @@ router.get("/", async (req, res) => {
     let playgrounds = [];
 
     if (name) {
-      // If a name is provided, search for playgrounds by name
+      // If a name is provided, - then search for playgrounds by name
       console.log("Searching for playgrounds by name:", name);
       playgrounds = await fetchGooglePlacesPlaygroundsByName(name, radius);
     } else {
-      // If no name is provided, fetch playgrounds based on coordinates
+      // If name is not provided, - then fetch playgrounds based on coordinates
       console.log("Searching for nearby playgrounds by coordinates.");
       playgrounds = await fetchGooglePlacesPlaygrounds(lat, lng, radius);
     }
@@ -81,7 +80,7 @@ router.get("/", async (req, res) => {
       );
       return res.json(fallbackPlaygrounds);
     } else {
-      // Process playground data to match MongoDB schema
+      // Processes playground data to match the MongoDB schema
       const processedPlaygrounds = playgrounds.map((place) => {
         const { geometry } = place;
         const location = {

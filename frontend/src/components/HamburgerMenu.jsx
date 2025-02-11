@@ -52,8 +52,7 @@ const MenuBox = styled.div`
 
     @media (min-width: 768px) {
     font-size: 1.5rem; 
-  }
-    
+    }
   }
 
   a { 

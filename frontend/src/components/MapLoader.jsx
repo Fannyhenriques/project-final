@@ -25,7 +25,6 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
   });
 
   const navigate = useNavigate();
-  //Event handler: handles marker click events 
   //fetch ID from our backend API- Fetches details of the selected playground and navigates to its detail page.
 
   const handleMarkerClick = async (playgroundId) => {
@@ -145,7 +144,6 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
             };
           }
 
-
           const marker = new google.maps.marker.AdvancedMarkerElement({
             map,
             position: { lat, lng },
@@ -156,7 +154,7 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
           newMarkers.push(marker);
         }
       });
-      //.
+
       setMarkers(newMarkers);
 
       if (userLocation) {
