@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { PageTitle, Text } from "../ui/Typography";
-import playgroundmarker from "../assets/Playground_marker.png"
+import playgroundmarker from "../assets/Playground_marker.png";
 
 const StyledPageTitle = styled(PageTitle)`
   padding: 60px 0px 7px;
@@ -12,7 +12,6 @@ const StyledPageTitle = styled(PageTitle)`
     font-size: 1.3rem; 
     justify-content: left;
   }
-  
 `;
 
 const AboutSection = styled.section`
@@ -60,7 +59,6 @@ const CenteredContainer = styled.div`
   justify-content: center; 
   align-items: center; 
 `;
-
 
 export const About = () => {
   return (

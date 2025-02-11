@@ -3,13 +3,11 @@ import { useUserStore } from "../stores/useUserStore";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { PageTitle, Text } from "../ui/Typography";
-import Children from "../assets/Children.png"
-
+import Children from "../assets/Children.png";
 
 const StyledPageTitle = styled(PageTitle)`
   padding-top: 20px; 
-  
-  `;
+`;
 
 const Img = styled.img`
   right: 100px;
@@ -51,7 +49,7 @@ const StyledForm = styled.form`
 
   @media (max-width: 480px) {
   width: 90%;
-}
+  }
 `;
 
 const InputGroup = styled.div`
@@ -129,7 +127,6 @@ export const LoginPage = () => {
 
   return (
     <FormContainer>
-
       <StyledPageTitle>{isRegister ? "Register" : "Login"}</StyledPageTitle>
       <StyledForm onSubmit={handleSubmit}>
         {isRegister && (

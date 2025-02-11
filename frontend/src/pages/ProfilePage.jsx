@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { useUserStore } from "../stores/useUserStore";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom"
-import { routes } from "../utils/routes"
+import { Link } from "react-router-dom";
+import { routes } from "../utils/routes";
 import styled from "styled-components";
 import { Text, PageTitle, SubPageTitle, primaryFont } from "../ui/Typography";
-
 
 const Container = styled.div`
   padding: 20px;
@@ -52,7 +51,6 @@ const Button = styled.button`
     @media (min-width: 1250px) {
     width: 300px; 
   }
-
 `;
 
 const SavedContainer = styled.div`
@@ -154,7 +152,6 @@ const List = styled.ul`
 
 const ListItem = styled(Text)`
   max-width: 100%;
-  /* margin: 10px 0; */
   padding: 15px;
 `;
 
@@ -169,28 +166,29 @@ const Paragraph = styled(Text)`
 `;
 
 const Form = styled.form`
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
-background: #3c6e71; 
-border-radius: 15px; 
-padding: 20px;
-width: 300px;
-margin: 0 auto;
-gap: 0.3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #3c6e71; 
+  border-radius: 15px; 
+  padding: 20px;
+  width: 300px;
+  margin: 0 auto;
+  gap: 0.3rem;
 
-@media (max-width: 480px) {
+  @media (max-width: 480px) {
   width: 250px; 
   margin: 0 auto; 
-}
+  }
 
-@media (max-width: 330px) {
+  @media (max-width: 330px) {
   width: 90%; 
   padding: 15px; 
   margin: 0 auto; 
-}
+  }
 `;
+
 const FormGroup = styled.div`
   margin-bottom: 15px;
 `;
@@ -241,7 +239,6 @@ export const ProfilePage = () => {
   const [postedPlaygrounds, setPostedPlaygrounds] = useState([]);
 
   useEffect(() => {
-    console.log("Profile updated, savedPlaygrounds:", user?.savedPlaygrounds);
   }, [user?.savedPlaygrounds]);
 
   useEffect(() => {
@@ -298,9 +295,6 @@ export const ProfilePage = () => {
       console.error("Error removing playground:", err.message);
     }
   };
-
-  console.log('User Data:', user);
-  console.log("Saved Playgrounds in Profile Component:", user?.savedPlaygrounds);
 
   return (
     <Container>

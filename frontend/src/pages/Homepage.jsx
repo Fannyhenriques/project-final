@@ -5,8 +5,7 @@ import { MapLoader } from "../components/MapLoader";
 import { getUserLocation } from "../hooks/getUserLocation";
 import { usePlaygroundStore } from "../stores/usePlaygroundStore";
 import loadingAnimation from "../assets/Animation - 1739129648764.json";
-import { Text } from "../ui/Typography"
-
+import { Text } from "../ui/Typography";
 
 const StyledText = styled(Text)`
   font-size: 1.6rem;

@@ -1,6 +1,5 @@
 import styled from "styled-components";
 
-// Font families (e.g., primary for headings, secondary for paragraphs)
 export const primaryFont = "Poppins";
 
 // Heading 1

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import playground from "../assets/PlaygroundFinder_white.png";
 import { routes } from "../utils/routes";
-import { HamburgerMenu } from './HamburgerMenu';
+import { HamburgerMenu } from "./HamburgerMenu";
 
 const HeaderContainer = styled.header`
   display: flex;

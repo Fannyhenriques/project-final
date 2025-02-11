@@ -23,7 +23,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// This will prefix all the routes in playgroundRoutes with /api/playgrounds
+// This will prefix all the routes in playgroundRoutes with /api/playgrounds and /user
 app.use("/api/playgrounds", router);
 app.use("/user", userRouter);
 
