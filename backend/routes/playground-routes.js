@@ -32,7 +32,7 @@ export async function fetchGooglePlacesPlaygrounds(
     console.error("Error fetching from Google Places API:", error.message);
     throw new Error("Google Places API error");
   }
-}
+};
 
 //helper function to query by name using textsearch 
 export async function fetchGooglePlacesPlaygroundsByName(name, radius = process.env.DEFAULT_RADIUS) {
@@ -45,7 +45,7 @@ export async function fetchGooglePlacesPlaygroundsByName(name, radius = process.
     console.error("Error fetching from Google Places API:", error.message);
     throw new Error("Google Places API error");
   }
-}
+};
 
 router.get("/", async (req, res) => {
   let { lat, lng, radius = 5000, name } = req.query;
