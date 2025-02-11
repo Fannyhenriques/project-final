@@ -82,6 +82,7 @@ const NoPlaygroundsText = styled(Text)`
 const ContainerButton = styled.button`
   max-width: 80%;
   padding: 0.6rem;
+  margin-top: 10px;
   font-size: 16px;
   font-weight: bold;
   border: none;
@@ -103,6 +104,7 @@ const ContainerButton = styled.button`
 const RemoveButton = styled.button`
   max-width: 80%;
   padding: 0.6rem;
+  margin-top: 1rem;
   font-size: 16px;
   font-weight: bold;
   border: none;
@@ -315,9 +317,9 @@ export const ProfilePage = () => {
                   title="Playground Location"
                 ></StyledIframe>
               </div>
-              <Paragraph>
+              {/* <Paragraph>
                 <a href={`/playgrounds/${pg._id}`}>Go to playground</a>
-              </Paragraph>
+              </Paragraph> */}
               <RemoveButton onClick={() => handleRemovePlayground(pg)}>
                 Remove from favourites
               </RemoveButton>

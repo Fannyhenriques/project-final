@@ -16,13 +16,14 @@ Playground Finder is a web application that helps users discover playgrounds nea
 - APIs: Google Places API (Nearby Search & Text Search for playgrounds), Geolocation API (used to get the user's current location)
 
 ## The Process
+Backend: 
 We started by defining schemas for Playground and User in the backend, along with middleware for authentication. We implemented routes for user registration, login, profile access, and posting playgrounds. The POST route allows users to save a playground to their profile.
 To fetch data from the Google Places API, we created two helper functions:
 - Nearby Playgrounds Search (using the nearbySearch endpoint) – retrieves playgrounds based on the user's location by dynamically constructing the API URL with latitude, longitude, and search radius.
 - Playground Search by Name (using the textSearch endpoint) – searches for playgrounds by name if provided.
 If neither name nor coordinates are provided, the API defaults to fallback coordinates for Stockholm. Additionally, we implemented an ID-based route to fetch detailed information about a specific playground.
 
-- Frontend: 
+Frontend: 
 - To display the playgrounds on a map, we used Google Maps. We created a custom hook with the Geolocation API to retrieve the user's current location. On the homepage, this hook runs on page load, and if a search query is entered, the displayed playgrounds update based on the specified location.
 - We initialized a Google Map in the MapLoader component using the @react-google-maps/api library, displaying playgrounds as markers. If a matching result is found, the map pans to that location and zooms in.
 - For state management—handling user registration, login, fetching the profile page, saving playgrounds, and logging out—we used Zustand. To ensure user data persists, we stored it in localStorage using Zustand’s persist middleware.
