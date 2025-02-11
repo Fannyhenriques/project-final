@@ -82,6 +82,7 @@ const NoPlaygroundsText = styled(Text)`
 const ContainerButton = styled.button`
   max-width: 80%;
   padding: 0.6rem;
+  margin-top: 10px;
   font-size: 16px;
   font-weight: bold;
   border: none;
@@ -103,6 +104,7 @@ const ContainerButton = styled.button`
 const RemoveButton = styled.button`
   max-width: 80%;
   padding: 0.6rem;
+  margin-top: 1rem;
   font-size: 16px;
   font-weight: bold;
   border: none;
@@ -123,7 +125,6 @@ const RemoveButton = styled.button`
 
 const RemovePostButton = styled.button`
   max-width: 80%;
-  margin-top: 10px;
   padding: 0.6rem;
   font-size: 16px;
   font-weight: bold;
