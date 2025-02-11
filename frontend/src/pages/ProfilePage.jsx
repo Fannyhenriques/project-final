@@ -121,6 +121,9 @@ const RemoveButton = styled.button`
     background-color: #ccc;
     cursor: not-allowed;
   }
+  @media (max-width: 480px) {
+  font-size: 14px;
+  }
 `;
 
 const RemovePostButton = styled.button`
