@@ -123,6 +123,7 @@ const RemoveButton = styled.button`
 
 const RemovePostButton = styled.button`
   max-width: 80%;
+  margin-top: 10px;
   padding: 0.6rem;
   font-size: 16px;
   font-weight: bold;
@@ -315,9 +316,9 @@ export const ProfilePage = () => {
                   title="Playground Location"
                 ></StyledIframe>
               </div>
-              <Paragraph>
+              {/* <Paragraph>
                 <a href={`/playgrounds/${pg._id}`}>Go to playground</a>
-              </Paragraph>
+              </Paragraph> */}
               <RemoveButton onClick={() => handleRemovePlayground(pg)}>
                 Remove from favourites
               </RemoveButton>
