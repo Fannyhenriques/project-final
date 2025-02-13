@@ -265,6 +265,18 @@ export const ProfilePage = () => {
     return <LogoutText>Oops! It looks like you're not logged in. <br></br> Please <Link to={routes.login}>login</Link> or register to access your profile page.</LogoutText>;
   }
 
+
+  // if (isFetchingData) {
+
+  //   return (
+  //     <LoaderContainer>
+  //       <StyledText>Loading Playground Map...</StyledText>
+  //       <Lottie animationData={loadingAnimation} loop={true} />
+  //     </LoaderContainer>
+  //   );
+  // }
+
+
   const handleLogout = () => {
     logout();
     navigate("/login");

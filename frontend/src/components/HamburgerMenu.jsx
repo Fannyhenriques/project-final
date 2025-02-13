@@ -30,8 +30,8 @@ const MenuBox = styled.div`
   top: 100%;
   left: 0;
   background-color: #3c6e71; 
-  width: 10rem;
-  height: 15rem;
+  width: 11rem;
+  height: 16rem;
   padding: 0rem 0.5rem;
   flex-direction: column;
   align-items: flex-end;
@@ -44,14 +44,20 @@ const MenuBox = styled.div`
     list-style: none;
     padding-top: 30px;
     text-align: center;
+    padding-bottom: 20px; 
   }
 
   li {
     padding: 0.5rem 0rem;
-    font-size: 1rem;
+    font-size: 1.5rem;
 
-    @media (min-width: 768px) {
-    font-size: 1.5rem; 
+    @media (max-width: 768px) {
+    font-size: 1.3rem; 
+    }
+
+    
+    @media (max-width: 480px) {
+    font-size: 1.2rem; 
     }
   }
 
@@ -67,8 +73,8 @@ const MenuBox = styled.div`
   }
 
   @media (min-width: 768px) {
-    width: 15rem;
-    height: 20rem;
+    width: 14rem;
+    height: 19rem;
   }
 `;
 
