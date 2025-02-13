@@ -2,6 +2,7 @@
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import playground from "../assets/PlaygroundFinder_white.png";
+import playgroundImage from "../assets/playground.png"
 import { routes } from "../utils/routes";
 import { HamburgerMenu } from "./HamburgerMenu";
 
@@ -39,6 +40,26 @@ const HeaderImg = styled.img`
   }
 `;
 
+const StyledImage = styled.img`
+position: absolute;
+  right: 30px;
+  width: 4rem;
+  height: auto;
+  padding: 5px;
+
+  @media (max-width: 1000px) {
+    left: unset;
+    margin: 0 auto;
+    display: block;
+    padding: 5px 10px 0px 50px;
+  }
+
+
+  @media  (max-width: 800px) {
+   display: none; 
+  }
+`;
+
 const Nav = styled.nav`
   display: flex;
   justify-content: center;
@@ -70,7 +91,7 @@ const StyledNavLink = styled(NavLink)`
 export const Header = () => {
   return (
     <HeaderContainer>
-      <HeaderImg src={playground} alt="Playground Finder Logo" />
+      <HeaderImg src={playground} alt="Playground Finder Logo" /><StyledImage src={playgroundImage} alt="playground image" />
       <Nav>
         <NavList>
           <StyledNavLink to={routes.home} aria-label="Go to Home page">Home</StyledNavLink>
@@ -83,3 +104,7 @@ export const Header = () => {
     </HeaderContainer>
   );
 };
+
+
+
+

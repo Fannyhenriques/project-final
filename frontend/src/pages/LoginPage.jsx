@@ -6,14 +6,14 @@ import { PageTitle, Text } from "../ui/Typography";
 import Children from "../assets/Children.png";
 
 const StyledPageTitle = styled(PageTitle)`
-  padding-top: 20px; 
+  padding-top: 30px; 
 `;
 
 const Img = styled.img`
   right: 100px;
   width: 20rem;
   height: auto;
-  padding-top: 20px;
+  padding-top: 5px;
 
   @media (max-width: 768px) {
     width: 14rem;
@@ -67,6 +67,11 @@ const Input = styled.input`
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 16px;
+  outline: none; 
+
+  &:focus {
+    border-color: #7eb7bd;
+  }
 `;
 
 const Button = styled.button`
