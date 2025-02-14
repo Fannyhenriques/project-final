@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { PageTitle, Text } from "../ui/Typography";
+import { PageTitle, SmallText, Text } from "../ui/Typography";
 import playgroundmarker from "../assets/Playground_marker.png";
 
 const StyledPageTitle = styled(PageTitle)`
@@ -52,6 +52,12 @@ const StyledListItem = styled.li`
   margin-bottom: 10px; 
 `;
 
+const TributeText = styled(SmallText)`
+  padding: 10px 0px 10px;
+  text-align: center; 
+  display: block; 
+  `;
+
 const CenteredContainer = styled.div`
   display: flex;
   justify-content: center; 
@@ -100,7 +106,8 @@ export const About = () => {
         <BoldText>
           This page was created as part of the final student project for the Technigo Bootcamp, January 2025, created by <a href="https://github.com/Anna2024WebDev">Anna Hansen</a> and <a href="https://github.com/Fannyhenriques">Fanny Henriques</a>.
         </BoldText>
+        <TributeText>Images on the profile page and in the navbar are from <a href="https://www.flaticon.com">Flaticon</a></TributeText>
       </AboutSection>
     </CenteredContainer>
   );
-};
+}; 
