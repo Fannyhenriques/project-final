@@ -21,7 +21,7 @@ const AboutSection = styled.section`
 `;
 
 const StyledText = styled(Text)`
-  padding: 20px 0px 10px;
+  padding: 10px 0px 10px;
   display: flex;
   justify-content: center;
   align-items: center; 
@@ -33,8 +33,6 @@ const TextWithSpacing = styled(Text)`
 
 const BoldText = styled(Text)`
   font-weight: 600; 
-  margin-bottom: 20px; 
-  padding-top: 30px; 
 `;
 
 const StyledImage = styled.img`
