@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { routes } from "../utils/routes";
 import styled from "styled-components";
 import { Text, PageTitle, SubPageTitle, primaryFont } from "../ui/Typography";
+import Login from "../assets/Login.png"
 
 const Container = styled.div`
   padding: 20px;
@@ -24,8 +25,7 @@ const Heading1 = styled(PageTitle)`
 
 const Heading2 = styled(SubPageTitle)`
   color: white;
-  padding-top: 4rem;
-  padding-bottom: 1rem;
+  padding-top: 3rem;
   margin: 0;
 `;
 
@@ -56,7 +56,6 @@ const Button = styled.button`
 const SavedContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);  
-  gap: 1rem;  
   justify-content: center;
   align-items: center;
 
@@ -164,10 +163,16 @@ const LogoutText = styled(Text)`
   font-family: ${primaryFont};
   text-align: center;
   font-size: 1.2rem;
-  padding-top: 2rem; 
+  padding: 2rem 1rem 0rem; 
+
+  @media (max-width: 480px) {
+    font-size: 1rem; 
+  }
 `;
 
 const Paragraph = styled(Text)`
+margin: 0;
+padding-bottom: 8px; 
 `;
 
 const Form = styled.form`
@@ -228,6 +233,24 @@ const StyledIframe = styled.iframe`
   border: none;
 `;
 
+const Img = styled.img`
+  height: auto;
+  width: 200px; 
+  padding-top: 20px; 
+
+  @media (max-width: 480px){
+    width: 150px;
+  }
+
+`;
+
+const LoginContainer = styled.div`
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  text-align: center; 
+`;
+
 export const ProfilePage = () => {
   const { user, fetchUserProfile, logout, isLoading, error, postPlayground, removePlayground } = useUserStore();
   const navigate = useNavigate();
@@ -262,8 +285,17 @@ export const ProfilePage = () => {
     );
   }
   if (!user) {
-    return <LogoutText>Oops! It looks like you're not logged in. <br></br> Please <Link to={routes.login}>login</Link> or register to access your profile page.</LogoutText>;
+    return (
+      <LoginContainer>
+        <LogoutText>Oops! It looks like you're not logged in. <br></br> Please <Link to={routes.login}>login</Link> or register to access your profile page.
+        </LogoutText>
+        <Link to={routes.login}>
+          <Img src={Login} alt="Login icon" />
+        </Link>
+      </LoginContainer>
+    );
   }
+
 
   const handleLogout = () => {
     logout();
