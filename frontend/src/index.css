@@ -5,6 +5,7 @@ body, html {
   width: 100%;
   background-color:#2f3e46;
   overflow-x: hidden; 
+  box-sizing: border-box;
 }
 
 ul {

@@ -46,16 +46,28 @@ const ButtonContainer = styled.div`
 `;
 
 const SaveButton = styled.button`
-  margin-bottom: 2rem;
-  padding: 10px 20px;
-  background-color: white;
-  color: #053332;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+  max-width: 80%; 
   font-family: "Poppins", sans-serif;
-  margin: 0 auto;
   margin: 10px 10px 20px; 
+  padding: 10px 15px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #2f3e46;
+&:hover {
+background-color: #3c6e71;
+color: white; 
+}
+&:disabled {
+background-color: #ccc;
+cursor: not-allowed;
+}
+
+  @media (max-width: 480px) {
+font-size: 14px;
+}
 `;
 
 const Map = styled.div`
