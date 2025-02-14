@@ -236,7 +236,7 @@ const StyledIframe = styled.iframe`
 
 const Img = styled.img`
   height: auto;
-  width: 200px; 
+  width: 180px; 
   padding-top: 50px; 
 
   @media (max-width: 480px){
