@@ -163,10 +163,11 @@ const LogoutText = styled(Text)`
   font-family: ${primaryFont};
   text-align: center;
   font-size: 1.2rem;
-  padding: 2rem 1rem 0rem; 
+  padding: 0.5rem 1rem 0rem; 
 
   @media (max-width: 480px) {
-    font-size: 1rem; 
+    font-size: 1.1rem; 
+
   }
 `;
 
@@ -236,7 +237,7 @@ const StyledIframe = styled.iframe`
 const Img = styled.img`
   height: auto;
   width: 200px; 
-  padding-top: 20px; 
+  padding-top: 50px; 
 
   @media (max-width: 480px){
     width: 150px;
@@ -287,11 +288,11 @@ export const ProfilePage = () => {
   if (!user) {
     return (
       <LoginContainer>
-        <LogoutText>Oops! It looks like you're not logged in. <br></br> Please <Link to={routes.login}>login</Link> or register to access your profile page.
-        </LogoutText>
         <Link to={routes.login}>
           <Img src={Login} alt="Login icon" />
         </Link>
+        <LogoutText>Oops! It looks like you're not logged in. <br></br> Please <Link to={routes.login}>login</Link> or register to access your profile page.
+        </LogoutText>
       </LoginContainer>
     );
   }

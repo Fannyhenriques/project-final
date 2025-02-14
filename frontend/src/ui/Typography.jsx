@@ -39,3 +39,12 @@ font-weight: 400;
 line-height: 1.3;
 color: #FFF;
 `;
+
+//Small text
+export const SmallText = styled.span`
+font-family: ${primaryFont};
+font-size: 0.8rem;
+font-weight: 400;
+line-height: 1.3;
+color: #FFF;
+`;  
