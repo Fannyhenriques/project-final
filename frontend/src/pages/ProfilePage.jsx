@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { routes } from "../utils/routes";
 import styled from "styled-components";
 import { Text, PageTitle, SubPageTitle } from "../ui/Typography";
-import Login from "../assets/Login.png"
+import Login from "../assets/Login2.png"
 
 const Container = styled.div`
   padding: 20px;

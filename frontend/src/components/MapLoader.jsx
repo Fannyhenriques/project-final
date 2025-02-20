@@ -188,7 +188,7 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
   }
 
   if (!isLoaded) {
-    return <p>Loading map....</p>;
+    return null;
   }
 
   return (
