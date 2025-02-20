@@ -282,7 +282,7 @@ export const ProfilePage = () => {
   }, [fetchUserProfile]);
 
   if (isLoading) {
-    return <Text>Loading...</Text>;
+    return null;
   }
   if (error) {
     return (
