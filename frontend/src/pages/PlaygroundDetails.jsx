@@ -125,8 +125,8 @@ const ImageSection = styled.div`
   img {
     max-width: 100%;
     height: auto;
-    border-radius: 20px;
-    padding: 10px; 
+    border-radius: 15px;
+    padding: 8px; 
   }
 `;
 
