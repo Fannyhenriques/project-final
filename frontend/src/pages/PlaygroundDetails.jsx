@@ -25,7 +25,7 @@ const Phone = styled(Text)`
 `;
 
 const OpeningHours = styled(Text)`
-  margin: 0 auto;
+  /* margin: 0 auto; */
   padding-left: 10px; 
 `;
 
@@ -125,7 +125,8 @@ const ImageSection = styled.div`
   img {
     max-width: 100%;
     height: auto;
-    border-radius: 10px;
+    border-radius: 20px;
+    padding: 10px; 
   }
 `;
 
