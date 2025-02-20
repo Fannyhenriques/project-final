@@ -51,13 +51,14 @@ const SaveButton = styled.button`
   margin: 10px 10px 20px; 
   padding: 10px 15px;
   font-size: 16px;
+  font-weight: bold; 
   border: none;
   border-radius: 4px;
   cursor: pointer;
   color: #2f3e46;
 &:hover {
-background-color: #3c6e71;
-color: white; 
+background-color: #E6FA54; 
+color: #2f3e46; 
 }
 &:disabled {
 background-color: #ccc;
@@ -112,6 +113,7 @@ const AuthorName = styled.a`
 
 const ReviewText = styled.div`
   font-weight: 200;
+  font-family: "Roboto"
 `;
 
 const ImageSection = styled.div`
