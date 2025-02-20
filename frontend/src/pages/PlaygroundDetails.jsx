@@ -163,7 +163,7 @@ export const PlaygroundDetails = () => {
     fetchPlaygroundDetails();
   }, [playgroundId]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return null;
   if (error) return <div>Error: {error}</div>;
 
   const formattedPhotos = playground.photos?.map(
