@@ -47,11 +47,10 @@ const ButtonContainer = styled.div`
 
 const SaveButton = styled.button`
   max-width: 80%; 
-  font-family: "Poppins", sans-serif;
+  font-family: "Poppins";
   margin: 10px 10px 20px; 
   padding: 10px 15px;
   font-size: 16px;
-  font-weight: bold;
   border: none;
   border-radius: 4px;
   cursor: pointer;

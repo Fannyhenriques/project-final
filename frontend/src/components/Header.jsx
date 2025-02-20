@@ -12,7 +12,7 @@ const HeaderContainer = styled.header`
   align-items: center;
   padding: 15px 20px;
   height: 50px;
-  background-color: #3c6e71;
+  background-color: #315a5c;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   position: relative;
   margin-top: 35px;
@@ -84,7 +84,7 @@ const StyledNavLink = styled(NavLink)`
   font-weight: bold;
   font-family: "Poppins";
   &:hover {
-    color: #2f3e46;
+    color: #E6FA54;
   }
 `;
 

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const primaryFont = "Poppins";
+export const secondaryFont = "Roboto"
 
 // Heading 1
 export const Title = styled.h1`
@@ -33,7 +34,7 @@ color: #053332;
 
 // Paragraph text
 export const Text = styled.p`
-font-family: ${primaryFont};
+font-family: ${secondaryFont};
 font-size: 1rem;
 font-weight: 400;
 line-height: 1.3;
@@ -42,7 +43,7 @@ color: #FFF;
 
 //Small text
 export const SmallText = styled.span`
-font-family: ${primaryFont};
+font-family: ${secondaryFont};
 font-size: 0.8rem;
 font-weight: 400;
 line-height: 1.3;

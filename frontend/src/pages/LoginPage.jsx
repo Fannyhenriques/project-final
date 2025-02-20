@@ -43,7 +43,7 @@ const StyledForm = styled.form`
   flex-direction: column;
   width: 90%;
   gap: 12px;
-  background: #3c6e71; 
+  background: #315a5c; 
   border-radius: 15px; 
   padding: 20px; 
 
@@ -81,11 +81,12 @@ const Button = styled.button`
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  font-family: "Roboto";
   background-color: white;
   color: #2f3e46;
   &:hover {
-    background-color: #2f3e46;
-    color: white; 
+    background-color: #E6FA54;
+    color: #2f3e46; 
   }
   &:disabled {
     background-color: #ccc;
@@ -96,7 +97,13 @@ const Button = styled.button`
 const ToggleButton = styled(Button)`
   background-color: transparent;
   color: white;
+  font-family: "Roboto";
   text-decoration: underline;
+
+  &:hover {
+   background: transparent;  
+   color: #E6FA54; 
+  }
 `;
 
 export const LoginPage = () => {

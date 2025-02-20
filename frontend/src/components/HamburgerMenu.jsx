@@ -19,17 +19,32 @@ const HamburgerIcon = styled.div`
     div {
       width: 100%;
       height: 4px;
-      background-color: white;
+      background-color: ${({ $isOpen }) => ($isOpen ? "#E6FA54" : "white")};
       border-radius: 4px;
+      transition: all 0.3s ease-in-out;
+    }
+  
+
+  div:nth-child(1) {
+      transform: ${({ $isOpen }) => ($isOpen ? "rotate(45deg) translate(7px, 7px)" : "none")};
+    }
+    
+    div:nth-child(2) {
+      opacity: ${({ $isOpen }) => ($isOpen ? "0" : "1")};
+    }
+    
+    div:nth-child(3) {
+      transform: ${({ $isOpen }) => ($isOpen ? "rotate(-45deg) translate(7px, -7px)" : "none")};
     }
   }
 `;
+
 
 const MenuBox = styled.div` 
   position: absolute;
   top: 100%;
   left: 0;
-  background-color: #3c6e71; 
+  background-color: #315a5c; 
   width: 11rem;
   height: 16rem;
   padding: 0rem 0.5rem;
@@ -66,6 +81,9 @@ const MenuBox = styled.div`
     text-decoration: none;
     font-weight: 300;
     font-family: "Poppins";
+  &:hover {
+    color: #E6FA54;
+  }
   }
 
   @media (min-width: 1001px) {
@@ -78,33 +96,33 @@ const MenuBox = styled.div`
   }
 `;
 
-const CloseButton = styled.div`
-  position: absolute;
-  bottom: 1rem;
-  left: 1rem;
-  color: white;
-  font-size: 2rem;
-  cursor: pointer;
+// const CloseButton = styled.div`
+//   position: absolute;
+//   bottom: 1rem;
+//   left: 1rem;
+//   color: white;
+//   font-size: 2rem;
+//   cursor: pointer;
 
-  &:hover {
-    color: #2f3e46;
-  }
-`;
+//   &:hover {
+//     color: #E6FA54;
+//   }
+// `;
 
 export const HamburgerMenu = () => {
   const { isMenuOpen, toggleMenu, closeMenu } = usePlaygroundStore();
 
   return (
     <>
-      <HamburgerIcon onClick={toggleMenu}>
+      <HamburgerIcon onClick={toggleMenu} $isOpen={isMenuOpen}>
         <div></div>
         <div></div>
         <div></div>
       </HamburgerIcon>
 
       <MenuBox $isOpen={isMenuOpen}>
-        {/* Close Button */}
-        <CloseButton onClick={closeMenu}>×</CloseButton>
+        {/* Close Button
+        <CloseButton onClick={closeMenu}>×</CloseButton> */}
 
         <ul>
           <li>

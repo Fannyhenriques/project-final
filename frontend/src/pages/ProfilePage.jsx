@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { routes } from "../utils/routes";
 import styled from "styled-components";
-import { Text, PageTitle, SubPageTitle, primaryFont } from "../ui/Typography";
+import { Text, PageTitle, SubPageTitle } from "../ui/Typography";
 import Login from "../assets/Login.png"
 
 const Container = styled.div`
@@ -33,6 +33,7 @@ const Button = styled.button`
   width: 50%;
   padding: 10px;
   font-size: 16px;
+  font-family: "Roboto";
   font-weight: bold;
   border: none;
   border-radius: 4px;
@@ -40,8 +41,8 @@ const Button = styled.button`
   background-color: white;
   color: #2f3e46;
   &:hover {
-    background-color: #3c6e71;
-    color: white; 
+    background-color: #E6FA54;
+    color: #2f3e46; 
   }
   &:disabled {
     background-color: #ccc;
@@ -82,7 +83,8 @@ const ContainerButton = styled.button`
   max-width: 80%;
   padding: 0.6rem;
   margin-top: 10px;
-  font-size: 16px;
+  font-size: 14px;
+  font-family: "Roboto";
   font-weight: bold;
   border: none;
   border-radius: 4px;
@@ -104,8 +106,9 @@ const RemoveButton = styled.button`
   max-width: 80%;
   padding: 0.6rem;
   margin-top: 1rem;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: bold;
+  font-family: "Roboto";
   border: none;
   border-radius: 4px;
   align-self: center;
@@ -113,8 +116,8 @@ const RemoveButton = styled.button`
   background-color: white;
   color: #2f3e46;
   &:hover {
-    background-color: #3c6e71;
-    color: white; 
+    background-color: #E6FA54;
+    color: #2f3e46; 
   }
   &:disabled {
     background-color: #ccc;
@@ -160,7 +163,6 @@ const ListItem = styled(Text)`
 `;
 
 const LogoutText = styled(Text)`
-  font-family: ${primaryFont};
   text-align: center;
   font-size: 1.2rem;
   padding: 0.5rem 1rem 0rem; 
@@ -181,7 +183,7 @@ const Form = styled.form`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: #3c6e71; 
+  background: #315a5c; 
   border-radius: 15px; 
   padding: 20px;
   width: 300px;
@@ -236,11 +238,16 @@ const StyledIframe = styled.iframe`
 
 const Img = styled.img`
   height: auto;
-  width: 180px; 
+  width: 160px; 
   padding-top: 80px; 
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    filter: brightness(0) saturate(100%) invert(85%) sepia(20%) saturate(600%) hue-rotate(30deg);
+  }
 
   @media (max-width: 480px){
-    width: 150px;
+    width: 140px;
   }
 
 `;
@@ -275,12 +282,12 @@ export const ProfilePage = () => {
   }, [fetchUserProfile]);
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <Text>Loading...</Text>;
   }
   if (error) {
     return (
       <div>
-        <p>Error: {error}</p>
+        <Text>Error: {error}</Text>
         <button onClick={fetchUserProfile}>Retry</button>
       </div>
     );
@@ -346,8 +353,8 @@ export const ProfilePage = () => {
         <SavedContainer>
           {user.savedPlaygrounds.map((pg) => (
             <ListItem key={pg._id}>
-              <Paragraph>{pg.name}</Paragraph>
               <div>
+                <Paragraph>{pg.name}</Paragraph>
                 <StyledIframe
                   src={`https://www.google.com/maps?q=${pg.location.coordinates[0]},${pg.location.coordinates[1]}&z=15&output=embed`}
                   title="Playground Location"
@@ -444,11 +451,11 @@ export const ProfilePage = () => {
         <List>
           {postedPlaygrounds.map((playground, index) => (
             <ListItem key={index}>
-              <p><strong>Name:</strong> {playground.name}</p>
-              <p><strong>Description:</strong> {playground.description}</p>
-              <p><strong>Address:</strong> {playground.address}</p>
-              <p><strong>Facilities:</strong> {playground.facilities}</p>
-              <p><strong>Location:</strong> {playground.location.coordinates.join(", ")}</p>
+              <Text><strong>Name:</strong> {playground.name}</Text>
+              <Text><strong>Description:</strong> {playground.description}</Text>
+              <Text><strong>Address:</strong> {playground.address}</Text>
+              <Text><strong>Facilities:</strong> {playground.facilities}</Text>
+              <Text><strong>Location:</strong> {playground.location.coordinates.join(", ")}</Text>
               <RemovePostButton onClick={() => handleRemovePlayground(playground)}>
                 Remove Playground
               </RemovePostButton>
