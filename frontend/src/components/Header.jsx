@@ -97,6 +97,7 @@ export const Header = () => {
           <StyledNavLink to={routes.home} aria-label="Go to Home page">Home</StyledNavLink>
           <StyledNavLink to={routes.login} aria-label="Go to Login page">Login</StyledNavLink>
           <StyledNavLink to={routes.profile} aria-label="Go to Profile">Profile</StyledNavLink>
+          <StyledNavLink to={routes.activities} aria-label="Go to Activities">Activities</StyledNavLink>
           <StyledNavLink to={routes.about} aria-label="About PlayGroundFinder">About</StyledNavLink>
         </NavList>
       </Nav>
