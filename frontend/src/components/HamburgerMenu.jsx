@@ -46,7 +46,7 @@ const MenuBox = styled.div`
   left: 0;
   background-color: #315a5c; 
   width: 11rem;
-  height: 16rem;
+  height: 18rem;
   padding: 0rem 0.5rem;
   flex-direction: column;
   align-items: flex-end;
@@ -96,19 +96,6 @@ const MenuBox = styled.div`
   }
 `;
 
-// const CloseButton = styled.div`
-//   position: absolute;
-//   bottom: 1rem;
-//   left: 1rem;
-//   color: white;
-//   font-size: 2rem;
-//   cursor: pointer;
-
-//   &:hover {
-//     color: #E6FA54;
-//   }
-// `;
-
 export const HamburgerMenu = () => {
   const { isMenuOpen, toggleMenu, closeMenu } = usePlaygroundStore();
 
@@ -133,6 +120,9 @@ export const HamburgerMenu = () => {
           </li>
           <li>
             <NavLink to="/profile" className={({ isActive }) => (isActive ? "active" : "")} aria-label="Go to Profile">Profile</NavLink>
+          </li>
+          <li>
+            <NavLink to="/activities" className={({ isActive }) => (isActive ? "active" : "")} aria-label="Go to Activities">Activities</NavLink>
           </li>
           <li>
             <NavLink to="/about" className={({ isActive }) => (isActive ? "active" : "")} aria-label="About PlayGroundFinder">About</NavLink>
