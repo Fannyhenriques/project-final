@@ -100,7 +100,7 @@ export const Homepage = () => {
         }
 
         const response = await fetch(
-          `https://project-playground-api.onrender.com/api/playgrounds?lat=${location.lat}&lng=${location.lng}`,
+          `https://project-playgroundfinder-api.onrender.com/api/playgrounds?lat=${location.lat}&lng=${location.lng}`,
           {
             method: "GET",
             mode: "cors",
@@ -142,7 +142,7 @@ export const Homepage = () => {
 
     try {
       const radius = 2000;
-      const url = `https://project-playground-api.onrender.com/api/playgrounds?name=${encodeURIComponent(address)}&radius=${radius}`;
+      const url = `https://project-playgroundfinder-api.onrender.com/api/playgrounds?name=${encodeURIComponent(address)}&radius=${radius}`;
       const response = await fetch(url);
 
       if (!response.ok) {
