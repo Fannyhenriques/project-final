@@ -34,9 +34,9 @@ export const Activities = () => {
   return (
     <CenteredContainer>
       <ActivitiesSection>
-        <StyledPageTitle>Activities</StyledPageTitle>
+        <StyledPageTitle>Upcoming Feature: Activities</StyledPageTitle>
         <StyledText>
-          Here you will find tips about other activities when you don´t want to go to a playground, perhaps it is raining or you just don´t have the time or effort.
+          Soon, you'll find great tips for fun activities beyond playground visits! Whether it's raining, you're short on time, or just in the mood for something different, we’ll have plenty of ideas for you. Stay tuned!
         </StyledText>
       </ActivitiesSection>
     </CenteredContainer>

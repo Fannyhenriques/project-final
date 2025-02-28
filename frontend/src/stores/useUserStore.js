@@ -8,15 +8,20 @@ export const useUserStore = create(
       isLoggedIn: false,
       register: async (name, email, password) => {
         try {
-          const response = await fetch("https://project-playground-api.onrender.com/user/register", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name, email, password }),
-          });
+          const response = await fetch(
+            "https://project-playgroundfinder-api.onrender.com/user/register",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ name, email, password }),
+            }
+          );
           const data = await response.json();
 
           if (!response.ok) {
-            throw new Error(`Registration failed: ${data.message || 'Unknown error'}`);
+            throw new Error(
+              `Registration failed: ${data.message || "Unknown error"}`
+            );
           }
           if (data.userId && data.accessToken) {
             // Constructing the user object
@@ -30,9 +35,10 @@ export const useUserStore = create(
 
             localStorage.setItem("user", JSON.stringify(user));
             set({ user, isLoggedIn: true });
-
           } else {
-            console.error("User data not found in API response (missing userId or accessToken)");
+            console.error(
+              "User data not found in API response (missing userId or accessToken)"
+            );
           }
         } catch (err) {
           console.error("Registration failed:", err);
@@ -40,16 +46,19 @@ export const useUserStore = create(
       },
       login: async (email, password) => {
         try {
-          const response = await fetch("https://project-playground-api.onrender.com/user/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, password }),
-          });
+          const response = await fetch(
+            "https://project-playgroundfinder-api.onrender.com/user/login",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ email, password }),
+            }
+          );
 
           const data = await response.json();
 
           if (!response.ok) {
-            throw new Error(`Login failed: ${data.message || 'Unknown error'}`);
+            throw new Error(`Login failed: ${data.message || "Unknown error"}`);
           }
 
           const userData = {
@@ -59,12 +68,13 @@ export const useUserStore = create(
             accessToken: data.accessToken,
           };
 
-          const savedPlaygrounds = JSON.parse(localStorage.getItem("savedPlaygrounds") || "[]");
+          const savedPlaygrounds = JSON.parse(
+            localStorage.getItem("savedPlaygrounds") || "[]"
+          );
           userData.savedPlaygrounds = savedPlaygrounds;
           localStorage.setItem("user", JSON.stringify(userData));
 
           set({ user: userData, isLoggedIn: true });
-
         } catch (err) {
           console.error("Login failed:", err);
         }
@@ -78,18 +88,24 @@ export const useUserStore = create(
             const user = JSON.parse(storedUser);
 
             if (user && user.accessToken) {
-              const response = await fetch("https://project-playground-api.onrender.com/user/profile", {
-                method: "GET",
-                headers: {
-                  "Content-Type": "application/json",
-                  "Authorization": `${user.accessToken}`,
-                },
-              });
+              const response = await fetch(
+                "https://project-playgroundfinder-api.onrender.com/user/profile",
+                {
+                  method: "GET",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `${user.accessToken}`,
+                  },
+                }
+              );
 
               if (response.ok) {
                 const profileData = await response.json();
 
-                set({ user: { ...user, name: profileData.user?.name }, isLoggedIn: true });
+                set({
+                  user: { ...user, name: profileData.user?.name },
+                  isLoggedIn: true,
+                });
               } else {
                 console.error("Failed to fetch profile:", response.statusText);
               }
@@ -104,18 +120,24 @@ export const useUserStore = create(
           const user = get().user;
           const headers = {
             "Content-Type": "application/json",
-            ...(user && user.accessToken ? { "Authorization": `${user.accessToken}` } : {}),
+            ...(user && user.accessToken
+              ? { Authorization: `${user.accessToken}` }
+              : {}),
           };
 
-          const response = await fetch("https://project-playground-api.onrender.com/api/playgrounds", {
-            method: "POST",
-            headers: headers,
-            body: JSON.stringify(playgroundData),
-          });
+          const response = await fetch(
+            "https://project-playgroundfinder-api.onrender.com/api/playgrounds",
+            {
+              method: "POST",
+              headers: headers,
+              body: JSON.stringify(playgroundData),
+            }
+          );
 
           const data = await response.json();
 
-          if (!response.ok) throw new Error(data.message || "Failed to post playground");
+          if (!response.ok)
+            throw new Error(data.message || "Failed to post playground");
 
           if (user) {
             set((state) => {
@@ -123,20 +145,18 @@ export const useUserStore = create(
                 ...state.user,
                 savedPlaygrounds: [
                   ...state.user.savedPlaygrounds,
-                  ...data.playground ? [data.playground] : []
+                  ...(data.playground ? [data.playground] : []),
                 ],
               };
               localStorage.setItem("user", JSON.stringify(updatedUser));
               return { user: updatedUser };
             });
           }
-
         } catch (err) {
           console.error("Error posting playground:", err);
         }
       },
       removePlayground: async (playgroundToRemove) => {
-
         try {
           const user = get().user;
           if (!user) throw new Error("User not logged in");
@@ -156,24 +176,31 @@ export const useUserStore = create(
             },
           }));
 
-          localStorage.setItem("user", JSON.stringify({
-            ...user,
-            savedPlaygrounds: updatedPlaygrounds,
-          }));
-
+          localStorage.setItem(
+            "user",
+            JSON.stringify({
+              ...user,
+              savedPlaygrounds: updatedPlaygrounds,
+            })
+          );
         } catch (err) {
-          console.error("Error removing playground from localStorage:", err.message);
+          console.error(
+            "Error removing playground from localStorage:",
+            err.message
+          );
         }
       },
       logout: () => {
         try {
           const savedPlaygrounds = get().user?.savedPlaygrounds || [];
           // Stores savedPlaygrounds to localStorage
-          localStorage.setItem("savedPlaygrounds", JSON.stringify(savedPlaygrounds));
+          localStorage.setItem(
+            "savedPlaygrounds",
+            JSON.stringify(savedPlaygrounds)
+          );
 
           set({ user: null, isLoggedIn: false });
           localStorage.removeItem("user");
-
         } catch (err) {
           console.error("An error occurred while logging out:", err);
         }

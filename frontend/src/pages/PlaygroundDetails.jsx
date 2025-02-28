@@ -147,7 +147,7 @@ export const PlaygroundDetails = () => {
     const fetchPlaygroundDetails = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`https://project-playground-api.onrender.com/api/playgrounds/id/${playgroundId}`);
+        const response = await fetch(`https://project-playgroundfinder-api.onrender.com/api/playgrounds/id/${playgroundId}`);
         if (!response.ok) {
           throw new Error('Failed to fetch playground details');
         }

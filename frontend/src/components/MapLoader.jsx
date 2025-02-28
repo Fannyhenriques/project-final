@@ -30,7 +30,7 @@ export const MapLoader = ({ userLocation, playgrounds, searchQuery }) => {
   const handleMarkerClick = async (playgroundId) => {
     try {
       const response = await fetch(
-        `https://project-playground-api.onrender.com/api/playgrounds/id/${playgroundId}`
+        `https://project-playgroundfinder-api.onrender.com/api/playgrounds/id/${playgroundId}`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch playground details");
