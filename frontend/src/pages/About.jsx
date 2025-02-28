@@ -45,6 +45,14 @@ const StyledListItem = styled.li`
   margin-bottom: 10px; 
 `;
 
+const HighlightedText = styled(Text)`
+  color: #E6FA54; 
+
+  @media (max-width: 768px) {
+  padding: 0px 10px 0px 0px;
+}
+`;
+
 const TributeText = styled(SmallText)`
   padding: 10px 0px 10px;
   text-align: center; 
@@ -87,6 +95,10 @@ export const About = () => {
             <StyledListItem>
               <StyledImage src={playgroundmarker} alt="marker" />
               Save Your Favorites – Bookmark playgrounds you love for quick access.
+            </StyledListItem>
+            <StyledListItem>
+              <StyledImage src={playgroundmarker} alt="marker" />
+              <HighlightedText>Upcoming feature!</HighlightedText> Stay tuned for the activities finder, here you will be able to find other activities when you don´t have time or in the mood for something different!
             </StyledListItem>
           </StyledList>
         </TextWithSpacing>
