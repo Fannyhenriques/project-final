@@ -40,6 +40,6 @@ We have structured the backend to allow users to post and rate playgrounds. Addi
 
 ## View it live
 
-Link to Netlify: https://playgroundfinder.netlify.app
+Link to Netlify: https://playgroundfinder.vercel.app
 
 Link to Render: https://project-playgroundfinder-api.onrender.com
