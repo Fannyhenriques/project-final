@@ -9,7 +9,7 @@ export const useUserStore = create(
       register: async (name, email, password) => {
         try {
           const response = await fetch(
-            "https://project-playgroundfinder-api.onrender.com/user/register",
+            "https://project-playground-api.onrender.com/user/register",
             {
               method: "POST",
               headers: { "Content-Type": "application/json" },
@@ -47,7 +47,7 @@ export const useUserStore = create(
       login: async (email, password) => {
         try {
           const response = await fetch(
-            "https://project-playgroundfinder-api.onrender.com/user/login",
+            "https://project-playground-api.onrender.com/user/login",
             {
               method: "POST",
               headers: { "Content-Type": "application/json" },
@@ -89,7 +89,7 @@ export const useUserStore = create(
 
             if (user && user.accessToken) {
               const response = await fetch(
-                "https://project-playgroundfinder-api.onrender.com/user/profile",
+                "https://project-playground-api.onrender.com/user/profile",
                 {
                   method: "GET",
                   headers: {
@@ -126,7 +126,7 @@ export const useUserStore = create(
           };
 
           const response = await fetch(
-            "https://project-playgroundfinder-api.onrender.com/api/playgrounds",
+            "https://project-playground-api.onrender.com/api/playgrounds",
             {
               method: "POST",
               headers: headers,
